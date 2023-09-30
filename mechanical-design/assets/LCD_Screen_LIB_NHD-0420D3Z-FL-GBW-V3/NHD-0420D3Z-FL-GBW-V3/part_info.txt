@@ -1,9 +1,0 @@
-Manufacturer=Newhaven Display
-PartNumber=NHD-0420D3Z-FL-GBW-V3
-PartCategory=Undefined or Miscellaneous
-PackageCategory=Other
-PinCount=13
-Version=1.2
-Released=2019-10-23 09:10:54
-Downloaded=2023-07-25 07:15:08
-3D=Y
