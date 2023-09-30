@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "NHD-0420D3Z-FL-GBW-V3"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2019-10-23-09:10:54)
+    (mountForm default
+        (footprintRef "NHD0420D3ZFLGBWV3")
+        (spec "System")
+    )
+)

@@ -1,0 +1,64 @@
+version 16.5
+
+set ads_boardrevs = 1
+
+setwindow pcb
+shape global param
+setwindow form.dyn_xshape
+FORM dyn_xshape void_controls
+FORM dyn_xshape art_format Gerber RS274X
+FORM dyn_xshape dyn_cop_wysiwyg YES
+FORM dyn_xshape done
+
+setwindow pcb
+artwork
+
+setwindow form.film_control
+FORM film_control general_parameters
+FORM film_control units_english YES
+FORM film_control gerber_rs274x YES
+FORM film_control undef_apt_cont NO
+FORM film_control error_abort_all YES
+FORM film_control film_max_x 36
+FORM film_control film_max_y 24
+FORM film_control format_int_places 5
+FORM film_control format_dec_places 5
+FORM film_control suppress_lead_zeroes YES
+FORM film_control suppress_equals YES
+FORM film_control database_check YES
+FORM film_control ok
+
+setwindow pcb
+ncdrill param
+setwindow form.nc_parameters
+FORM nc_parameters tape_header 042340 a
+FORM nc_parameters ascii_code YES
+FORM nc_parameters absolute_coords YES
+FORM nc_parameters units_english YES
+FORM nc_parameters decimal_places 4
+FORM nc_parameters done
+nctape_full
+setwindow form.nc_drill
+FORM nc_drill tape_name ncdrill
+FORM nc_drill auto_tool_select YES
+FORM nc_drill backdrill_drilling YES
+FORM nc_drill close
+setwindow pcb
+ncroute
+FORM nc_route execute
+FORM nc_route close
+setwindow pcb
+backdrill setup
+setwindow form.nc_backdrill
+FORM nc_backdrill analyze
+FORM nc_backdrill close
+
+setwindow pcb
+specctra_out 
+setwindow form.spif_out
+FORM spif_out dsn_out 042340-a
+FORM spif_out translate_to  
+FORM spif_out close
+cds2f
+exit
+fillin yes

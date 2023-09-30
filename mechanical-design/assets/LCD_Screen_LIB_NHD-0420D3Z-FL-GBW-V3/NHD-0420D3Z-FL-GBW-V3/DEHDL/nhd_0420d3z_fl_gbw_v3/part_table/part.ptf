@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'NHD_0420D3Z_FL_GBW_V3'
+CLASS = DISCRETE
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Newhaven Display", "NHD-0420D3Z-FL-GBW-V3" (!) = "", "NHD0420D3ZFLGBWV3", "Other", "763-0420D3ZFLGBW-V3", "https://www.mouser.co.uk/ProductDetail/Newhaven-Display/NHD-0420D3Z-FL-GBW-V3?qs=qFF%252BBcFBHba4i0K1fcOqkw%3D%3D", "LCD Character Display Modules & Accessories 4 x 20 STN-GRAY 98.0 x 60.0", "https://componentsearchengine.com/Datasheets/1/NHD-0420D3Z-FL-GBW-V3.pdf", "9.34 mm"
+END_PART
+
+END.

@@ -1,0 +1,25 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model PSK-5D-9
+#/13841802/916955/2.50/4/2/Power Supply
+DEF PSK-5D-9 PS 0 30 Y Y 1 F N
+F0 "PS" 950 300 50 H V L CNN
+F1 "PSK-5D-9" 950 200 50 H V L CNN
+F2 "PSK5D9" 950 100 50 H I L CNN
+F3 "" 950 0 50 H I L CNN
+F4 "AC/DC Power Modules ac-dc, 5 W, 9 Vdc, single output, encapsulated PCB, 85~305 Vac" 950 -100 50 H I L CNN "Description"
+F5 "18.1" 950 -200 50 H I L CNN "Height"
+F6 "490-PSK-5D-9" 950 -300 50 H I L CNN "Mouser Part Number"
+F7 "https://www.mouser.co.uk/ProductDetail/CUI-Inc/PSK-5D-9?qs=DRkmTr78QAS7xBfnsfADZA%3D%3D" 950 -400 50 H I L CNN "Mouser Price/Stock"
+F8 "CUI Inc." 950 -500 50 H I L CNN "Manufacturer_Name"
+F9 "PSK-5D-9" 950 -600 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+X AC(N) 1 0 0 200 R 50 50 0 0 P
+X AC(L) 2 0 -100 200 R 50 50 0 0 P
+X -VO 4 1100 -100 200 L 50 50 0 0 P
+X +VO 5 1100 0 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 900 100 900 -200 200 -200 200 100 N
+ENDDRAW
+ENDDEF
+#
+#End Library

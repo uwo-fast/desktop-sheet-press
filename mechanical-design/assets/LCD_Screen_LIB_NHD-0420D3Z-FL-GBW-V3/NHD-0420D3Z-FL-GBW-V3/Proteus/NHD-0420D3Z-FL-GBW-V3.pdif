@@ -1,0 +1,217 @@
+;Proteus Design Interchange Format
+(PDIF
+ (vendor "SamacSys Limited")
+ (version 1 0)
+ (library
+  (part "NHD-0420D3Z-FL-GBW-V3"
+   (description "LCD Character Display Modules & Accessories 4 x 20 STN-GRAY 98.0 x 60.0")
+   (family "ANA")
+   (package "NHD0420D3ZFLGBWV3")
+   (attribute "Datasheet Link" "https://componentsearchengine.com/Datasheets/1/NHD-0420D3Z-FL-GBW-V3.pdf")
+   (attribute "Geometry.Height" "9.34mm")
+   (attribute "Mouser Part Number" "763-0420D3ZFLGBW-V3")
+   (attribute "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Newhaven-Display/NHD-0420D3Z-FL-GBW-V3?qs=qFF%252BBcFBHba4i0K1fcOqkw%3D%3D")
+   (attribute "Manufacturer_Name" "Newhaven Display")
+   (attribute "Manufacturer_Part_Number" "NHD-0420D3Z-FL-GBW-V3")
+   (gate
+    (symbol "NHD-0420D3Z-FL-GBW-V3")
+    (pin "RX" J11 PS)
+    (pin "VSS_1" J12 PS)
+    (pin "VDD_" J13 PS)
+    (pin "SPISS" J21 PS)
+    (pin "SDO" J22 PS)
+    (pin "SCK/SCL" J23 PS)
+    (pin "SDI/SDA" J24 PS)
+    (pin "VSS_2" J25 PS)
+    (pin "VDD" J26 PS)
+    (pin "MH1" MH1 PS)
+    (pin "MH2" MH2 PS)
+    (pin "MH3" MH3 PS)
+    (pin "MH4" MH4 PS)
+   )
+  )
+  (symbol "NHD-0420D3Z-FL-GBW-V3"
+   (units THOU)
+   (origin (pt 0 0))
+   (graphic
+    (stroke 10)
+    (path (pt 200 100) (pt 1000 100) (pt 1000 -1100) (pt 200 -1100) (pt 200 100) (closed))
+   )
+   (terminal
+    (body (symbol "PIN") (pt 1200 -100) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -200) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -300) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -400) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -500) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -600) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -700) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -800) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -900) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 0 0) (rot 0) (mir 0) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 0) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 1200 -1000) (rot 0) (mir X) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 0 -100) (rot 0) (mir 0) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+  )
+  (symbol "PIN"
+   (units THOU)
+   (origin (pt 0 0))
+   (graphic
+    (stroke 10)
+    (path (pt 0 0) (pt 200 0))))
+  (symbol "PINSHORT"
+   (units THOU)
+   (origin (pt 0 0))
+   (graphic
+    (stroke 10)
+    (path (pt 0 0) (pt 100 0))))
+  (package "NHD0420D3ZFLGBWV3"
+   (units MM)
+   (layer TASM
+    (graphic
+     (stroke 0.2)
+     (path
+      (closed true)
+      (pt -10 -57.5)
+      (pt 88 -57.5)
+      (pt 88 2.5)
+      (pt -10 2.5)
+      (pt -10 -57.5))))
+   (layer TSLK
+    (graphic
+     (stroke 0.1)
+     (path
+      (closed true)
+      (pt -10 2.5)
+      (pt 88 2.5)
+      (pt 88 -57.5)
+      (pt -10 -57.5)
+      (pt -10 2.5))))
+   (layer OCCA
+    (graphic
+     (stroke 0.1)
+     (path
+      (closed true)
+      (pt -11 4.45)
+      (pt 89 4.45)
+      (pt 89 -58.5)
+      (pt -11 -58.5)
+      (pt -11 4.45))))
+   (layer TSLK
+    (graphic
+     (stroke 0.2)
+     (path
+      (closed false)
+      (pt -0.14 3.4)
+      (arc (pt -0.140 3.400) (pt -0.140 3.350) (pt -0.040 3.450) (start 180.0) (sweep 180.0))
+      (pt -0.04 3.4)
+      (arc (pt -0.040 3.400) (pt -0.140 3.350) (pt -0.040 3.450) (start 180.0) (sweep .0))
+      (pt -0.14 3.4)
+      (arc (pt -0.140 3.400) (pt -0.140 3.350) (pt -0.040 3.450) (start 180.0) (sweep 180.0))
+      (pt -0.04 3.4))))
+   (leg J11 (pt 0.000 0.000) (padstack 1))
+   (leg J12 (pt 2.540 0.000) (padstack 0))
+   (leg J13 (pt 5.080 0.000) (padstack 0))
+   (leg J21 (pt 10.160 0.000) (padstack 4))
+   (leg J22 (pt 12.700 0.000) (padstack 0))
+   (leg J23 (pt 15.240 0.000) (padstack 0))
+   (leg J24 (pt 17.780 0.000) (padstack 0))
+   (leg J25 (pt 20.320 0.000) (padstack 0))
+   (leg J26 (pt 22.860 0.000) (padstack 0))
+   (leg MH1 (pt -7.500 -55.000) (padstack 10))
+   (leg MH2 (pt -7.500 0.000) (padstack 11))
+   (leg MH3 (pt 85.500 0.000) (padstack 12))
+   (leg MH4 (pt 85.500 -55.000) (padstack 13))
+   (padstack 0
+    (hole 1)
+    (plated true)
+    (pad (layer TCOP) (round 1.500))
+    (pad (layer INNER) (round 1.500))
+    (pad (layer BCOP) (round 1.500))
+   )
+   (padstack 1
+    (hole 1)
+    (plated true)
+    (pad (layer TCOP) (square 1.500))
+    (pad (layer INNER) (round 1.500))
+    (pad (layer BCOP) (square 1.500))
+   )
+   (padstack 4
+    (hole 1)
+    (plated true)
+    (pad (layer TCOP) (square 1.500))
+    (pad (layer INNER) (round 1.500))
+    (pad (layer BCOP) (square 1.500))
+   )
+   (padstack 10
+    (hole 2.5)
+    (plated true)
+    (pad (layer TCOP) (round 3.750))
+    (pad (layer INNER) (round 3.750))
+    (pad (layer BCOP) (round 3.750))
+   )
+   (padstack 11
+    (hole 2.5)
+    (plated true)
+    (pad (layer TCOP) (round 3.750))
+    (pad (layer INNER) (round 3.750))
+    (pad (layer BCOP) (round 3.750))
+   )
+   (padstack 12
+    (hole 2.5)
+    (plated true)
+    (pad (layer TCOP) (round 3.750))
+    (pad (layer INNER) (round 3.750))
+    (pad (layer BCOP) (round 3.750))
+   )
+   (padstack 13
+    (hole 2.5)
+    (plated true)
+    (pad (layer TCOP) (round 3.750))
+    (pad (layer INNER) (round 3.750))
+    (pad (layer BCOP) (round 3.750))
+   )
+   (model "NHD-0420D3Z-FL-GBW-V3.stp"
+    (euler 0 0 0)
+    (offset 39 -27.020000457763672 2.450000047683716)
+   )
+  )
+ )
+)

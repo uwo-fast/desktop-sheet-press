@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "AD7124-8BCPZ"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2023-03-12-14:32:12)
+    (mountForm default
+        (footprintRef "QFN50P500X500X80-33N-D")
+        (spec "System")
+    )
+)

@@ -1,0 +1,10 @@
+(unit MM)
+
+(package "PSK5D9"
+    (type UNDEF)
+    (uver 2)
+    (mountForm default
+        (footprintRef "PSK5D9")
+        (spec "default")
+    )
+)

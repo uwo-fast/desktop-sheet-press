@@ -1,0 +1,223 @@
+-- pcdb file, Rev:1.0 written by Allegro Design Entry HDL 16.6-S072 (v16-6-112GD) 5/31/2016 on Thu Aug 04 10:59:04 2016
+#ISCELL
+  adi_standard adi_d_size_page *
+  *
+#ISCELL
+  adi_standard adi_d_size_page *
+  *
+#ISCELL
+  power_ground gnd *
+  page2_i106
+#CELL
+  resistors res *
+  page2_i109
+#CELL
+  resistors res *
+  page2_i111
+#CELL
+  resistors res *
+  page2_i112
+#CELL
+  conn_pcb cn6p *
+  page2_i116
+#CELL
+  conn_pcb cn6p_jmprshrt *
+  page2_i117
+#ISCELL
+  power_ground gnd *
+  page2_i118
+#CELL
+  capacitors cap *
+  page2_i122
+#CELL
+  capacitors cap *
+  page2_i124
+#ISCELL
+  power_ground gnd *
+  page2_i128
+#CELL
+  capacitors cap *
+  page2_i131
+#ISCELL
+  power_ground gnd *
+  page2_i132
+#CELL
+  capacitors cap *
+  page2_i134
+#ISCELL
+  standard vcc_bar *
+  page2_i135
+#ISCELL
+  power_ground gnd *
+  page2_i136
+#ISCELL
+  power_ground gnd *
+  page2_i138
+#CELL
+  resistors res *
+  page2_i142
+#ISCELL
+  power_ground gnd *
+  page2_i143
+#ISCELL
+  power_ground gnd *
+  page2_i145
+#ISCELL
+  power_ground gnd *
+  page2_i146
+#ISCELL
+  power_ground gnd *
+  page2_i148
+#ISCELL
+  power_ground gnd *
+  page2_i149
+#ISCELL
+  power_ground gnd *
+  page2_i151
+#CELL
+  capacitors cap *
+  page2_i152
+#CELL
+  capacitors cap *
+  page2_i153
+#CELL
+  capacitors cap *
+  page2_i154
+#CELL
+  capacitors cap *
+  page2_i155
+#CELL
+  ic_other txb0104 *
+  page2_i156
+#ISCELL
+  power_ground gnd *
+  page2_i161
+#ISCELL
+  standard vcc_bar *
+  page2_i163
+#ISCELL
+  standard vcc_bar *
+  page2_i164
+#ISCELL
+  standard vcc_bar *
+  page2_i165
+#ISCELL
+  standard vcc_bar *
+  page2_i166
+#ISCELL
+  standard vcc_bar *
+  page2_i167
+#CELL
+  capacitors cap *
+  page2_i168
+#ISCELL
+  standard vcc_bar *
+  page2_i169
+#CELL
+  ic_adi adp7118_v3 *
+  page2_i171
+#CELL
+  capacitors cap *
+  page2_i172
+#ISCELL
+  standard vcc_bar *
+  page2_i173
+#CELL
+  capacitors cap *
+  page2_i174
+#ISCELL
+  standard vcc_bar *
+  page2_i175
+#ISCELL
+  standard vcc_bar *
+  page2_i176
+#CELL
+  capacitors cap *
+  page2_i178
+#ISCELL
+  power_ground gnd *
+  page2_i179
+#ISCELL
+  power_ground gnd *
+  page2_i180
+#CELL
+  capacitors cap *
+  page2_i181
+#CELL
+  capacitors cap *
+  page2_i182
+#ISCELL
+  power_ground gnd *
+  page2_i183
+#ISCELL
+  power_ground gnd *
+  page2_i184
+#CELL
+  capacitors cap *
+  page2_i185
+#CELL
+  capacitors cap *
+  page2_i186
+#ISCELL
+  power_ground gnd *
+  page2_i187
+#CELL
+  conn_pcb cn10p *
+  page2_i29
+#CELL
+  conn_pcb cn8p_a *
+  page2_i30
+#CELL
+  conn_pcb cn6p *
+  page2_i37
+#CELL
+  conn_pcb cn8p_a *
+  page2_i40
+#ISCELL
+  power_ground gnd *
+  page2_i45
+#CELL
+  capacitors cap *
+  page2_i47
+#CELL
+  capacitors cap *
+  page2_i48
+#ISCELL
+  power_ground gnd *
+  page2_i49
+#CELL
+  capacitors cap *
+  page2_i50
+#ISCELL
+  power_ground gnd *
+  page2_i51
+#ISCELL
+  power_ground gnd *
+  page2_i52
+#CELL
+  conn_pcb cn2p_2pshld *
+  page2_i53
+#CELL
+  conn_pcb cn2p_2pshld *
+  page2_i54
+#CELL
+  conn_pcb cn2p_2pshld *
+  page2_i55
+#CELL
+  conn_pcb cn2p_2pshld *
+  page2_i56
+#ISCELL
+  power_ground gnd *
+  page2_i57
+#ISCELL
+  power_ground gnd *
+  page2_i61
+#ISCELL
+  power_ground gnd *
+  page2_i74
+#CELL
+  ic_adi ad7124_8 *
+  page2_i89
+#CELL
+  resistors res *
+  page2_i90

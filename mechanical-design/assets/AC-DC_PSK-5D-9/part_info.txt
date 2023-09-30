@@ -1,0 +1,9 @@
+Manufacturer=CUI Inc.
+PartNumber=PSK-5D-9
+PartCategory=Power Supply
+PackageCategory=Other
+PinCount=4
+Version=2.3
+Released=2022-10-07 12:04:53
+Downloaded=2023-09-25 02:35:00
+3D=Y
