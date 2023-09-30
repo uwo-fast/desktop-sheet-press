@@ -12,10 +12,8 @@
 # FreeCAD
 *.FCStd1
 *.FCStd2
-*.bak2
+*.FCBak
 *.tmp
-*.pyc
-*.pyo
 
 # KiCad
 *.bak
