@@ -1,0 +1,46 @@
+
+Mkart_err.log
+
+300816-11:20
+
+Starting DBDOCTOR for drawing C:/tmp/20_042340a/worklib/02_042340a_top/physical/08_042340a.brd
+Checking db records
+    checking for orphans...
+    Checked  61 percent
+    Checked 100 percent
+Regenerating DRC
+  Original DRC errors: 0
+Multithreaded DRC update (4 threads).
+  Updated DRC errors:  0
+Done dbdoctor
+The batch file cannot be found.
+Allegro PCB Designer (was Performance L) 16.6-2015 S074 Windows 32
+       (c) Copyright 1986-2015 Cadence Design Systems, Inc.
+                All Rights Reserved.
+Allegro PCB Designer (was Performance L) 16.6-2015 S074 Windows 32
+       (c) Copyright 1986-2015 Cadence Design Systems, Inc.
+                All Rights Reserved.
+Extract started ... command file is 'c:/pcblib/apps/allegro/SPB_16.6/share/pcb/text/views/bom_rep.txt'.
+Extract ended.
+Extract started ... command file is 'c:/pcblib/apps/allegro/SPB_16.6/share/pcb/text/views/npr_rep.txt'.
+Extract ended.
+Extract started ... command file is 'c:/pcblib/apps/allegro/SPB_16.6/share/pcb/text/views/pcp_rep.txt'.
+Extract ended.
+Extract started ... command file is 'c:/pcblib/apps/allegro/SPB_16.6/share/pcb/text/views/slp_rep.txt'.
+Extract ended.
+Allegro PCB Designer (was Performance L) 16.6-2015 S074 Windows 32
+       (c) Copyright 1986-2015 Cadence Design Systems, Inc.
+                All Rights Reserved.
+Allegro PCB Designer (was Performance L) 16.6-2015 S074 Windows 32
+       (c) Copyright 1986-2015 Cadence Design Systems, Inc.
+                All Rights Reserved.
+Writing IPC file.
+Successfully generated file
+Allegro PCB Designer (was Performance L) 16.6-2015 S074 Windows 32
+       (c) Copyright 1986-2015 Cadence Design Systems, Inc.
+                All Rights Reserved.
+- W - Can't move ncroute.log to art_7072\logs at Z:\allegro\v166_site/pcb/pcb_scripts/mkart_2012.pl line 1348.
+
+Mkart_err.log
+
+300816-11:24

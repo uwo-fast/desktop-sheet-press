@@ -1,0 +1,10 @@
+(
+ (file_type "hdldirect.dat" "1.0" )
+ (design_name "no_template" )
+ (view "sch_1" )
+ (modtime "verilog.v" 1339524474 231 )
+ (timescale "1ns/1ns" )
+ (cells )
+ (global_signals )
+ (single_page )
+ (multiple_pages ))

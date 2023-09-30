@@ -1,0 +1,103 @@
+E- Can't change to directory: ./worklib/02_042340a_top/physical
+
+Loading $CDS_SITE/pcb/skill/allegro.ilinit
+Loading  : Sig2AMS.il
+function _GetDataList redefined
+Loading  : adi_scripts_2011.il
+Loading  : adi_scripts_2012.il
+function ckflash redefined
+function plot_pdf redefined
+Loading  : adi_scripts_form_2011.il
+Loading  : adi_scripts_form_2012.il
+Loading  : cds2f.il
+Loading  : ood_shapes.il
+Loading  : stats_chippac.il
+Loading  : valor_ext.il
+Loading  : adiva_iface_v400.il
+Loading  : adiva_vio_lnk_v2c.il
+function readBatch redefined
+function readError redefined
+Loading  : spp_RDLSetup.il
+Loading  : spp_bump2RDLVia.il
+function spp_addBump2RDLVias redefined
+function spp_getRDLViaInfo redefined
+function spp_getViaLayers redefined
+function spp_getSymbol redefined
+function spp_isDieBump redefined
+function spp_validPadShape redefined
+function spp_isRDLViaPlaced redefined
+Loading  : spp_rnd_utilities.il
+function spp_convertShapesToClines redefined
+function spp_addRDLVias redefined
+function spp_findD2DPadstack redefined
+function spp_getD2DLayerPairs redefined
+Loading  : spp_shape2RDL.il
+function spp_cnvShape2RDL redefined
+Loading Skill file: site.ini
+Loading axlcore.cxt 
+allegro.ilinit loaded.
+W- *WARNING* ADS/EMPro menu load not callable
+Starting new design...
+Script version: 16.5
+Performing DRC...
+Multithreaded DRC update (4 threads).
+No DRC errors detected.
+Loading mfg.cxt 
+Pick Image Start Point: 
+last pick:  -11300.00 -8360.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  -11300.00 -8360.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  -11300.00 -8360.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  -11300.00 -8360.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Pick Image Start Point: 
+last pick:  0.00 0.00
+Photoplot file is being loaded ...
+Photoplot file loading completed with no errors.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Plot file complete.
+Performing a partial design check before saving.
+Writing design to disk.
+'artwork.brd' saved to disk.

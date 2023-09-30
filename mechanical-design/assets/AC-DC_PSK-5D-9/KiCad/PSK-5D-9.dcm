@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP PSK-5D-9
+D AC/DC Power Modules ac-dc, 5 W, 9 Vdc, single output, encapsulated PCB, 85~305 Vac
+K
+F 
+$ENDCMP
+#
+#End Doc Library

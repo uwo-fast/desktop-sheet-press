@@ -1,0 +1,34 @@
+
+ncfilms_err.log	300816-11:22
+
+
+- I - Manifest file not found. Board Type Undefined.
+
+If you have a non ATE board you should set this
+in a file called "_manifest" in the .brd directory.
+Add the line
+
+HW TYPE  NON_ATE
+
+to the _manifest file.
+
+- I - Setting board type to default "ATE" for this run.
+- I - Format data extracted.
+- I - Layer data extracted.
+
+- I - Using existing ./art_param.txt
+
+
+- E - Only Top and Bottom layer found.
+Have you defined your stack-up? If your board is Non ATE you should set this as explained on the WikiPCB Layout page.
+http://ghd.adbvdesign.analog.com/Portal:Layout
+- I - ncloadfilm.txt created
+with contents 
+- I - ncfilms.scr created
+
+- I - Board No.  042340
+- I - Board Rev. a
+- I - No errors generated during ncfilms.pl run
+
+
+ncfilms_err.log	300816-11:22

@@ -1,0 +1,259 @@
+{ Packager-XL run on 12-Aug-2016 AT 00:59:23 }
+FILE_TYPE = BACK_ANNOTATION;
+DRAWING = "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2";
+BODY = "CN10P","I29": LOCATION = "P8" #&CDS_LOCATION = "P8" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"N3":   PN = "3"  !CDS_PN = "3";
+"N4":   PN = "4"  !CDS_PN = "4";
+"N5":   PN = "5"  !CDS_PN = "5";
+"N6":   PN = "6"  !CDS_PN = "6";
+"N7":   PN = "7"  !CDS_PN = "7";
+"N8":   PN = "8"  !CDS_PN = "8";
+"N9":   PN = "9"  !CDS_PN = "9";
+"N10":   PN = "10"  !CDS_PN = "10";
+BODY = "CN8P_A","I30": LOCATION = "P5" #&CDS_LOCATION = "P5" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"N3":   PN = "3"  !CDS_PN = "3";
+"N4":   PN = "4"  !CDS_PN = "4";
+"N5":   PN = "5"  !CDS_PN = "5";
+"N6":   PN = "6"  !CDS_PN = "6";
+"N7":   PN = "7"  !CDS_PN = "7";
+"N8":   PN = "8"  !CDS_PN = "8";
+BODY = "CN6P","I37": LOCATION = "P6" #&CDS_LOCATION = "P6" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"N3":   PN = "3"  !CDS_PN = "3";
+"N4":   PN = "4"  !CDS_PN = "4";
+"N5":   PN = "5"  !CDS_PN = "5";
+"N6":   PN = "6"  !CDS_PN = "6";
+BODY = "CN8P_A","I40": LOCATION = "P9" #&CDS_LOCATION = "P9" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"N3":   PN = "3"  !CDS_PN = "3";
+"N4":   PN = "4"  !CDS_PN = "4";
+"N5":   PN = "5"  !CDS_PN = "5";
+"N6":   PN = "6"  !CDS_PN = "6";
+"N7":   PN = "7"  !CDS_PN = "7";
+"N8":   PN = "8"  !CDS_PN = "8";
+BODY = "CAP","I47": LOCATION = "C12" #&CDS_LOCATION = "C12" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I48": LOCATION = "C13" #&CDS_LOCATION = "C13" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I50": LOCATION = "C11" #&CDS_LOCATION = "C11" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CN2P_2PSHLD","I53": LOCATION = "P4" #&CDS_LOCATION = "P4" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"SH1":   PN = "SH1"  !CDS_PN = "SH1";
+"SH2":   PN = "SH2"  !CDS_PN = "SH2";
+BODY = "CN2P_2PSHLD","I54": LOCATION = "P2" #&CDS_LOCATION = "P2" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"SH1":   PN = "SH1"  !CDS_PN = "SH1";
+"SH2":   PN = "SH2"  !CDS_PN = "SH2";
+BODY = "CN2P_2PSHLD","I55": LOCATION = "P3" #&CDS_LOCATION = "P3" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"SH1":   PN = "SH1"  !CDS_PN = "SH1";
+"SH2":   PN = "SH2"  !CDS_PN = "SH2";
+BODY = "CN2P_2PSHLD","I56": LOCATION = "P1" #&CDS_LOCATION = "P1" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"SH1":   PN = "SH1"  !CDS_PN = "SH1";
+"SH2":   PN = "SH2"  !CDS_PN = "SH2";
+BODY = "AD7124_8","I89": LOCATION = "U1" #&CDS_LOCATION = "U1" #SEC = "1" !CDS_SEC = "1";
+"AIN0/IOUT/VBIAS":   PN = "4"  !CDS_PN = "4";
+"AIN1/IOUT/VBIAS":   PN = "5"  !CDS_PN = "5";
+"AIN2/IOUT/VBIAS/P1":   PN = "6"  !CDS_PN = "6";
+"AIN3/IOUT/VBIAS/P2":   PN = "7"  !CDS_PN = "7";
+"AIN4/IOUT/VBIAS/P3":   PN = "8"  !CDS_PN = "8";
+"AIN5/IOUT/VBIAS/P4":   PN = "9"  !CDS_PN = "9";
+"AIN6/IOUT/VBIAS":   PN = "10"  !CDS_PN = "10";
+"AIN7/IOUT/VBIAS":   PN = "11"  !CDS_PN = "11";
+"AIN8/IOUT/VBIAS":   PN = "14"  !CDS_PN = "14";
+"AIN9/IOUT/VBIAS":   PN = "15"  !CDS_PN = "15";
+"AIN10/IOUT/VBIAS":   PN = "16"  !CDS_PN = "16";
+"AIN11/IOUT/VBIAS":   PN = "17"  !CDS_PN = "17";
+"AIN12/IOUT/VBIAS":   PN = "18"  !CDS_PN = "18";
+"AIN13/IOUT/VBIAS":   PN = "19"  !CDS_PN = "19";
+"AIN14/IOUT/VBIAS/REFIN2(+)":   PN = "20"  !CDS_PN = "20";
+"AIN15/IOUT/VBIAS/REFIN2(-)":   PN = "21"  !CDS_PN = "21";
+"AVDD":   PN = "26"  !CDS_PN = "26";
+"AVSS":   PN = "23"  !CDS_PN = "23";
+"CLK":   PN = "31"  !CDS_PN = "31";
+"CS_N":   PN = "32"  !CDS_PN = "32";
+"DGND":   PN = "3"  !CDS_PN = "3";
+"DIN":   PN = "29"  !CDS_PN = "29";
+"DOUT/RDY_N":   PN = "28"  !CDS_PN = "28";
+"IOVDD":   PN = "2"  !CDS_PN = "2";
+"PAD":   PN = "PAD"  !CDS_PN = "PAD";
+"PSW":   PN = "25"  !CDS_PN = "25";
+"REFIN1(+)":   PN = "12"  !CDS_PN = "12";
+"REFIN1(-)":   PN = "13"  !CDS_PN = "13";
+"REFOUT":   PN = "22"  !CDS_PN = "22";
+"REGCAPA":   PN = "24"  !CDS_PN = "24";
+"REGCAPD":   PN = "1"  !CDS_PN = "1";
+"SCLK":   PN = "30"  !CDS_PN = "30";
+"SYNC_N":   PN = "27"  !CDS_PN = "27";
+BODY = "RES","I90": LOCATION = "R3" #&CDS_LOCATION = "R3" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "RES","I109": LOCATION = "R4" #&CDS_LOCATION = "R4" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "RES","I111": LOCATION = "R1" #&CDS_LOCATION = "R1" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "RES","I112": LOCATION = "R2" #&CDS_LOCATION = "R2" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CN6P","I116": LOCATION = "P7" #&CDS_LOCATION = "P7" #SEC = "1" !CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+"N3":   PN = "3"  !CDS_PN = "3";
+"N4":   PN = "4"  !CDS_PN = "4";
+"N5":   PN = "5"  !CDS_PN = "5";
+"N6":   PN = "6"  !CDS_PN = "6";
+BODY = "CN6P_JMPRSHRT","I117": LOCATION = "JP1" #&CDS_LOCATION = "JP1" #SEC = "1" !CDS_SEC = "1";
+"S1":   PN = "1"  !CDS_PN = "1";
+"S2":   PN = "2"  !CDS_PN = "2";
+"S3":   PN = "3"  !CDS_PN = "3";
+"S4":   PN = "4"  !CDS_PN = "4";
+"S5":   PN = "5"  !CDS_PN = "5";
+"S6":   PN = "6"  !CDS_PN = "6";
+BODY = "CAP","I122": LOCATION = "C10" #&CDS_LOCATION = "C10" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I124": LOCATION = "C18" #&CDS_LOCATION = "C18" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I131": LOCATION = "C17" #&CDS_LOCATION = "C17" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I134": LOCATION = "C14" #&CDS_LOCATION = "C14" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "RES","I142": LOCATION = "R5" #&CDS_LOCATION = "R5" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I152": LOCATION = "C1" #&CDS_LOCATION = "C1" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I153": LOCATION = "C2" #&CDS_LOCATION = "C2" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I154": LOCATION = "C3" #&CDS_LOCATION = "C3" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I155": LOCATION = "C4" #&CDS_LOCATION = "C4" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "TXB0104","I156": LOCATION = "U2" #&CDS_LOCATION = "U2" #SEC = "1" !CDS_SEC = "1";
+"A1":   PN = "2"  !CDS_PN = "2";
+"A2":   PN = "3"  !CDS_PN = "3";
+"A3":   PN = "4"  !CDS_PN = "4";
+"A4":   PN = "5"  !CDS_PN = "5";
+"B1":   PN = "13"  !CDS_PN = "13";
+"B2":   PN = "12"  !CDS_PN = "12";
+"B3":   PN = "11"  !CDS_PN = "11";
+"B4":   PN = "10"  !CDS_PN = "10";
+"GND":   PN = "7"  !CDS_PN = "7";
+"OE":   PN = "8"  !CDS_PN = "8";
+"VCCA":   PN = "1"  !CDS_PN = "1";
+"VCCB":   PN = "14"  !CDS_PN = "14";
+BODY = "CAP","I168": LOCATION = "C16" #&CDS_LOCATION = "C16" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "ADP7118_V3","I171": LOCATION = "U3" #&CDS_LOCATION = "U3" #SEC = "1" !CDS_SEC = "1";
+"EN":   PN = "5"  !CDS_PN = "5";
+"GND":   PN = "4"  !CDS_PN = "4";
+"PAD":   PN = "PAD"  !CDS_PN = "PAD";
+"SENSE/ADJ":   PN = "3"  !CDS_PN = "3";
+"SS":   PN = "6"  !CDS_PN = "6";
+"VIN1":   PN = "7"  !CDS_PN = "7";
+"VIN2":   PN = "8"  !CDS_PN = "8";
+"VOUT1":   PN = "1"  !CDS_PN = "1";
+"VOUT2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I172": LOCATION = "C19" #&CDS_LOCATION = "C19" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I174": LOCATION = "C15" #&CDS_LOCATION = "C15" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I178": LOCATION = "C9" #&CDS_LOCATION = "C9" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I181": LOCATION = "C7" #&CDS_LOCATION = "C7" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I182": LOCATION = "C6" #&CDS_LOCATION = "C6" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I185": LOCATION = "C8" #&CDS_LOCATION = "C8" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+BODY = "CAP","I186": LOCATION = "C5" #&CDS_LOCATION = "C5" &SEC = "1" #&CDS_SEC = "1";
+"N1":   PN = "1"  !CDS_PN = "1";
+"N2":   PN = "2"  !CDS_PN = "2";
+NET = "5V":
+ !PNN = "";
+NET = "3.3V":
+ !PNN = "";
+NET = "IOREF":
+ !PNN = "";
+NET = "SS_B":
+ !PNN = "";
+NET = "SCK_B":
+ !PNN = "";
+NET = "MOSI_B":
+ !PNN = "";
+NET = "MISO_B":
+ !PNN = "";
+NET = "SS_A":
+ !PNN = "";
+NET = "SCK_A":
+ !PNN = "";
+NET = "MOSI_A":
+ !PNN = "";
+NET = "MISO_A":
+ !PNN = "";
+NET = "GND":
+ !PNN = "";
+NET = "UNNAMED_2_ADP7118V3_I171_SS":
+ !PNN = "";
+NET = "UNNAMED_2_CN10P_I29_N3":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN3":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN1":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN2":
+ !PNN = "";
+NET = "UNNAMED_2_CAP_I152_N1":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN7":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN5":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN14":
+ !PNN = "";
+NET = "UNNAMED_2_CN10P_I29_N2":
+ !PNN = "";
+NET = "UNNAMED_2_CN10P_I29_N1":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN6":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_AIN4":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_REFOUT":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_REGCAPD":
+ !PNN = "";
+NET = "UNNAMED_2_AD71248_I89_REGCAPA":
+ !PNN = "";
+END.

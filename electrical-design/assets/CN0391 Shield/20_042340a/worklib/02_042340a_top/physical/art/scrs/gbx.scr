@@ -1,0 +1,336 @@
+
+version 16.5
+
+setwindow pcb
+
+status
+setwindow form.status
+FORM status drc_on NO
+FORM status done
+
+setwindow pcb
+
+generaledit
+prmed
+setwindow form.prmedit
+FORM prmedit design
+FORM prmedit units Mils
+FORM prmedit accuracy 2
+FORM prmedit size D
+FORM prmedit width 36000
+FORM prmedit height 24000
+FORM prmedit x -11300.00
+FORM prmedit y -8360.00
+FORM prmedit done
+
+setwindow pcb
+
+plot setup 
+setwindow form.fpfileplotsetup 
+FORM fpfileplotsetup fpplotscaling YES
+FORM fpfileplotsetup fpplotscale 1.00 
+FORM fpfileplotsetup fpplotmirror NO 
+FORM fpfileplotsetup fpplotcolor NO 
+FORM fpfileplotsetup fpplotautocenter YES 
+FORM fpfileplotsetup fpplotsheetcontents YES 
+FORM fpfileplotsetup fpipfvectortext YES 
+FORM fpfileplotsetup done
+
+setwindow pcb
+
+zoom world
+
+setwindow pcb
+
+define subclass
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name ASSY1 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name ASSY2 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name FAB1 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name FAB2 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name TOP 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name BOTTOM 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name SOLDERMASK_TOP 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name SOLDERMASK_BOTTOM 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name PASTE_PRM 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name SILKSCREEN_TOP 
+setwindow form.subclass
+FORM subclass MANUFACTURING pick
+setwindow form.subclass_nonetch
+FORM subclass_nonetch name SILKSCREEN_BOTTOM 
+setwindow form.subclass
+FORM subclass done  
+
+setwindow pcb
+load photoplot
+setwindow form.load_photoplot
+FORM load_photoplot filename assy1
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Data Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname ASSY1
+FORM load_photoplot loadfile
+setwindow pcb
+pick -11300.00 -8360.00
+setwindow form.load_photoplot
+FORM load_photoplot filename assy2
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Data Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname ASSY2
+FORM load_photoplot loadfile
+setwindow pcb
+pick -11300.00 -8360.00
+setwindow form.load_photoplot
+FORM load_photoplot filename fab1
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Data Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname FAB1
+FORM load_photoplot loadfile
+setwindow pcb
+pick -11300.00 -8360.00
+setwindow form.load_photoplot
+FORM load_photoplot filename fab2
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Data Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname FAB2
+FORM load_photoplot loadfile
+setwindow pcb
+pick -11300.00 -8360.00
+setwindow form.load_photoplot
+FORM load_photoplot filename l1_primary
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname TOP
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot filename l2_secondary
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname BOTTOM
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot filename mask_prm
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname SOLDERMASK_TOP
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot filename mask_sec
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname SOLDERMASK_BOTTOM
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot filename paste_prm
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname PASTE_PRM
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot filename silk_prm
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname SILKSCREEN_TOP
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot filename silk_sec
+FORM load_photoplot forceformattype Gerber RS274X
+FORM load_photoplot origin Absolute Origin
+FORM load_photoplot classname MANUFACTURING
+FORM load_photoplot subclassname SILKSCREEN_BOTTOM
+FORM load_photoplot loadfile
+setwindow pcb
+pick 0 0
+setwindow form.load_photoplot
+FORM load_photoplot done
+color -globvis off
+color -vis "MANUFACTURING/ASSY1"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "assy1"
+FORM film_control filmtree popup 'Match Display' assy1
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "assy1.plt"
+color -globvis off
+color -vis "MANUFACTURING/ASSY2"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "assy2"
+FORM film_control filmtree popup 'Match Display' assy2
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "assy2.plt"
+color -globvis off
+color -vis "MANUFACTURING/FAB1"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "fab1"
+FORM film_control filmtree popup 'Match Display' fab1
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "fab1.plt"
+color -globvis off
+color -vis "MANUFACTURING/FAB2"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "fab2"
+FORM film_control filmtree popup 'Match Display' fab2
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "fab2.plt"
+color -globvis off
+color -vis "MANUFACTURING/TOP"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "l1_primary"
+FORM film_control filmtree popup 'Match Display' l1_primary
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "l1_primary.plt"
+color -globvis off
+color -vis "MANUFACTURING/BOTTOM"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "l2_secondary"
+FORM film_control filmtree popup 'Match Display' l2_secondary
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "l2_secondary.plt"
+color -globvis off
+color -vis "MANUFACTURING/SOLDERMASK_TOP"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "mask_prm"
+FORM film_control filmtree popup 'Match Display' mask_prm
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "mask_prm.plt"
+color -globvis off
+color -vis "MANUFACTURING/SOLDERMASK_BOTTOM"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "mask_sec"
+FORM film_control filmtree popup 'Match Display' mask_sec
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "mask_sec.plt"
+color -globvis off
+color -vis "MANUFACTURING/PASTE_PRM"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "paste_prm"
+FORM film_control filmtree popup 'Match Display' paste_prm
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "paste_prm.plt"
+color -globvis off
+color -vis "MANUFACTURING/SILKSCREEN_TOP"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "silk_prm"
+FORM film_control filmtree popup 'Match Display' silk_prm
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "silk_prm.plt"
+color -globvis off
+color -vis "MANUFACTURING/SILKSCREEN_BOTTOM"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Add TOP
+fillin "silk_sec"
+FORM film_control filmtree popup 'Match Display' silk_sec
+FORM film_control ok
+setwindow pcb
+create plot
+fillin "silk_sec.plt"
+setwindow pcb
+artwork
+setwindow form.film_control
+FORM film_control filmtree popup Cut TOP
+FORM film_control filmtree popup Cut BOTTOM
+FORM film_control ok
+setwindow pcb
+exit
+fillin yes

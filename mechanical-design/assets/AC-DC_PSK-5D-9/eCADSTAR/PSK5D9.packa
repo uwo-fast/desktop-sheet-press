@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "PSK-5D-9"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2022-10-07-12:04:53)
+    (mountForm default
+        (footprintRef "PSK5D9")
+        (spec "System")
+    )
+)

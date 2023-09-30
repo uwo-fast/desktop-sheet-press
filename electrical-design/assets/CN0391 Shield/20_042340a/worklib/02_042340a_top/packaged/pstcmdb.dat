@@ -1,0 +1,872 @@
+; Packager-XL run on 12-Aug-2016 AT 00:59:23 CONSTRAINTS_VIEW_GENERATED
+( ConstraintFile "\02_042340a_top\"
+	( constraintHeader
+		( objectKey
+			( physical )
+		)
+		( version
+			( 16.6 )
+		)
+		( revisionNumber
+			( logicalViewRevNum 230 )
+			( physicalViewRevNum 0 )
+			( otherViewRevNum 0 )
+		)
+		( contents
+			( dictionaryExtensions )
+			( worksheetCustomizations )
+			( electricalConstraints )
+			( netClasses )
+			( properties )
+		)
+		( precision
+			( units mil )
+			( numberOfDecimalPlaces 2 )
+		)
+	)
+	( DictionaryExtensions
+		( Attribute
+			( Name "CDS_LMAN_SYM_OUTLINE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "WW_PN" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "PINSWAP" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "PINOFF" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "PSPICETEMPLATE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "WATTAGE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "SEC_TYPE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "$sec" )
+			( Description "" )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty )
+			)
+			( Objects
+				( ValidObjects  oAll )
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "$location" )
+			( Description "" )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty )
+			)
+			( Objects
+				( ValidObjects  oAll )
+			)
+			( Analysis
+			)
+		)
+	)
+	( designConstraints
+		( ruleChanges
+			( allRules )
+			( design "\02_042340a_top\"
+				( objectFlag fObjectReadOnly )
+				( objectStatus "\02_042340a_top\" )
+			)
+			( signal "GND"
+				( attribute "VOLTAGE" "0V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):gnd" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN6"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain6" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN4"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain4" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_REFOUT"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_refout" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_REGCAPA"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_regcapa" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_REGCAPD"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_regcapd" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN2"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain2" )
+			)
+			( signal "UNNAMED_2_CN10P_I29_N1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cn10p_i29_n1" )
+			)
+			( signal "UNNAMED_2_CN10P_I29_N2"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cn10p_i29_n2" )
+			)
+			( signal "MISO_A"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):miso_a" )
+			)
+			( signal "MOSI_A"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):mosi_a" )
+			)
+			( signal "SCK_A"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):sck_a" )
+			)
+			( signal "SS_A"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):ss_a" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN14"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain14" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN5"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain5" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN7"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain7" )
+			)
+			( signal "UNNAMED_2_CAP_I152_N1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cap_i152_n1" )
+			)
+			( signal "MISO_B"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):miso_b" )
+			)
+			( signal "MOSI_B"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):mosi_b" )
+			)
+			( signal "SCK_B"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):sck_b" )
+			)
+			( signal "SS_B"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):ss_b" )
+			)
+			( signal "IOREF"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):ioref" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain1" )
+			)
+			( signal "UNNAMED_2_AD71248_I89_AIN3"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain3" )
+			)
+			( signal "3.3V"
+				( attribute "VOLTAGE" "3.3V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):\3.3v\" )
+			)
+			( signal "UNNAMED_2_CN10P_I29_N3"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cn10p_i29_n3" )
+			)
+			( signal "5V"
+				( attribute "VOLTAGE" "5V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):\5v\" )
+			)
+			( signal "UNNAMED_2_ADP7118V3_I171_SS"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_adp7118v3_i171_ss" )
+			)
+			( gate "U1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i89" )
+				( pin "U1.4"
+					( objectStatus "\ain0/iout/vbias\" )
+				)
+				( pin "U1.5"
+					( objectStatus "\ain1/iout/vbias\" )
+				)
+				( pin "U1.6"
+					( objectStatus "\ain2/iout/vbias/p1\" )
+				)
+				( pin "U1.7"
+					( objectStatus "\ain3/iout/vbias/p2\" )
+				)
+				( pin "U1.8"
+					( objectStatus "\ain4/iout/vbias/p3\" )
+				)
+				( pin "U1.9"
+					( objectStatus "\ain5/iout/vbias/p4\" )
+				)
+				( pin "U1.10"
+					( objectStatus "\ain6/iout/vbias\" )
+				)
+				( pin "U1.11"
+					( objectStatus "\ain7/iout/vbias\" )
+				)
+				( pin "U1.14"
+					( objectStatus "\ain8/iout/vbias\" )
+				)
+				( pin "U1.15"
+					( objectStatus "\ain9/iout/vbias\" )
+				)
+				( pin "U1.16"
+					( objectStatus "\ain10/iout/vbias\" )
+				)
+				( pin "U1.17"
+					( objectStatus "\ain11/iout/vbias\" )
+				)
+				( pin "U1.18"
+					( objectStatus "\ain12/iout/vbias\" )
+				)
+				( pin "U1.19"
+					( objectStatus "\ain13/iout/vbias\" )
+				)
+				( pin "U1.20"
+					( objectStatus "\ain14/iout/vbias/refin2(+)\" )
+				)
+				( pin "U1.21"
+					( objectStatus "\ain15/iout/vbias/refin2(-)\" )
+				)
+				( pin "U1.26"
+					( objectStatus "avdd" )
+				)
+				( pin "U1.23"
+					( objectStatus "avss" )
+				)
+				( pin "U1.31"
+					( objectStatus "clk" )
+				)
+				( pin "U1.32"
+					( objectStatus "cs_n" )
+				)
+				( pin "U1.3"
+					( objectStatus "dgnd" )
+				)
+				( pin "U1.29"
+					( objectStatus "din" )
+				)
+				( pin "U1.28"
+					( objectStatus "\dout/rdy_n\" )
+				)
+				( pin "U1.2"
+					( objectStatus "iovdd" )
+				)
+				( pin "U1.PAD"
+					( objectStatus "pad" )
+				)
+				( pin "U1.25"
+					( objectStatus "psw" )
+				)
+				( pin "U1.12"
+					( objectStatus "\refin1(+)\" )
+				)
+				( pin "U1.13"
+					( objectStatus "\refin1(-)\" )
+				)
+				( pin "U1.22"
+					( objectStatus "refout" )
+				)
+				( pin "U1.24"
+					( objectStatus "regcapa" )
+				)
+				( pin "U1.1"
+					( objectStatus "regcapd" )
+				)
+				( pin "U1.30"
+					( objectStatus "sclk" )
+				)
+				( pin "U1.27"
+					( objectStatus "sync_n" )
+				)
+			)
+			( gate "C4"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i155" )
+				( pin "C4.1"
+					( objectStatus "n1" )
+				)
+				( pin "C4.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "P8"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i29" )
+				( pin "P8.1"
+					( objectStatus "n1" )
+				)
+				( pin "P8.2"
+					( objectStatus "n2" )
+				)
+				( pin "P8.3"
+					( objectStatus "n3" )
+				)
+				( pin "P8.4"
+					( objectStatus "n4" )
+				)
+				( pin "P8.5"
+					( objectStatus "n5" )
+				)
+				( pin "P8.6"
+					( objectStatus "n6" )
+				)
+				( pin "P8.7"
+					( objectStatus "n7" )
+				)
+				( pin "P8.8"
+					( objectStatus "n8" )
+				)
+				( pin "P8.9"
+					( objectStatus "n9" )
+				)
+				( pin "P8.10"
+					( objectStatus "n10" )
+				)
+			)
+			( gate "P5"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i30" )
+				( pin "P5.1"
+					( objectStatus "n1" )
+				)
+				( pin "P5.2"
+					( objectStatus "n2" )
+				)
+				( pin "P5.3"
+					( objectStatus "n3" )
+				)
+				( pin "P5.4"
+					( objectStatus "n4" )
+				)
+				( pin "P5.5"
+					( objectStatus "n5" )
+				)
+				( pin "P5.6"
+					( objectStatus "n6" )
+				)
+				( pin "P5.7"
+					( objectStatus "n7" )
+				)
+				( pin "P5.8"
+					( objectStatus "n8" )
+				)
+			)
+			( gate "P9"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i40" )
+				( pin "P9.1"
+					( objectStatus "n1" )
+				)
+				( pin "P9.2"
+					( objectStatus "n2" )
+				)
+				( pin "P9.3"
+					( objectStatus "n3" )
+				)
+				( pin "P9.4"
+					( objectStatus "n4" )
+				)
+				( pin "P9.5"
+					( objectStatus "n5" )
+				)
+				( pin "P9.6"
+					( objectStatus "n6" )
+				)
+				( pin "P9.7"
+					( objectStatus "n7" )
+				)
+				( pin "P9.8"
+					( objectStatus "n8" )
+				)
+			)
+			( gate "C12"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i47" )
+				( pin "C12.1"
+					( objectStatus "n1" )
+				)
+				( pin "C12.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C13"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i48" )
+				( pin "C13.1"
+					( objectStatus "n1" )
+				)
+				( pin "C13.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C11"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i50" )
+				( pin "C11.1"
+					( objectStatus "n1" )
+				)
+				( pin "C11.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "P4"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i53" )
+				( pin "P4.1"
+					( objectStatus "n1" )
+				)
+				( pin "P4.2"
+					( objectStatus "n2" )
+				)
+				( pin "P4.SH1"
+					( objectStatus "sh1" )
+				)
+				( pin "P4.SH2"
+					( objectStatus "sh2" )
+				)
+			)
+			( gate "P2"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i54" )
+				( pin "P2.1"
+					( objectStatus "n1" )
+				)
+				( pin "P2.2"
+					( objectStatus "n2" )
+				)
+				( pin "P2.SH1"
+					( objectStatus "sh1" )
+				)
+				( pin "P2.SH2"
+					( objectStatus "sh2" )
+				)
+			)
+			( gate "P3"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i55" )
+				( pin "P3.1"
+					( objectStatus "n1" )
+				)
+				( pin "P3.2"
+					( objectStatus "n2" )
+				)
+				( pin "P3.SH1"
+					( objectStatus "sh1" )
+				)
+				( pin "P3.SH2"
+					( objectStatus "sh2" )
+				)
+			)
+			( gate "P1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i56" )
+				( pin "P1.1"
+					( objectStatus "n1" )
+				)
+				( pin "P1.2"
+					( objectStatus "n2" )
+				)
+				( pin "P1.SH1"
+					( objectStatus "sh1" )
+				)
+				( pin "P1.SH2"
+					( objectStatus "sh2" )
+				)
+			)
+			( gate "C10"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i122" )
+				( pin "C10.1"
+					( objectStatus "n1" )
+				)
+				( pin "C10.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C3"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i154" )
+				( pin "C3.1"
+					( objectStatus "n1" )
+				)
+				( pin "C3.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "R3"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i90" )
+				( pin "R3.1"
+					( objectStatus "n1" )
+				)
+				( pin "R3.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "R4"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i109" )
+				( pin "R4.1"
+					( objectStatus "n1" )
+				)
+				( pin "R4.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "P6"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i37" )
+				( pin "P6.1"
+					( objectStatus "n1" )
+				)
+				( pin "P6.2"
+					( objectStatus "n2" )
+				)
+				( pin "P6.3"
+					( objectStatus "n3" )
+				)
+				( pin "P6.4"
+					( objectStatus "n4" )
+				)
+				( pin "P6.5"
+					( objectStatus "n5" )
+				)
+				( pin "P6.6"
+					( objectStatus "n6" )
+				)
+			)
+			( gate "C2"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i153" )
+				( pin "C2.1"
+					( objectStatus "n1" )
+				)
+				( pin "C2.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "R5"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i142" )
+				( pin "R5.1"
+					( objectStatus "n1" )
+				)
+				( pin "R5.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "R2"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i112" )
+				( pin "R2.1"
+					( objectStatus "n1" )
+				)
+				( pin "R2.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "R1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i111" )
+				( pin "R1.1"
+					( objectStatus "n1" )
+				)
+				( pin "R1.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i152" )
+				( pin "C1.1"
+					( objectStatus "n1" )
+				)
+				( pin "C1.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C19"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i172" )
+				( pin "C19.1"
+					( objectStatus "n1" )
+				)
+				( pin "C19.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "U2"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i156" )
+				( pin "U2.2"
+					( objectStatus "a1" )
+				)
+				( pin "U2.3"
+					( objectStatus "a2" )
+				)
+				( pin "U2.4"
+					( objectStatus "a3" )
+				)
+				( pin "U2.5"
+					( objectStatus "a4" )
+				)
+				( pin "U2.13"
+					( objectStatus "b1" )
+				)
+				( pin "U2.12"
+					( objectStatus "b2" )
+				)
+				( pin "U2.11"
+					( objectStatus "b3" )
+				)
+				( pin "U2.10"
+					( objectStatus "b4" )
+				)
+				( pin "U2.7"
+					( objectStatus "gnd" )
+				)
+				( pin "U2.8"
+					( objectStatus "oe" )
+				)
+				( pin "U2.1"
+					( objectStatus "vcca" )
+				)
+				( pin "U2.14"
+					( objectStatus "vccb" )
+				)
+			)
+			( gate "P7"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i116" )
+				( pin "P7.1"
+					( objectStatus "n1" )
+				)
+				( pin "P7.2"
+					( objectStatus "n2" )
+				)
+				( pin "P7.3"
+					( objectStatus "n3" )
+				)
+				( pin "P7.4"
+					( objectStatus "n4" )
+				)
+				( pin "P7.5"
+					( objectStatus "n5" )
+				)
+				( pin "P7.6"
+					( objectStatus "n6" )
+				)
+			)
+			( gate "JP1"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i117" )
+				( pin "JP1.1"
+					( objectStatus "s1" )
+				)
+				( pin "JP1.2"
+					( objectStatus "s2" )
+				)
+				( pin "JP1.3"
+					( objectStatus "s3" )
+				)
+				( pin "JP1.4"
+					( objectStatus "s4" )
+				)
+				( pin "JP1.5"
+					( objectStatus "s5" )
+				)
+				( pin "JP1.6"
+					( objectStatus "s6" )
+				)
+			)
+			( gate "C18"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i124" )
+				( pin "C18.1"
+					( objectStatus "n1" )
+				)
+				( pin "C18.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C15"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i174" )
+				( pin "C15.1"
+					( objectStatus "n1" )
+				)
+				( pin "C15.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C17"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i131" )
+				( pin "C17.1"
+					( objectStatus "n1" )
+				)
+				( pin "C17.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C14"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i134" )
+				( pin "C14.1"
+					( objectStatus "n1" )
+				)
+				( pin "C14.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "U3"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i171" )
+				( pin "U3.5"
+					( objectStatus "en" )
+				)
+				( pin "U3.4"
+					( objectStatus "gnd" )
+				)
+				( pin "U3.PAD"
+					( objectStatus "pad" )
+				)
+				( pin "U3.3"
+					( objectStatus "\sense/adj\" )
+				)
+				( pin "U3.6"
+					( objectStatus "ss" )
+				)
+				( pin "U3.7"
+					( objectStatus "vin1" )
+				)
+				( pin "U3.8"
+					( objectStatus "vin2" )
+				)
+				( pin "U3.1"
+					( objectStatus "vout1" )
+				)
+				( pin "U3.2"
+					( objectStatus "vout2" )
+				)
+			)
+			( gate "C16"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i168" )
+				( pin "C16.1"
+					( objectStatus "n1" )
+				)
+				( pin "C16.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C9"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i178" )
+				( pin "C9.1"
+					( objectStatus "n1" )
+				)
+				( pin "C9.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C7"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i181" )
+				( pin "C7.1"
+					( objectStatus "n1" )
+				)
+				( pin "C7.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C6"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i182" )
+				( pin "C6.1"
+					( objectStatus "n1" )
+				)
+				( pin "C6.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C8"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i185" )
+				( pin "C8.1"
+					( objectStatus "n1" )
+				)
+				( pin "C8.2"
+					( objectStatus "n2" )
+				)
+			)
+			( gate "C5"
+				( objectStatus "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i186" )
+				( pin "C5.1"
+					( objectStatus "n1" )
+				)
+				( pin "C5.2"
+					( objectStatus "n2" )
+				)
+			)
+		)
+	)
+)
