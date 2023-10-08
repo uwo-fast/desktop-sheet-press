@@ -1,0 +1,17 @@
+.NHD-0420D3Z-FL-GBW-V3 :1 ;LCD Character Display Modules & Accessories 4 x 20 STN-GRAY 98.0 x 60.0
+NHD0420D3ZFLGBWV3
+*STM U
+*NGS
+*PNM 1=J11 2=J12 3=J13 4=J21 5=J22 6=J23 7=J24 8=J25 9=J26 10=MH1 11=MH2 12=MH3 13=MH4
+*PLB 1="RX" 2="VSS_1" 3="VDD " 4="SPISS" 5="SDO" 6="SCK/SCL" 7="SDI/SDA" 8="VSS_2" 9="VDD" 10="MH1" 11="MH2" 12="MH3" 13="MH4"
+*MXP 13
+*DFN NHD-0420D3Z-FL-GBW-V3
+~!Mouser Part Number (763-0420D3ZFLGBW-V3)
+~!Link Mouser Price/Stock (https://www.mouser.co.uk/ProductDetail/Newhaven-Display/NHD-0420D3Z-FL-GBW-V3?qs=qFF%252BBcFBHba4i0K1fcOqkw%3D%3D)
+~!Manufacturer_Name (Newhaven Display)
+~!Manufacturer_Part_Number (NHD-0420D3Z-FL-GBW-V3)
+~!Link Datasheet (https://componentsearchengine.com/Datasheets/1/NHD-0420D3Z-FL-GBW-V3.pdf)
+~!Height (9.34mm)
+~!3D_Model (NHD-0420D3Z-FL-GBW-V3)
+NHD-0420D3Z-FL-GBW-V3
+1.1!U 2.1!U 3.1!U 4.1!U 5.1!U 6.1!U 7.1!U 8.1!U 9.1!U 10.1!U 11.1!U 12.1!U 13.1!U 

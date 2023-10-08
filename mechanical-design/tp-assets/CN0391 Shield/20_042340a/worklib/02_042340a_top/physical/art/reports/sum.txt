@@ -1,0 +1,62 @@
+Summary Drawing Report
+C:/tmp/20_042340a/worklib/02_042340a_top/physical/08_042340a.brd
+Tue Aug 30 11:22:12 2016
+Drawing Statistics:
+    Drawing Extents  XL(-11300.00)  YL(-8360.00)  XU(24700.00)  YU(15640.00)
+    Dimensions in mils with 2 decimal places
+    Layers:  Total(2)  Routing(2)  Planes(0)
+    Design Thickness: 13.600000 mil
+    Package Symbols:  Total(37)  Mirrored(1)  Embedded(0)  Pins(164)
+    Mechanical Symbols:  Total(11)  Mirrored(1)  Pins(6)
+    Format Symbols:  Total(7)
+    DRC State: UP TO DATE
+    DRC Errors: 0
+    Short DRC: 0
+    Waived DRC: 0
+    Padstack Definitions: 19
+    Dynamic shapes:  Total(2)  Out_of_date(0)
+    Functions:   Assigned(37)  Unassigned(0)  Total(37)
+
+Drilling Statistics:
+    Minimum Drill Size (in):  0.012000
+    Drills:  Total(114)  Standard NC(114)  Nonstandard(0)
+    Holes:  Plated(108)  Non-Plated(6)
+    MultiDrill Padstacks:  0
+    Vias:  Thru(48)  BBVias(0)  HDI(0)
+
+Connection Statistics:
+    Connections:  W/Rats(103)  No/Rats(0)  Total(103)
+    Already Connected:  W/Rats(103)  No/Rats(0)  Total(103)
+    Missing Connections: W/Rats(0)  No/Rats(0)  Total(0)
+    Dangling Connections (See logfile):  0
+    Connection Completion:  W/Rats(100.00%)  No/Rats(0.00%)  Total(100.00%)  
+    Manh Distance (inches):  31.20
+    Etch Length (inches):  W/Rats(50.41)  No/Rats(0.00)  Total(50.41)
+    Number of Vias:  W/Rats(48)  No/Rats(0)  Total(48)
+    Vias per Connection:  W/Rats(0.47)  No/Rats(0.00)Total(0.47)
+    SMD pins with attached clines:  93
+
+Layout Statistics:
+    Components:  Placed(37)  Unplaced(0)  Total(37)
+    Component Classes:  IC(3)  IO(10)  Discrete(24)  Mechanical(0)  Other(0)
+    Nets: W/Rats(28)  No/Rats(0)  Total(28)
+    Pins: W/Rats(131)  No/Rats(0)  Unused(33)  Unplaced(0)  Total(164)
+    Equivalent ICs (1 pin = 1/14 EIC):  11
+    RatTs:  0
+    Router Keepin (in):   (-1.3000,-0.9100) by (2.5000,1.1000)
+    Layout area (sq in):  7.60
+    Average ratlength (in):   0.7
+    Rat density (in/sq in):  4.104
+    Double-sided rat density (in/sq in):  2.052
+
+Layout/Pin Density Statistics
+Layer,Layout Area<BR>(sq in),Components,Pins,Layout Density<BR>(sq in/EIC),Pin Density<BR>(pins/sq in)
+External(Double-Sided),15.20,37,164,1.298,10.787
+Embedded(0),0.00,0,0,0.000,0.000
+Design,7.60,37,164,0.649,21.575
+
+Etch Layer Statistics:
+Layer,Clines/Carcs,Shapes(voids),Rectangles,Lines/Arcs,Text,Components(Pins)
+TOP,172,71(11),0,0,2,36(158)
+BOTTOM,59,11(21),0,0,2,1(6)
+

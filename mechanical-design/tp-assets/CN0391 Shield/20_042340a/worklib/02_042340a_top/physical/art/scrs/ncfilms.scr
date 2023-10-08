@@ -1,0 +1,24 @@
+setwindow pcb
+
+film param 
+setwindow form.film_control
+FORM film_control filmtree  TOP 
+FORM film_control load  
+fillin ncloadfilm.txt
+setwindow form.film_control
+FORM film_control filmtree  fab
+FORM film_control filmtree popup Display fab
+FORM film_control ok
+color -globvis off
+color -vis "MANUFACTURING/PHOTOPLOT_OUTLINE"
+setwindow pcb
+delete
+group
+drag_start -11300.00 -8360.00
+drag_stop 24700.00 15640.00
+done
+pop cut
+done
+setwindow pcb
+exit
+fillin YES

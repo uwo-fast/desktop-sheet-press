@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'AD7124_8BCPZ'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Analog Devices", "AD7124-8BCPZ" (!) = "", "QFN50P500X500X80-33N-D", "Quad Flat No-Lead", "584-AD7124-8BCPZ", "https://www.mouser.co.uk/ProductDetail/Analog-Devices/AD7124-8BCPZ?qs=Ky1INM14uHrhdeD2dxIX6Q%3D%3D", "8-Channel, Low Noise, Low Power, 24-Bit, Sigma-Delta ADC with PGA and Reference", "https://www.analog.com/AD7124-8/datasheet", "0.8 mm"
+END_PART
+
+END.
