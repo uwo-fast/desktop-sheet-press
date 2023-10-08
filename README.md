@@ -4,6 +4,14 @@
 
 The Open Source Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles.
 
+### About the FAST Group and This Project
+
+The Free Appropriate Sustainable Technology (FAST) research group, led by Professor Joshua Pearce, is based at Western University and focuses on driving sustainability innovations. Western is ranked among the top 1% of global universities and #3 in the world for sustainability. The group works on a myriad of projects ranging from solar photovoltaic technology to open-source hardware, contributing to Western's efforts toward the United Nations Sustainable Development Goals (SDGs).
+
+This Open Source Sheet Press project is an initiative led by the FAST group, aligning with our broader goals of sustainable development and open-source technology. We are focused on developing solutions that not only contribute to recycling and sustainable manufacturing but also push the boundaries of what's possible through continuous research and innovation.
+
+For more information on the FAST group, please visit [FAST on Appropedia](https://www.appropedia.org/FAST).
+
 ## Key Features
 
 1. **Adaptability**: Engineered to work with a diverse range of plastic materials.
