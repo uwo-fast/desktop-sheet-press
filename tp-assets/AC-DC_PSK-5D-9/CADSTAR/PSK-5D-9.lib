@@ -1,0 +1,16 @@
+.PSK-5D-9 :1 ;AC/DC Power Modules ac-dc, 5 W, 9 Vdc, single output, encapsulated PCB, 85~305 Vac
+PSK5D9
+*STM PS
+*NGS
+*PLB 1="AC(N)" 2="AC(L)" 4="-VO" 5="+VO"
+*MXP 4
+*DFN PSK-5D-9
+~!Mouser Part Number (490-PSK-5D-9)
+~!Link Mouser Price/Stock (https://www.mouser.co.uk/ProductDetail/CUI-Inc/PSK-5D-9?qs=DRkmTr78QAS7xBfnsfADZA%3D%3D)
+~!Manufacturer_Name (CUI Inc.)
+~!Manufacturer_Part_Number (PSK-5D-9)
+~!Link Datasheet (-)
+~!Height (18.1mm)
+~!3D_Model (PSK-5D-9)
+PSK-5D-9
+1.1!U 2.1!U 4.1!U 5.1!U 

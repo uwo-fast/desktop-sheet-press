@@ -1,0 +1,3794 @@
+( ConstraintFile "\02_042340a_top\"
+	( constraintHeader
+		( objectKey
+			( logical )
+		)
+		( version
+			( 16.6 )
+		)
+		( revisionNumber
+			( logicalViewRevNum 230 )
+			( physicalViewRevNum 0 )
+			( otherViewRevNum 0 )
+		)
+		( contents
+			( dictionaryExtensions )
+			( worksheetCustomizations )
+			( electricalConstraints )
+			( netClasses )
+			( properties )
+		)
+		( precision
+			( units mil )
+			( numberOfDecimalPlaces 2 )
+		)
+	)
+	( DictionaryExtensions
+		( Attribute
+			( Name "CDS_LMAN_SYM_OUTLINE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "WW_PN" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "PINSWAP" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "PINOFF" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "PSPICETEMPLATE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "WATTAGE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "SEC_TYPE" )
+			( Description " " )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty  sPackage )
+			)
+			( Objects
+				( ValidObjects  oGate  oGateDefn  oBlock  oPart  oDesign  oSystem  oPartDefn )
+				( NoInherit
+					( oGate oPin )
+				)
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "$sec" )
+			( Description "" )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty )
+			)
+			( Objects
+				( ValidObjects  oAll )
+			)
+			( Analysis
+			)
+		)
+		( Attribute
+			( Name "$location" )
+			( Description "" )
+			( Value
+				( DataType ( dString ) )
+				( Status  sProperty )
+			)
+			( Objects
+				( ValidObjects  oAll )
+			)
+			( Analysis
+			)
+		)
+	)
+	( designConstraints
+		( ruleChanges
+			( allRules )
+			( design "\02_042340a_top\"
+				( attribute "CDS_EXPORT_CONTENTS_MASK" "33330"
+				)
+				( attribute "CDS_EDIT_PNS_STATUS" "1"
+					( Origin gFrontEnd )
+				)
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):gnd"
+				( alias ( signalRef "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_gnd") )
+				( attribute "VOLTAGE" "0V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PHYS_NET_NAME" "GND"
+					( Origin gPackager )
+				)
+				( objectStatus "GND" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_gnd"
+				( attribute "VOLTAGE" "0V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( objectFlag fObjectAlias )
+				( objectStatus "page2_gnd" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain6"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN6"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN6" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain4"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN4"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN4" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_refout"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_REFOUT"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_REFOUT" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_regcapa"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_REGCAPA"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_REGCAPA" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_regcapd"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_REGCAPD"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_REGCAPD" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain2"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN2"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN2" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cn10p_i29_n1"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_CN10P_I29_N1"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_CN10P_I29_N1" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cn10p_i29_n2"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_CN10P_I29_N2"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_CN10P_I29_N2" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):miso_a"
+				( attribute "CDS_PHYS_NET_NAME" "MISO_A"
+					( Origin gPackager )
+				)
+				( objectStatus "MISO_A" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):mosi_a"
+				( attribute "CDS_PHYS_NET_NAME" "MOSI_A"
+					( Origin gPackager )
+				)
+				( objectStatus "MOSI_A" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):sck_a"
+				( attribute "CDS_PHYS_NET_NAME" "SCK_A"
+					( Origin gPackager )
+				)
+				( objectStatus "SCK_A" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):ss_a"
+				( attribute "CDS_PHYS_NET_NAME" "SS_A"
+					( Origin gPackager )
+				)
+				( objectStatus "SS_A" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain14"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN14"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN14" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain5"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN5"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN5" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain7"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN7"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN7" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cap_i152_n1"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_CAP_I152_N1"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_CAP_I152_N1" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):miso_b"
+				( attribute "CDS_PHYS_NET_NAME" "MISO_B"
+					( Origin gPackager )
+				)
+				( objectStatus "MISO_B" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):mosi_b"
+				( attribute "CDS_PHYS_NET_NAME" "MOSI_B"
+					( Origin gPackager )
+				)
+				( objectStatus "MOSI_B" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):sck_b"
+				( attribute "CDS_PHYS_NET_NAME" "SCK_B"
+					( Origin gPackager )
+				)
+				( objectStatus "SCK_B" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):ss_b"
+				( attribute "CDS_PHYS_NET_NAME" "SS_B"
+					( Origin gPackager )
+				)
+				( objectStatus "SS_B" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):ioref"
+				( attribute "CDS_PHYS_NET_NAME" "IOREF"
+					( Origin gPackager )
+				)
+				( objectStatus "IOREF" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain1"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN1"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN1" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_ad71248_i89_ain3"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_AD71248_I89_AIN3"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_AD71248_I89_AIN3" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):\3.3v\"
+				( alias ( signalRef "@\02_042340a_lib\.\02_042340a_top\(sch_1):\page2_3.3v\") )
+				( attribute "VOLTAGE" "3.3V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PHYS_NET_NAME" "3.3V"
+					( Origin gPackager )
+				)
+				( objectStatus "3.3V" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):\page2_3.3v\"
+				( attribute "VOLTAGE" "3.3V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( objectFlag fObjectAlias )
+				( objectStatus "page2_3.3v" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_cn10p_i29_n3"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_CN10P_I29_N3"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_CN10P_I29_N3" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):\5v\"
+				( alias ( signalRef "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_5v") )
+				( attribute "VOLTAGE" "5V"
+					( Units "uVoltage" "V" 1.000000)
+					( Status sAliasFlattened )
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PHYS_NET_NAME" "5V"
+					( Origin gPackager )
+				)
+				( objectStatus "5V" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_5v"
+				( attribute "VOLTAGE" "5V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( objectFlag fObjectAlias )
+				( objectStatus "page2_5v" )
+			)
+			( signal "@\02_042340a_lib\.\02_042340a_top\(sch_1):unnamed_2_adp7118v3_i171_ss"
+				( attribute "CDS_PHYS_NET_NAME" "UNNAMED_2_ADP7118V3_I171_SS"
+					( Origin gPackager )
+				)
+				( objectStatus "UNNAMED_2_ADP7118V3_I171_SS" )
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i89"
+				( attribute "CDS_LIB" "ic_adi"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-750,1300,750,-1300"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "QFN32_5X5_PAD3_6X3_6"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "AD7124-8BCPZ"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E023649"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-7800,5550)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "AD7124_8"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "AD7124_8_SM-AD7124-8BCPZ,E023649,QFN32_5X5_PAD3_6X3_6-QFN32_5X5_PAD3_6X3_6"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "AD7124_8_SM-AD7124-8BCPZ,E023649,QFN32_5X5_PAD3_6X3_6-QFN32_5X5_PAD3_6X3_6"
+					( Origin gPackager )
+				)
+				( attribute "SEC_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_LOCATION" "U1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "U1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "U1" )
+				( pin "\ain0/iout/vbias\"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.4" )
+				)
+				( pin "\ain1/iout/vbias\"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.5" )
+				)
+				( pin "\ain2/iout/vbias/p1\"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.6" )
+				)
+				( pin "\ain3/iout/vbias/p2\"
+					( attribute "PN" "7"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.7" )
+				)
+				( pin "\ain4/iout/vbias/p3\"
+					( attribute "PN" "8"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.8" )
+				)
+				( pin "\ain5/iout/vbias/p4\"
+					( attribute "PN" "9"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.9" )
+				)
+				( pin "\ain6/iout/vbias\"
+					( attribute "PN" "10"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.10" )
+				)
+				( pin "\ain7/iout/vbias\"
+					( attribute "PN" "11"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.11" )
+				)
+				( pin "\ain8/iout/vbias\"
+					( attribute "PN" "14"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.14" )
+				)
+				( pin "\ain9/iout/vbias\"
+					( attribute "PN" "15"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.15" )
+				)
+				( pin "\ain10/iout/vbias\"
+					( attribute "PN" "16"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.16" )
+				)
+				( pin "\ain11/iout/vbias\"
+					( attribute "PN" "17"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.17" )
+				)
+				( pin "\ain12/iout/vbias\"
+					( attribute "PN" "18"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.18" )
+				)
+				( pin "\ain13/iout/vbias\"
+					( attribute "PN" "19"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.19" )
+				)
+				( pin "\ain14/iout/vbias/refin2(+)\"
+					( attribute "PN" "20"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.20" )
+				)
+				( pin "\ain15/iout/vbias/refin2(-)\"
+					( attribute "PN" "21"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.21" )
+				)
+				( pin "avdd"
+					( attribute "PN" "26"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.26" )
+				)
+				( pin "avss"
+					( attribute "PN" "23"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.23" )
+				)
+				( pin "clk"
+					( attribute "PN" "31"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.31" )
+				)
+				( pin "cs_n"
+					( attribute "PN" "32"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.32" )
+				)
+				( pin "dgnd"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.3" )
+				)
+				( pin "din"
+					( attribute "PN" "29"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.29" )
+				)
+				( pin "\dout/rdy_n\"
+					( attribute "PN" "28"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.28" )
+				)
+				( pin "iovdd"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.2" )
+				)
+				( pin "pad"
+					( attribute "PN" "PAD"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.PAD" )
+				)
+				( pin "psw"
+					( attribute "PN" "25"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.25" )
+				)
+				( pin "\refin1(+)\"
+					( attribute "PN" "12"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.12" )
+				)
+				( pin "\refin1(-)\"
+					( attribute "PN" "13"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.13" )
+				)
+				( pin "refout"
+					( attribute "PN" "22"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.22" )
+				)
+				( pin "regcapa"
+					( attribute "PN" "24"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.24" )
+				)
+				( pin "regcapd"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.1" )
+				)
+				( pin "sclk"
+					( attribute "PN" "30"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.30" )
+				)
+				( pin "sync_n"
+					( attribute "PN" "27"
+						( Origin gPackager )
+					)
+					( objectStatus "U1.27" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i155"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.47UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E000463"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12200,4150)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C4"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C4"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C4" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C4.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C4.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i29"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-150,500,200,-500"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNSAMTECSSQ-110-XX-X-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "N1,N2,N3,N4,N5,N6,N7,N8,N9,N10"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "4"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "SSQ-110-03-G-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E020479"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-1850,5850)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN10P"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN10P_TH-SSQ-110-03-G-S,E020479,CNSAMTECSSQ-110-XX-X-S-CNSAMTECSSQ-110-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN10P_TH-SSQ-110-03-G-S,E020479,CNSAMTECSSQ-110-XX-X-S-CNSAMTECSSQ-110-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_LOCATION" "P8"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P8"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P8" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.2" )
+				)
+				( pin "n3"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.3" )
+				)
+				( pin "n4"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.4" )
+				)
+				( pin "n5"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.5" )
+				)
+				( pin "n6"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.6" )
+				)
+				( pin "n7"
+					( attribute "PN" "7"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.7" )
+				)
+				( pin "n8"
+					( attribute "PN" "8"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.8" )
+				)
+				( pin "n9"
+					( attribute "PN" "9"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.9" )
+				)
+				( pin "n10"
+					( attribute "PN" "10"
+						( Origin gPackager )
+					)
+					( objectStatus "P8.10" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i30"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-150,400,200,-400"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNSAMTECSSQ-108-XX-X-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "N1,N2,N3,N4,N5,N6,N7,N8"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "SSQ-108-03-G-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E020478"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-2500,5750)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN8P_A"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN8P_A_TH-SSQ-108-03-G-S,E020478,CNSAMTECSSQ-108-XX-X-S-CNSAMTECSSQ-108-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN8P_A_TH-SSQ-108-03-G-S,E020478,CNSAMTECSSQ-108-XX-X-S-CNSAMTECSSQ-108-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_LOCATION" "P5"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P5"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P5" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.2" )
+				)
+				( pin "n3"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.3" )
+				)
+				( pin "n4"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.4" )
+				)
+				( pin "n5"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.5" )
+				)
+				( pin "n6"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.6" )
+				)
+				( pin "n7"
+					( attribute "PN" "7"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.7" )
+				)
+				( pin "n8"
+					( attribute "PN" "8"
+						( Origin gPackager )
+					)
+					( objectStatus "P5.8" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i40"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-150,400,200,-400"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNSAMTECSSQ-108-XX-X-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "N1,N2,N3,N4,N5,N6,N7,N8"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "4"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "SSQ-108-03-G-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E020478"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-1850,4750)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN8P_A"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN8P_A_TH-SSQ-108-03-G-S,E020478,CNSAMTECSSQ-108-XX-X-S-CNSAMTECSSQ-108-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN8P_A_TH-SSQ-108-03-G-S,E020478,CNSAMTECSSQ-108-XX-X-S-CNSAMTECSSQ-108-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_LOCATION" "P9"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P9"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P9" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.2" )
+				)
+				( pin "n3"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.3" )
+				)
+				( pin "n4"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.4" )
+				)
+				( pin "n5"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.5" )
+				)
+				( pin "n6"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.6" )
+				)
+				( pin "n7"
+					( attribute "PN" "7"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.7" )
+				)
+				( pin "n8"
+					( attribute "PN" "8"
+						( Origin gPackager )
+					)
+					( objectStatus "P9.8" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i47"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-100,50,150,-50"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-6100,6400)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C12"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C12"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C12" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C12.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C12.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i48"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-100,50,150,-50"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-5800,6500)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C13"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C13"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C13" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C13.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C13.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i50"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-100,50,150,-50"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-6400,6250)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C11"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C11"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C11" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C11.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C11.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i53"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-200,150,200,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNOMEGAPCC-SMP"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "PCC-SMP-U-100-ROHS"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025050"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12550,4350)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN2P_2PSHLD"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "P4"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P4"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P4" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P4.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P4.2" )
+				)
+				( pin "sh1"
+					( attribute "PN" "SH1"
+						( Origin gPackager )
+					)
+					( objectStatus "P4.SH1" )
+				)
+				( pin "sh2"
+					( attribute "PN" "SH2"
+						( Origin gPackager )
+					)
+					( objectStatus "P4.SH2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i54"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-200,150,200,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNOMEGAPCC-SMP"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "PCC-SMP-U-100-ROHS"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025050"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12550,6250)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN2P_2PSHLD"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "P2"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P2"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P2" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P2.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P2.2" )
+				)
+				( pin "sh1"
+					( attribute "PN" "SH1"
+						( Origin gPackager )
+					)
+					( objectStatus "P2.SH1" )
+				)
+				( pin "sh2"
+					( attribute "PN" "SH2"
+						( Origin gPackager )
+					)
+					( objectStatus "P2.SH2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i55"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-200,150,200,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNOMEGAPCC-SMP"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "PCC-SMP-U-100-ROHS"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025050"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12550,5300)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN2P_2PSHLD"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "P3"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P3"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P3" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P3.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P3.2" )
+				)
+				( pin "sh1"
+					( attribute "PN" "SH1"
+						( Origin gPackager )
+					)
+					( objectStatus "P3.SH1" )
+				)
+				( pin "sh2"
+					( attribute "PN" "SH2"
+						( Origin gPackager )
+					)
+					( objectStatus "P3.SH2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i56"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-200,150,200,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNOMEGAPCC-SMP"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "PCC-SMP-U-100-ROHS"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025050"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12550,7200)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN2P_2PSHLD"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN2P_2PSHLD_TH-PCC-SMP-U-100-ROHS,E025050,CNOMEGAPCC-SMP-CNOMEGAPCC-SMP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "P1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P1" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P1.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P1.2" )
+				)
+				( pin "sh1"
+					( attribute "PN" "SH1"
+						( Origin gPackager )
+					)
+					( objectStatus "P1.SH1" )
+				)
+				( pin "sh2"
+					( attribute "PN" "SH2"
+						( Origin gPackager )
+					)
+					( objectStatus "P1.SH2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i122"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H60"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "20"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E024768"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-7850,7750)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C10"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C10"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C10" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C10.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C10.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i154"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.47UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E000463"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12200,5100)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C3"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C3"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C3" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C3.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C3.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i90"
+				( attribute "CDS_LIB" "resistors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-250"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "R0805H20"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %N1 %N2 ?TOL|R^@REFDES| @VALUE ?TOL|\N.MODEL R^@REFDES RES R=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "0.12"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1K"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "WATTAGE" "N/A"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025151"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-9650,4900)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "RES"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "R3"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "R3"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "R3" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "R3.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "R3.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i109"
+				( attribute "CDS_LIB" "resistors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-250"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "R0805H20"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %N1 %N2 ?TOL|R^@REFDES| @VALUE ?TOL|\N.MODEL R^@REFDES RES R=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "0.12"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1K"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "WATTAGE" "N/A"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025151"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-9050,4900)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "RES"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "R4"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "R4"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "R4" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "R4.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "R4.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i37"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-200,300,150,-300"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNSAMTECSSQ-106-XX-X-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "N1,N2,N3,N4,N5,N6"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "SSQ-106-03-G-S"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E020477"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-2400,4650)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN6P"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN6P_TH-SSQ-106-03-G-S,E020477,CNSAMTECSSQ-106-XX-X-S-CNSAMTECSSQ-106-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN6P_TH-SSQ-106-03-G-S,E020477,CNSAMTECSSQ-106-XX-X-S-CNSAMTECSSQ-106-XX-X-S"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "P6"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P6"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P6" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P6.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P6.2" )
+				)
+				( pin "n3"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "P6.3" )
+				)
+				( pin "n4"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "P6.4" )
+				)
+				( pin "n5"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "P6.5" )
+				)
+				( pin "n6"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "P6.6" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i153"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.47UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E000463"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12200,6050)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C2"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C2"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C2" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C2.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C2.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i142"
+				( attribute "CDS_LIB" "resistors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-250"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "R0805"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %N1 %N2 ?TOL|R^@REFDES| @VALUE ?TOL|\N.MODEL R^@REFDES RES R=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "0.1"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1.6K"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "WATTAGE" "1/8W"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E003823"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-9050,4450)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "RES"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "RES_SM-1.6K,E003823,1/8W,0.1,R0805-R0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "RES_SM-1.6K,E003823,1/8W,0.1,R0805-R0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "R5"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "R5"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "R5" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "R5.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "R5.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i112"
+				( attribute "CDS_LIB" "resistors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-250"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "R0805H20"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %N1 %N2 ?TOL|R^@REFDES| @VALUE ?TOL|\N.MODEL R^@REFDES RES R=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "0.12"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1K"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "WATTAGE" "N/A"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025151"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-10250,4900)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "RES"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "R2"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "R2"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "R2" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "R2.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "R2.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i111"
+				( attribute "CDS_LIB" "resistors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-250"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "R0805H20"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "R^@REFDES %N1 %N2 ?TOL|R^@REFDES| @VALUE ?TOL|\N.MODEL R^@REFDES RES R=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "0.12"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1K"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "WATTAGE" "N/A"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E025151"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-10900,4900)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "RES"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "RES_SM-1K,E025151,N/A,0.12,R0805H20-R0805H20"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "R1"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "R1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "R1" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "R1.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "R1.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i152"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.47UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E000463"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-12200,7000)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.47UF,16V,10,E000463,C0805-C0805"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C1"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C1" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C1.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C1.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i172"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H60"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "20"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E024768"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-2950,7100)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C19"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C19"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C19" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C19.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C19.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i156"
+				( attribute "CDS_LIB" "ic_other"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-350,400,350,-400"
+					( Origin gPackager )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-5000,5500)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "TXB0104"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "TSSOP14"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "TXB0104PWR"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E006113"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_PART_NAME" "TXB0104_SM-TXB0104PWR,E006113,TSSOP14-TSSOP14"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "TXB0104_SM-TXB0104PWR,E006113,TSSOP14-TSSOP14"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "U2"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "U2"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "U2" )
+				( pin "a1"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.2" )
+				)
+				( pin "a2"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.3" )
+				)
+				( pin "a3"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.4" )
+				)
+				( pin "a4"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.5" )
+				)
+				( pin "b1"
+					( attribute "PN" "13"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.13" )
+				)
+				( pin "b2"
+					( attribute "PN" "12"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.12" )
+				)
+				( pin "b3"
+					( attribute "PN" "11"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.11" )
+				)
+				( pin "b4"
+					( attribute "PN" "10"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.10" )
+				)
+				( pin "gnd"
+					( attribute "PN" "7"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.7" )
+				)
+				( pin "oe"
+					( attribute "PN" "8"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.8" )
+				)
+				( pin "vcca"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.1" )
+				)
+				( pin "vccb"
+					( attribute "PN" "14"
+						( Origin gPackager )
+					)
+					( objectStatus "U2.14" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i116"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-200,300,150,-300"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNSAMTECSSQ-103-XX-X-D"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "N1,N2,N3,N4,N5,N6"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "SSQ-103-03-G-D"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E020488"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-2150,3850)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN6P"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN6P_TH-SSQ-103-03-G-D,E020488,CNSAMTECSSQ-103-XX-X-D-CNSAMTECSSQ-103-XX-X-D"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN6P_TH-SSQ-103-03-G-D,E020488,CNSAMTECSSQ-103-XX-X-D-CNSAMTECSSQ-103-XX-X-D"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "P7"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "P7"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "P7" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "P7.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "P7.2" )
+				)
+				( pin "n3"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "P7.3" )
+				)
+				( pin "n4"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "P7.4" )
+				)
+				( pin "n5"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "P7.5" )
+				)
+				( pin "n6"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "P7.6" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i117"
+				( attribute "CDS_LIB" "conn_pcb"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-150,150,150,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "CNHDR2X3H485"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "S1,S2,S3,S4,S5,S6"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "TH"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "2213S-06G"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E020984"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-1300,5500)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CN6P_JMPRSHRT"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CN6P_JMPRSHRT_TH-2213S-06G,E020984,CNHDR2X3H485-CNHDR2X3H485"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CN6P_JMPRSHRT_TH-2213S-06G,E020984,CNHDR2X3H485-CNHDR2X3H485"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "JP1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "JP1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "JP1" )
+				( pin "s1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "JP1.1" )
+				)
+				( pin "s2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "JP1.2" )
+				)
+				( pin "s3"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "JP1.3" )
+				)
+				( pin "s4"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "JP1.4" )
+				)
+				( pin "s5"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "JP1.5" )
+				)
+				( pin "s6"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "JP1.6" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i124"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H60"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "20"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E024768"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-3250,5550)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C18"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C18"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C18" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C18.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C18.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i174"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C1210"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "3300PF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "200V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E026500"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-4200,7000)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-3300PF,200V,10,E026500,C1210-C1210"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-3300PF,200V,10,E026500,C1210-C1210"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C15"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C15"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C15" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C15.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C15.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i131"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H60"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "20"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E024768"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-3700,5850)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C17"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C17"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C17" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C17.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C17.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i134"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H60"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "20"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E024768"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-5000,4400)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C14"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C14"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C14" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C14.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C14.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i171"
+				( attribute "CDS_LIB" "ic_adi"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-350,250,350,-250"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "SO8NB-PAD2_3X2_3"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "SEC_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "ADP7118ARDZ-3.3"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E021962"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-3600,7200)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "ADP7118_V3"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "ADP7118_V3_SM-ADP7118ARDZ-3.3,E021962,SO8NB-PAD2_3X2_3-SO8NB-PAD2_3X2_3"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "ADP7118_V3_SM-ADP7118ARDZ-3.3,E021962,SO8NB-PAD2_3X2_3-SO8NB-PAD2_3X2_3"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "U3"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "U3"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gFrontEnd )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "U3" )
+				( pin "en"
+					( attribute "PN" "5"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.5" )
+				)
+				( pin "gnd"
+					( attribute "PN" "4"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.4" )
+				)
+				( pin "pad"
+					( attribute "PN" "PAD"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.PAD" )
+				)
+				( pin "\sense/adj\"
+					( attribute "PN" "3"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.3" )
+				)
+				( pin "ss"
+					( attribute "PN" "6"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.6" )
+				)
+				( pin "vin1"
+					( attribute "PN" "7"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.7" )
+				)
+				( pin "vin2"
+					( attribute "PN" "8"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.8" )
+				)
+				( pin "vout1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.1" )
+				)
+				( pin "vout2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "U3.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i168"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H60"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "20"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "16V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E024768"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-4000,5850)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-1UF,16V,20,E024768,C0805H60-C0805H60"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C16"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C16"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C16" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C16.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C16.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i178"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-9400,5150)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C9"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C9"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C9" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C9.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C9.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i181"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-10000,5150)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C7"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C7"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C7" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C7.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C7.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i182"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-10600,5150)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C6"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C6"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C6" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C6.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C6.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i185"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-10000,4450)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C8"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C8"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C8" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C8.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C8.2" )
+				)
+			)
+			( gate "@\02_042340a_lib\.\02_042340a_top\(sch_1):page2_i186"
+				( attribute "CDS_LIB" "capacitors"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LMAN_SYM_OUTLINE" "-50,100,50,-150"
+					( Origin gPackager )
+				)
+				( attribute "JEDEC_TYPE" "C0805H53"
+					( Origin gFrontEnd )
+				)
+				( attribute "PACK_TYPE" "SM"
+					( Origin gFrontEnd )
+				)
+				( attribute "PHYS_PAGE" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINOFF" "PINOFF"
+					( Origin gFrontEnd )
+				)
+				( attribute "PINSWAP" "[N1,N2]"
+					( Origin gFrontEnd )
+				)
+				( attribute "PSPICETEMPLATE" "C^@REFDES %N1 %N2 ?TOL|C^@REFDES| @VALUE ?TOL|\N.MODEL C^@REFDES CAP C=1 DEV=@TOL%|"
+					( Origin gFrontEnd )
+				)
+				( attribute "ROT" "0"
+					( Origin gFrontEnd )
+				)
+				( attribute "TOL" "10"
+					( Origin gFrontEnd )
+				)
+				( attribute "VALUE" "0.1UF"
+					( Origin gFrontEnd )
+				)
+				( attribute "VER" "2"
+					( Origin gFrontEnd )
+				)
+				( attribute "VOLTAGE" "25V"
+					( Units "uVoltage" "V" 1.000000)
+					( Origin gFrontEnd )
+				)
+				( attribute "WW_PN" "E012855"
+					( Origin gFrontEnd )
+				)
+				( attribute "XY" "(-11250,5150)"
+					( Origin gFrontEnd )
+				)
+				( attribute "CHIPS_PART_NAME" "CAP"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_PHYS_PART_NAME" "CAP_SM-0.1UF,25V,10,E012855,C0805H53-C0805H53"
+					( Origin gPackager )
+				)
+				( attribute "CDS_LOCATION" "C5"
+					( Origin gPackager )
+				)
+				( attribute "LOCATION" "C5"
+					( Origin gPackager )
+				)
+				( attribute "CDS_SEC" "1"
+					( Origin gPackager )
+				)
+				( attribute "SEC" "1"
+					( Origin gPackager )
+				)
+				( objectStatus "C5" )
+				( pin "n1"
+					( attribute "PN" "1"
+						( Origin gPackager )
+					)
+					( objectStatus "C5.1" )
+				)
+				( pin "n2"
+					( attribute "PN" "2"
+						( Origin gPackager )
+					)
+					( objectStatus "C5.2" )
+				)
+			)
+		)
+	)
+)
