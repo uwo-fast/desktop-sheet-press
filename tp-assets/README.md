@@ -1,8 +1,8 @@
-# LEGAL DISCLAIMER AND LIMITATION OF LICENSING FOR "ASSETS-TP" DIRECTORY
+# LEGAL DISCLAIMER AND LIMITATION OF LICENSING FOR "TP-ASSETS" DIRECTORY
 
 
 ## SCOPE OF DISCLAIMER
-This "assets-tp" folder is a directory of various third-party materials — software, digital files, and other intellectual properties (hereafter "Assets"). This disclaimer serves as notice that the intellectual property rights governing these Assets are distinctly separate from the GNU General Public License v3.0 (the "Primary License") that applies to the remainder of this repository.
+This "tp-assets" folder is a directory of various third-party materials — software, digital files, and other intellectual properties (hereafter "Assets"). This disclaimer serves as notice that the intellectual property rights governing these Assets are distinctly separate from the GNU General Public License v3.0 (the "Primary License") that applies to the remainder of this repository.
 
 
 
