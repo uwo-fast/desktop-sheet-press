@@ -6,7 +6,7 @@ The Open Source Sheet Press is a mechanical device engineered for converting pla
 
 ### About the FAST Research Group
 
-The Free Appropriate Sustainable Technology (FAST) research group, led by Professor Joshua Pearce, is based at Western University and focuses on driving sustainability innovations. Western is ranked among the top 1% of global universities and #3 in the world for sustainability. The group works on a myriad of projects ranging from solar photovoltaic technology to open-source hardware, contributing to Western's efforts toward the United Nations Sustainable Development Goals (SDGs).
+The Free Appropriate Sustainable Technology (FAST) research group, led by Professor Joshua Pearce, is based at Western University and focuses on driving sustainability innovations. The group works on a myriad of projects ranging from solar photovoltaic technology to alternative food to open-source hardware to distributed recycling and additive manufacturing (DRAM).
 
 This Open Source Sheet Press project is an initiative led by the FAST group, aligning with our broader goals of sustainable development and open-source technology. We are focused on developing solutions that not only contribute to recycling and sustainable manufacturing but also push the boundaries of what's possible through continuous research and innovation.
 
