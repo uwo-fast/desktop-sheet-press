@@ -1,23 +1,32 @@
-# open-source-cold-and-hot-sheet-press
+# Open Source Sheet Press: General Overview
 
 ## Description
 
-The Open Source Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Taking inspiration from existing models such as Precious Plastics, this platform is designed with the principles of adaptability, efficiency, and sustainability in mind.
+The Open Source Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles.
 
 ## Key Features
 
-1. **Adaptability**: Engineered to accommodate a variety of plastic materials.
-2. **Scalability**: Modular design allows for scalability to suit various production requirements.
-3. **Efficiency**: Streamlined operations to minimize energy usage and production time.
+1. **Adaptability**: Engineered to work with a diverse range of plastic materials.
+2. **Scalability**: Modular design allows for easy scaling to meet various production needs.
+3. **Flexibility**: Utilizes open-source and off-the-shelf components, with comprehensive documentation and multiple system topologies for customization.
 
 ## General Applications
 
-1. **Material Recycling**: Facilitates the conversion of plastic waste into reusable sheets.
-2. **Product Manufacturing**: Suitable for the production of flat plastic components for various applications.
-3. **Research and Development**: Provides a testbed for experimenting with material properties and production methods.
+1. **Material Recycling**: Transforms plastic waste into reusable sheets.
+2. **Product Manufacturing**: Ideal for the production of flat plastic components across various applications.
+3. **Research and Development**: Serves as a testbed for material properties and novel production methods.
+
+## Future Directions
+
+1. **5x5' Canadian Standardized Sheet Press**: Aiming for completion between Q4 2023 and Q1 2024, this version will meet industrial standards within the province of Ontario.
+2. **Expanding System Topologies**: Work is ongoing to offer more system variations based on desired specifications and features.
+3. **Vacuum Forming Integration**: Plans to incorporate vacuum forming capabilities, expanding the range of products that can be manufactured from the recycled plastic sheets.
+4. **Automation and Industry 4.0**: Future iterations will focus on integrating smart technologies for autonomous operation, real-time data analytics, and IoT capabilities.
+5. **Comprehensive Sourcing**: Plans to provide sourcing information tailored to various locales, considering regional regulations, standards, and availability.
+6. **Reengineering High-Cost Components**: Long-term goal to redesign non-open-source and expensive components to meet required standards and certifications.
 
 ## Repository Structure
 
-This repository will contain multiple iterations and variations of the sheet press, serving as a living document for ongoing development and improvements.
+This repository will include multiple iterations and variations of the sheet press, acting as a living document for continuous development and enhancements.
 
 For detailed documentation, consult the respective folders and files within this repository.
