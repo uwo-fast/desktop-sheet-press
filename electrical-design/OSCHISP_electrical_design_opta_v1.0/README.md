@@ -45,7 +45,7 @@ IEC --> Code defined by IEC 81346 norm.
 
 X   --> Alphanumeric code corresponding to the following coding:
 
-    B: 240 V AC
+    B: 208 V AC
 
     C: 24 V AC
 
@@ -57,13 +57,13 @@ X   --> Alphanumeric code corresponding to the following coding:
 
 XX  -->  Installation or functional unit to which the cable belongs (schema where the cable can be found).
 
-    001: Mechanical
+    M: Mechanical
 
-    002: Power
+    P: Power
 
-    003: Hardware
+    H: Hardware
     
-    004: Controls
+    C: Controls
 
     …
 
