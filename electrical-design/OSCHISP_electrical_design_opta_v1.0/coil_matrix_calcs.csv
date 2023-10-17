@@ -1,0 +1,15 @@
+Coil Wattage,Coil Voltage,Coil Resistance,
+1500,240,=(B2^2)*SQRT(3)/A2,
+,,,
+Cells,Groups,Cells / Group,Plates
+24,6,=A5/B5,2
+,,,
+Source Voltage,,,
+240,,,
+,,,
+Cells-in-Series / Group,1,2,4
+Power / Group,=($A$8^2)/($C$2*B10)*($C$5/B10),=($A$8^2)/($C$2*C10)*($C$5/C10),=($A$8^2)/($C$2*D10)*($C$5/D10)
+Power / Plate,=B11*$B$5,=C11*$B$5,=D11*$B$5
+Total Power,=B12*$D$5,=C12*$D$5,=D12*$D$5
+Total Current,=B13/$A$8,=C13/$A$8,=D13/$A$8
+Source Current Rating (20%),=B14*1.2,=C14*1.2,=D14*1.2
