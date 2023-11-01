@@ -1,8 +1,8 @@
-# Open Source Sheet Press: General Overview
+# Open Source Scientidic Sheet Press: General Overview
 
 ## Description
 
-The Open Source Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles.
+The Open Source Scientific Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles.
 
 ### About the FAST Research Group
 
