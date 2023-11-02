@@ -34,9 +34,6 @@
 *.sav
 *.plg
 *.gbr_job
-*.kicad_prl
-*.kicad_pro
-*.kicad_wks
 
 # Arduino
 *.o
@@ -62,11 +59,3 @@
 *.VC.db
 *.VC.VC.opendb
 
-# Common Image Types
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.tiff
-*.ico
