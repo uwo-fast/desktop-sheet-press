@@ -5,14 +5,17 @@
 
 // Initialization and Setup
 // Define Chip Select pins and I2C pins for MAX31855s
-#define CS1 5
-#define CLK 6
-#define CS2 7
-#define DO 8
+#define CS1 6
+#define CLK1 5
+#define DO1 7
+
+#define CS2 10
+#define CLK2 9
+#define DO2 8
 
 // Initializing thermocouples 1 and 2
-Adafruit_MAX31855 thermocouple1(CLK, CS1, DO);
-Adafruit_MAX31855 thermocouple2(CLK, CS2, DO);
+Adafruit_MAX31855 thermocouple1(CLK1, CS1, DO1);
+Adafruit_MAX31855 thermocouple2(CLK2, CS2, DO2);
 
 // Initializing the setup error flags
 bool tcInitFlag1 = false;
@@ -24,6 +27,9 @@ uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0};
 // Define pins for SSRs
 #define SSR1 11 // 14 //A0
 #define SSR2 12 // 15 //A1
+// Initialize an array with the SSR pin numbers
+int SSRn[] = {SSR1, SSR2};
+
 // Flags for light error check
 bool ssrInitFlag1 = false;
 bool ssrInitFlag2 = false;
@@ -57,6 +63,7 @@ double consKp=aggKp/Cp, consKi=aggKi/Ci, consKd=aggKd/Cd; // Conservative PID Tu
 
 double gapThres = 5;  // Gap threshold for the dynamic tunings
 
+
 // PID object setup for both thermocouples
 
 // PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, P_ON_M, DIRECT);
@@ -64,7 +71,7 @@ double gapThres = 5;  // Gap threshold for the dynamic tunings
 PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, DIRECT);
 PID myPID2(&Input2, &Output2, &Setpoint, consKp, consKi, consKd, DIRECT);
 
-// Serial print interval settings 
+// Serial print interval settings ???!!?!???!????!
 unsigned long serialPrintStart = 0;
 const unsigned long serialPrintInterval = 1000;
 
@@ -114,27 +121,7 @@ void checkSSR(int ssrNum) {
   }
 }
 
-const int bufferSize = 100; // Adjust as needed
-volatile double currentReadings[bufferSize];
-volatile double voltageReadings[bufferSize];
-int bufferIndex = 0;
-double currentScaleFactor = 1.0; // Adjust based on calibration
-double voltageScaleFactor = 1.0; // Adjust based on calibration
-double accumulatedEnergy = 0.0; // Accumulated energy in Joules
-double powerReadings[bufferSize];
-unsigned long lastEnergyUpdate = 0; // Timestamp of the last energy update
-double avgCurrent = 0.0;
-double avgVoltage = 0.0;
-
-ISR(TIMER1_COMPA_vect) {
-  currentReadings[bufferIndex] = analogRead(A2);
-  voltageReadings[bufferIndex] = analogRead(A3);
-  Serial.print(currentReadings[bufferIndex]);
-  Serial.print (",");
-  Serial.print(voltageReadings[bufferIndex]);
-  Serial.print (",");
-  bufferIndex = (bufferIndex + 1) % bufferSize;
-}
+// ISR for power!!!
 
 // Setup Main
 void setup() {
@@ -144,7 +131,7 @@ void setup() {
   // Initialize serial communication at 9600 baud rate
   Serial.begin(9600);  // max is prob 115200
   delay(500);
-    
+
   // Timer1.initialize(1000);
   // Timer1.attachInterrupt(timerIsr); 
 
@@ -174,17 +161,6 @@ void setup() {
   myPID1.SetOutputLimits(10*2.55, 255);
   myPID2.SetOutputLimits(10*2.55, 255);
 
-  // Set up Timer1 for 1000 Hz interrupts
-  noInterrupts();           // Disable interrupts while setting up
-  TCCR1A = 0;               // Set entire TCCR1A register to 0
-  TCCR1B = 0;               // Same for TCCR1B
-  TCNT1  = 0;               // Initialize counter value to 0
-  OCR1A = 15999;            // Set compare match register for 1000 Hz increments
-  TCCR1B |= (1 << WGM12);   // Turn on CTC mode
-  TCCR1B |= (1 << CS10);    // Set CS10 bit for no prescaling
-  TIMSK1 |= (1 << OCIE1A);  // Enable timer compare interrupt
-  interrupts();             // Enable interrupts
-
   delay(suDelay);
 }
 
@@ -195,18 +171,19 @@ void setup() {
 
 // ------------------------------------------------------
 // LOOP -------------------------------------------------
-//
+//// ------------------------------------------------------
+
 void loop() {
   
-  int tempConditionMet = 0;
-  bool processDone = false;
-  double lastSetTemp = 0;
+int tempConditionMet = 0;
+bool processDone = false;
+double lastSetTemp = 0;
 
-  // Process buffer readings
-  processReadings();
+  // Process buffer readings for power ISR
+  //processReadings();
 
-  // Calculate and accumulate energy
-  calculateEnergy();
+  // Calculate and accumulate energy for power ISR
+  //calculateEnergy();
 
   // Check if it has been 20 milliseconds since the last update
   currentMillis = millis();
@@ -234,9 +211,10 @@ void loop() {
     myPID2.Compute();
 
     // Implement slow PWM for SSR control
-    slowPWM(SSR1, cycleStart1, period, Output1);
-    slowPWM(SSR2, cycleStart2, period, Output2);
-
+    //slowPWM(SSR1, cycleStart1, period, Output1);
+    //slowPWM(SSR2, cycleStart2, period, Output2);
+    sharedSlowPWM(SSR1, SSR2, cycleStart1, period, Output1, Output2);
+  
     // Print thermocouple data and errors
     printSerialData();
 
@@ -290,6 +268,52 @@ void slowPWM(int SSRn, unsigned long& cycleStart, double period, double output) 
   }
 }
 
+void sharedSlowPWM(int SSRn1, int SSRn2, unsigned long& cycleStart, double period, double output1, double output2) {
+  // Get current time in milliseconds
+  unsigned long currentMillis = millis();
+
+  // Calculate the individual duty cycles
+  double dutyCycle1 = output1 / 255.0;
+  double dutyCycle2 = output2 / 255.0;
+
+  // Adjust duty cycles to ensure the sum does not exceed 100%
+  if (dutyCycle1 + dutyCycle2 > 1.0) {
+    double scale = 1.0 / (dutyCycle1 + dutyCycle2);
+    dutyCycle1 *= scale;
+    dutyCycle2 *= scale;
+  }
+
+  // Calculate the on times for each SSR
+  unsigned long onTime1 = period * dutyCycle1;
+  unsigned long onTime2 = period * dutyCycle2;
+
+  // Calculate the switching points in the cycle
+  unsigned long switchPoint1 = cycleStart + onTime1;
+  unsigned long switchPoint2 = switchPoint1 + onTime2;
+
+  // Control SSR1
+  if (currentMillis >= cycleStart && currentMillis < switchPoint1) {
+    digitalWrite(SSRn1, HIGH);
+    digitalWrite(SSRn2, LOW);
+  } 
+  // Control SSR2
+  else if (currentMillis >= switchPoint1 && currentMillis < switchPoint2) {
+    digitalWrite(SSRn1, LOW);
+    digitalWrite(SSRn2, HIGH);
+  } 
+  // Both SSRs off
+  else {
+    digitalWrite(SSRn1, LOW);
+    digitalWrite(SSRn2, LOW);
+  }
+
+  // Reset the cycle start time if the period has completed
+  if (currentMillis - cycleStart >= period) {
+    cycleStart = currentMillis;
+  }
+}
+
+
 // Function to check if temperature readings are NaN and perform error handling
 void checkIsnan(double& temp1, double& temp2) {
   // Read error flags from thermocouple 1 and generate error code
@@ -330,6 +354,7 @@ void dynamicTuning() {
   }
 }
 
+/*
 void processReadings() {
   double totalCurrent = 0.0;
   double totalVoltage = 0.0;
@@ -356,7 +381,7 @@ void calculateEnergy() {
     accumulatedEnergy += instantaneousPower * timeInterval;
     lastEnergyUpdate = currentTime;
 }
-
+*/
 
 // Functon to allow serial navigation and control
 void handleSerialCommands() {
@@ -429,8 +454,8 @@ void printSerialData() {
     Serial.print((float)processTime / 1000 / 60);
     Serial.print(", dt: ");
     Serial.print((float)processDuration / 1000 / 60);
-    Serial.print(", nrg: ");
-    Serial.print(accumulatedEnergy / 1000);    
+    //Serial.print(", nrg: ");
+    //Serial.print(accumulatedEnergy / 1000);    
     Serial.print(", aggKp: ");
     Serial.print(aggKp);
     Serial.print(", aggKi: ");
