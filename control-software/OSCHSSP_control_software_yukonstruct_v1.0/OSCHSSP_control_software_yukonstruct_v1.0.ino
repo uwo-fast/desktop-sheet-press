@@ -35,7 +35,7 @@ bool ssrInitFlag1 = false;
 bool ssrInitFlag2 = false;
 
 // Define period and duty cycle for SSR control
-const unsigned long period = 1*1000; 
+const unsigned long period = 7*1000; 
 unsigned long cycleStart1 = 0;
 unsigned long cycleStart2 = 0;
 
