@@ -1999,13 +1999,6 @@
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
-  (global_label "SDA" (shape input) (at 52.07 165.1 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid 60010886-717d-410f-bba0-e1a4492fd814)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 45.5167 165.1 0)
-      (effects (font (size 1.27 1.27)) (justify right) hide)
-    )
-  )
   (global_label "SPI_CS1" (shape input) (at 120.65 127 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 63f109d1-0355-448e-a5c2-13a02800f4e3)
@@ -2053,13 +2046,6 @@
     (uuid aaeff8bf-c984-45a9-aa04-98e323a339d0)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 147.6253 71.12 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
-  (global_label "SCL" (shape input) (at 52.07 167.64 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid adde29a6-0016-426c-ac9d-792de4d92aac)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 45.5772 167.64 0)
-      (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
   (global_label "SPI_SCL" (shape input) (at 96.52 222.25 270) (fields_autoplaced)
@@ -2158,7 +2144,7 @@
     (pin "1" (uuid 1c2287a7-165b-4376-bfbd-623ef793f55b))
     (pin "2" (uuid b14c467f-5d23-485c-995f-0da3e2bcbb78))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "TC1") (unit 1)
         )
@@ -2187,7 +2173,7 @@
     (pin "S1" (uuid 56cc8e3a-3c7e-49f9-9de1-72697c39eb98))
     (pin "S2" (uuid 4aeadcee-9569-4942-a26e-6ddc0b1de31e))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "SW2") (unit 1)
         )
@@ -2230,7 +2216,7 @@
     (pin "4" (uuid a916fe4d-9481-4bfa-b1c0-8fb9594cf283))
     (pin "5" (uuid 3d9cc3b2-ce76-4070-9488-a19cf732235e))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "PS1") (unit 1)
         )
@@ -2256,7 +2242,7 @@
     (pin "1" (uuid 792e4e0b-b924-422b-9b87-4d2b48d57d1f))
     (pin "2" (uuid 52cfc785-8f48-44ca-8383-4e0fcfd75b27))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R7") (unit 1)
         )
@@ -2281,7 +2267,7 @@
     )
     (pin "1" (uuid 1c517812-3263-454e-874a-22b73cf7a92c))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#EARTH0101") (unit 1)
         )
@@ -2309,7 +2295,7 @@
     (pin "3" (uuid a3613f58-3fbf-40dc-82b9-a885fd985399))
     (pin "4" (uuid a6cb20fc-ecb5-4e7f-9b5c-fcf85ca57cc5))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "J2") (unit 1)
         )
@@ -2335,7 +2321,7 @@
     (pin "1" (uuid 82137104-1a0f-4b8a-9328-ec5d311d209e))
     (pin "2" (uuid fb75c0b5-6c35-4969-8fa6-444d1306e888))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R1") (unit 1)
         )
@@ -2361,7 +2347,7 @@
     (pin "1" (uuid 5333ca4e-a256-4df5-bf14-1d05347cc73e))
     (pin "2" (uuid c172db46-6f12-408e-aaa1-a7cf33a7ab9e))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "TC2") (unit 1)
         )
@@ -2397,7 +2383,7 @@
           (reference "U1") (unit 1)
         )
       )
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "U4") (unit 1)
         )
@@ -2425,7 +2411,7 @@
     (pin "A1" (uuid 5f03ae72-7eb0-4839-89c3-cd684ed717c3))
     (pin "A2" (uuid d01e9916-c5d9-470f-8bba-5e8714575575))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "U1") (unit 1)
         )
@@ -2461,7 +2447,7 @@
           (reference "U1") (unit 1)
         )
       )
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "U3") (unit 1)
         )
@@ -2486,7 +2472,7 @@
     )
     (pin "1" (uuid 53bb492b-59f0-45bc-bfd2-c02eb55643c1))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR05") (unit 1)
         )
@@ -2511,7 +2497,7 @@
     )
     (pin "1" (uuid 8ba7438e-e4fb-49f4-b117-cf06f81643d5))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR014") (unit 1)
         )
@@ -2536,7 +2522,7 @@
     )
     (pin "1" (uuid 25ec691c-8595-400a-87c6-85bfaf24937e))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#NEUTRAL03") (unit 1)
         )
@@ -2561,7 +2547,7 @@
     )
     (pin "1" (uuid 61dfb6d3-b658-4a9e-96d3-68b27ef83445))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR01") (unit 1)
         )
@@ -2586,7 +2572,7 @@
     )
     (pin "1" (uuid 41b9a085-67f1-4112-a4dc-dfec4896e6f2))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#NEUTRAL0103") (unit 1)
         )
@@ -2611,7 +2597,7 @@
     )
     (pin "1" (uuid 38ef1aba-3850-4850-8698-a419da698b16))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR016") (unit 1)
         )
@@ -2636,7 +2622,7 @@
     )
     (pin "1" (uuid 49d580cf-796c-418b-862c-e19218f32e42))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#EARTH0102") (unit 1)
         )
@@ -2661,7 +2647,7 @@
     )
     (pin "1" (uuid 17cf6ca8-f219-4169-8589-14a175d50167))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#120V0101") (unit 1)
         )
@@ -2687,7 +2673,7 @@
     (pin "1" (uuid ba76f7b8-cc3c-4e20-a848-93bb0b428342))
     (pin "2" (uuid 2ba45a8d-110f-4cfb-bf90-29108d43a847))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R5") (unit 1)
         )
@@ -2712,7 +2698,7 @@
     )
     (pin "1" (uuid 3fb944e4-969b-434c-be00-9513e714c26e))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR019") (unit 1)
         )
@@ -2738,7 +2724,7 @@
     (pin "1" (uuid d379ec4c-109d-4603-b234-2d9bbee6e209))
     (pin "2" (uuid c79a4eb3-72c7-4c06-bce4-aaae37dc18ed))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "SW1") (unit 1)
         )
@@ -2763,7 +2749,7 @@
     )
     (pin "1" (uuid 88c7708d-b176-44fe-91ad-310c382c482f))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#NEUTRAL0101") (unit 1)
         )
@@ -2788,7 +2774,7 @@
     )
     (pin "1" (uuid 357728b9-3326-4f21-abc4-a7ad60e78d53))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR013") (unit 1)
         )
@@ -2813,7 +2799,7 @@
     )
     (pin "1" (uuid e7516799-b30b-4be6-a26e-3348b42dfb03))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR03") (unit 1)
         )
@@ -2839,7 +2825,7 @@
     (pin "1" (uuid 4fa8cc06-4fb8-46f5-9136-6fcb58919913))
     (pin "2" (uuid 9a0dd0de-18f6-4098-96ae-e673c048463b))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R3") (unit 1)
         )
@@ -2865,37 +2851,9 @@
     (pin "1" (uuid 0853145c-65e0-47f3-b7eb-30b4950c973a))
     (pin "2" (uuid 813c587d-772d-4685-8dbd-8148fda9b02a))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R6") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Connector_Generic:Conn_01x04") (at 57.15 170.18 0) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid a38d29df-295c-45dc-919a-1664e81cfbf0)
-    (property "Reference" "J3" (at 50.8 158.75 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "SD-I2C" (at 52.07 161.29 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Horizontal" (at 57.15 170.18 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 57.15 170.18 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid c41bc25e-a269-481a-8d7b-bbfbe646795e))
-    (pin "2" (uuid 0f4f8187-eb37-47d2-aec5-f41837fb18b9))
-    (pin "3" (uuid 546c1372-bee0-455a-86e4-173e0c496def))
-    (pin "4" (uuid 31a017c0-93ae-4ba0-bea3-de5d3ae57710))
-    (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
-        (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
-          (reference "J3") (unit 1)
         )
       )
     )
@@ -2919,34 +2877,9 @@
     (pin "1" (uuid 223411c2-104d-490a-a1a2-dfd7ad313db2))
     (pin "2" (uuid 577ead6d-dfe0-4da1-86d2-5749d9e35583))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "CB1") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:+3.3V") (at 52.07 170.18 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid b250afee-c8ea-4260-9473-27921e9fffb4)
-    (property "Reference" "#PWR020" (at 55.88 170.18 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+3.3V" (at 48.26 170.18 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "" (at 52.07 170.18 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 52.07 170.18 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 22e741c4-ac5b-4c79-8d3a-9223dbb1a1af))
-    (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
-        (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
-          (reference "#PWR020") (unit 1)
         )
       )
     )
@@ -2969,7 +2902,7 @@
     )
     (pin "1" (uuid 6bb12fdb-1176-4d92-a58c-799b3faf634f))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR04") (unit 1)
         )
@@ -2999,7 +2932,7 @@
           (reference "#PWR?") (unit 1)
         )
       )
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR06") (unit 1)
         )
@@ -3029,7 +2962,7 @@
           (reference "#PWR?") (unit 1)
         )
       )
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR02") (unit 1)
         )
@@ -3056,7 +2989,7 @@
     (pin "2" (uuid b83e6e88-574f-45a7-b4e1-ab23f3bf79c4))
     (pin "3" (uuid 89ba466a-2cc8-4ef6-89dc-abe03f57464c))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "J1") (unit 1)
         )
@@ -3081,7 +3014,7 @@
     )
     (pin "1" (uuid dcc932db-6a28-4247-8d78-4411ba8a7af6))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#NEUTRAL0102") (unit 1)
         )
@@ -3106,7 +3039,7 @@
     )
     (pin "1" (uuid bcd43961-f4ef-4616-9cad-1d33caaa7873))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR022") (unit 1)
         )
@@ -3131,7 +3064,7 @@
     )
     (pin "1" (uuid 2963d465-15d0-45b4-ab01-72134c2d7c7b))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR015") (unit 1)
         )
@@ -3156,7 +3089,7 @@
     )
     (pin "1" (uuid 677afd1f-8fc9-4cbb-8984-c55b690ec7d9))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR023") (unit 1)
         )
@@ -3182,7 +3115,7 @@
     (pin "1" (uuid 7d09cc27-0ba9-4b75-8247-08ba8d3e30e1))
     (pin "2" (uuid af6b6a3c-3fc7-4cfc-9f65-91089b92953b))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R8") (unit 1)
         )
@@ -3210,7 +3143,7 @@
     (pin "A1" (uuid 133bf1b8-de90-4705-8728-d0b2664d58db))
     (pin "A2" (uuid 0a36d726-f132-4394-9ed3-54a7d3f17a4d))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "U2") (unit 1)
         )
@@ -3264,7 +3197,7 @@
     (pin "8" (uuid 9a330e26-b83e-4fe4-b1b7-caeb861f255a))
     (pin "9" (uuid f4fe1d5c-fff2-475b-9e2c-1213634e719a))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "A1") (unit 1)
         )
@@ -3290,7 +3223,7 @@
     (pin "1" (uuid d2582f2e-285c-434e-b9ea-3c62be79ad9c))
     (pin "2" (uuid c85bc1e9-0314-4133-bd8a-d16b57bf8788))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R2") (unit 1)
         )
@@ -3315,7 +3248,7 @@
     )
     (pin "1" (uuid 76cd8041-241a-4cfe-bec0-89b2b482d3f2))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR07") (unit 1)
         )
@@ -3341,7 +3274,7 @@
     (pin "1" (uuid 172b2587-29e4-4c9c-b944-be244b7f57d1))
     (pin "2" (uuid fe164bf8-afa3-4e9d-b4ad-7364dab9788d))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "R4") (unit 1)
         )
@@ -3366,7 +3299,7 @@
     )
     (pin "1" (uuid dc369c98-3b31-4feb-b4bc-1eec6e1fb47b))
     (instances
-      (project "OSCHSSP_electrical_design_surculus_v1.0"
+      (project "OSCHSSP_electrical_design_prudentia_v1.0"
         (path "/f3244e01-0a2b-4935-845d-015155f95ee4"
           (reference "#PWR018") (unit 1)
         )
