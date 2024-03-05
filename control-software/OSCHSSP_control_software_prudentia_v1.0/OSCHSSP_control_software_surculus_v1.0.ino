@@ -31,29 +31,25 @@ const int EEPROM_MAX_ADDR = 511;
 long lastVirtualPosition = 0;
 uint8_t selectedMenu = 0;
 uint8_t State = MAIN_SCREEN;
-uint8_t lastBatterVoltage = 0;
-uint16_t lastWeldCount = 0, lastPulseDelay = 0;
+uint8_t setTemp_1 = 0;
+uint8_t setTemp_2 = 0;
+uint8_t setTemp_2 = 0;
+uint16_t lastProcessCount = 0, lastSetTemp = 0;
 
-uint8_t BatteryVoltage = 124;
 
 typedef struct AllData{
 	uint8_t delay;
-	uint8_t batteryAlarm;
-	uint16_t weldCount;
-	uint16_t pulseDelay;
-	uint8_t shortPulse;
-	uint8_t autoPulse;
+	uint8_t failureAlarms;
+	uint16_t processCount;
 
 }allData;
 
 allData gAllData;
 
 uint8_t Delay 				= 20;
-uint8_t BatteryAlarm 	= 110;
-uint16_t WeldCount 		= 0;
-uint16_t PulseDelay 	= 5;
-uint8_t ShortPulse 		= 12;
-uint8_t AutoPulse 		= 1;
+uint8_t FailureAlarms 	= 0;
+uint16_t ProcessCount 		= 0;
+
 
 long VirtualPosition = 0;
 static unsigned long lastInterruptTime = 0;
@@ -190,20 +186,31 @@ void eepromSetup() {
 	eepromReset();
 	
 	Delay					=		gAllData.delay 				;
-	BatteryAlarm	=		gAllData.batteryAlarm ;
-	WeldCount			=		gAllData.weldCount 		;
-	PulseDelay		=		gAllData.pulseDelay 	;
-	ShortPulse		=		gAllData.shortPulse		;
-	AutoPulse			=		gAllData.autoPulse		;
+	BatteryAlarm	=		gAllData.failureAlarms ;
+	WeldCount			=		gAllData.processCount 		;
 
 	Serial.println(gAllData.delay);
-	Serial.println(gAllData.batteryAlarm);
-	Serial.println(gAllData.weldCount);
-	Serial.println(gAllData.pulseDelay);
-	Serial.println(gAllData.shortPulse);
-	Serial.println(gAllData.autoPulse);
+	Serial.println(gAllData.failureAlarms);
+	Serial.println(gAllData.processCount);
+
 }
 
+void updateEeprom(){
+	byte tmpArraEe[10],tmp2ArrEe[10];
+	if( gAllData.delay != Delay || \
+			gAllData.failureAlarms != FailureAlarms || \
+			gAllData.processCount != ProcessCount || ){
+		
+		gAllData.delay 					= Delay;
+		gAllData.failureAlarms 	= FailureAlarms;
+		gAllData.processCount 			= ProcessCount;
+
+		
+		memcpy(tmp2ArrEe, &gAllData,8);
+		eeprom_write_bytes(0,tmp2ArrEe,8);
+		Serial.println("Updated eeprom");	
+	}
+}
 
 
 // Setup Main
@@ -245,6 +252,8 @@ void setup() {
   myPID1.SetOutputLimits(10*2.55, 255);
   myPID2.SetOutputLimits(10*2.55, 255);
 
+  eepromSetup();
+
   delay(suDelay);
 }
 
@@ -262,9 +271,9 @@ void loop() {
   bool processDone = false;
   double lastSetTemp = 0;
 
-	StateMachine();
-	CheckForSleep();
-	updateEeprom();
+  StateMachine();
+  CheckForSleep();
+  updateEeprom();
 
   // Check if it has been 20 milliseconds since the last update
   currentMillis = millis();
