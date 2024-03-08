@@ -1,8 +1,8 @@
-# LEGAL DISCLAIMER AND LIMITATION OF LICENSING FOR "TP-ASSETS" DIRECTORY
+# LEGAL DISCLAIMER AND LIMITATION OF LICENSING FOR "EXTERNAL-ASSETS" DIRECTORY
 
 
 ## SCOPE OF DISCLAIMER
-This "tp-assets" folder is a directory of various third-party materials — software, digital files, and other intellectual properties (hereafter "Assets"). This disclaimer serves as notice that the intellectual property rights governing these Assets are distinctly separate from the GNU General Public License v3.0 (the "Primary License") that applies to the remainder of this repository.
+This "external-assets" folder is a directory of various third-party materials — software, digital files, and other intellectual properties (hereafter "Assets"). This disclaimer serves as notice that the intellectual property rights governing these Assets are distinctly separate from the GNU General Public License v3.0 (the "Primary License") that applies to the remainder of this repository.
 
 
 
@@ -10,7 +10,7 @@ This "tp-assets" folder is a directory of various third-party materials — soft
 The Primary License does not extend to the Assets within this directory. Intellectual property rights of each Asset are held by their respective legal owner(s), who reserve all rights not explicitly granted. The inclusion of these Assets within this repository should not be construed as an implicit grant of rights, license, or privileges pertaining to said Assets.
 
 
-## MANDATORY ATTRIBUTION
+## ATTRIBUTION
 For each Asset, an `attribution.txt` document is be available in the respective directory. This document identifies the Asset's original source and, if available, its legal owner, along with any known or asserted intellectual property rights or usage limitations.
 
 
