@@ -41,9 +41,6 @@
  *
  *//***********************************************************************************************/
 
-// General macros
-#define str(s)              #s
-#define xstr(s)             str(s)
 
 // Most of these macros define strings that appear on the splash screen during set up 
 // (each line of the splash screen is limited to 16 characters)
@@ -60,9 +57,12 @@
 /***************************************************************************************************
 * User Configuration                                                                               *
 ***************************************************************************************************/
-
-#define _LANG_EN_                           /**< Language:  _LANG_EN/DE/FR/ES/IT_ */
-#define _SERIAL_BAUD_       115200          /**< Comms rate for serial */
+// Uncomment the below line to enable development mode for use without GUI
+// #define _DEVELOPMENT_                /**< Allows printing of to serial for development*/
+// Uncomment the below line to enable boot to system menu for testing, currently only for manual eeprom reset
+// #define _BOOTSYS_                           /**< Force boot to system menu for testing */
+#define _LANG_EN_                       /**< Language:  _LANG_EN/DE/FR/ES/IT_ */
+#define _SERIAL_BAUD_       115200      /**< Comms rate for serial, maximum before it got dicey was 115200*/
 
 /***************************************************************************************************
 * Pin and interrupt definitions                                                                    *
@@ -83,21 +83,53 @@
 * Macros                                                                                           *
 ***************************************************************************************************/
 // Defaults for operational variables
-#define DEF_TEMP_GAP_ALARM  65              /**< Default high temperature */
-#define DEF_TEMP_GAP_ALARM  65              /**< Default high temperature */
-#define DEF_OLED_INVERT     false           /**< Default OLED orientation */ 
+#define DEF_TEMP_RUNA_ALARM_1  false              /**< Default temperature 1 gap flag
+#define DEF_TEMP_RUNA_ALARM_2  false              /**< Default temperature 1 gap flag
+#define DEF_TEMP_RUNA_DELTA  30              /**< Default temperature gap in C */
+#define DEF_TEMP_RUNA_CYCLES  20              /**< Default number of allowed active temperature gap cycles */
+#define DEF_SET_TEMP         150              /**< Default set temperature in C */
+#define DEF_CONTROL_PERIOD   1000             /**< Default control period (ms) */
+#define DEF_PROCESS_INTERVAL 10             /**< Default process interval (ms) */
+#define DEF_PROCESS_DURATION 5.0 * 60 * 1000; /** <format is for illustrative effect, e.g. 1.0*1000*60*60 = 1 minute
+#define DEF_SERIAL_PRINT_INTERVAL 1000       /**< Default serial print interval (ms) */
+#define DEF_KP               1000               /**< Default Proportional milli gain [1.000] */
+#define DEF_KI               0100                /**< Default Integral milli gain [0.100] */
+#define DEF_KD               0020                /**< Default Derivative milli gain [0.020] */
+#define DEF_CP               2                /**< Default Derivative scale constant for dynamic tuning */
+#define DEF_CI               2                /**< Default Integral scale constant for dynamic tuning */
+#define DEF_CD               2                /**< Default Derivative scale constant for dynamic tuning */
+#define DEF_GAP_THRESHOLD    20                /**< Default temperature gap threshold */
 
 // Limits for operational variables
-#define MIN_PULSE_TIME      1               /**< Minimum weld pulse time */
-#define MAX_PULSE_TIME      500             /**< Absolute maximum weld pulse time */
-#define MAX_APULSE_DELAY    50              /**< Maximum auto pulse delay */
-#define MIN_APULSE_DELAY    5               /**< Minimum auto pulse delay */
-#define MAX_SPULSE_TIME     100             /**< Maximum short pulse time */
-#define MIN_SPULSE_TIME     0               /**< Minimum short pulse time */
-#define MAX_BATT_ALARM      120             /**< Maximum low battery alarm voltage */
-#define MIN_BATT_BALARM     74              /**< Minimum low battery alarm voltage */
-#define MAX_BATT_V          200             /**< Absolute maximum battery voltage */
-#define MIN_BATT_V          50              /**< Absolute minimum battery voltage */
+#define MIN_TEMP_RUNA_DELTA 30              /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MAX_TEMP_RUNA_DELTA 30             /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MIN_TEMP_RUNA_CYCLES 20              /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MAX_TEMP_RUNA_CYCLES 20             /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MIN_TEMP            0               /**< Min temperature, thermocouple min is -100C; this would require elements to be removed and additional cooling implementation */
+#define MAX_TEMP            480              /**< Max temperature, thermocouple max is 1100C and max of heaters is 480C */
+#define MIN_CONTROL_PERIOD  500             /**< Minimum control period (ms) */
+#define MAX_CONTROL_PERIOD  5000            /**< Maximum control period (ms) */
+#define MIN_PROCESS_INTERVAL 5              /**< Minimum process interval (ms) */
+#define MAX_PROCESS_INTERVAL 100            /**< Maximum process interval (ms) */
+#define MIN_PROCESS_DURATION (1.0 * 60 * 1000) /**< Minimum process duration in ms (1 minute) */
+#define MAX_PROCESS_DURATION (120.0 * 60 * 1000) /**< Maximum process duration in ms (120 minutes) */
+#define MIN_SERIAL_PRINT_INTERVAL 100       /**< Minimum serial print interval (ms) */
+#define MAX_SERIAL_PRINT_INTERVAL 5000      /**< Maximum serial print interval (ms) */
+#define MIN_KP               0               /**< Minimum Proportional milli gain */
+#define MAX_KP               2000            /**< Maximum Proportional milli gain */
+#define MIN_KI               0               /**< Minimum Integral milli gain */
+#define MAX_KI               500             /**< Maximum Integral milli gain */
+#define MIN_KD               0               /**< Minimum Derivative milli gain */
+#define MAX_KD               100             /**< Maximum Derivative milli gain */
+#define MIN_CP               1               /**< Minimum Derivative scale constant for dynamic tuning */
+#define MAX_CP               5               /**< Maximum Derivative scale constant for dynamic tuning */
+#define MIN_CI               1               /**< Minimum Integral scale constant for dynamic tuning */
+#define MAX_CI               5               /**< Maximum Integral scale constant for dynamic tuning */
+#define MIN_CD               1               /**< Minimum Derivative scale constant for dynamic tuning */
+#define MAX_CD               5               /**< Maximum Derivative scale constant for dynamic tuning */
+#define MIN_GAP_THRESHOLD    5               /**< Minimum temperature gap threshold */
+#define MAX_GAP_THRESHOLD    50              /**< Maximum temperature gap threshold */
+
 
 // Timing macros
 #define STANDBY_TIME_OUT    300000L         /**< Device sleep timeout (ms) */ 
@@ -115,6 +147,7 @@
 #define B_UP                false           /**< General macro for UP state */
 #define PL_ACTIVE_H         false           /**< Pin logic macro for Active High */
 #define PL_ACTIVE_L         true            /**< Pin logic macro for Active Low */
+#define TC_FAULT            false            /**< Thermocouple fault state */
 
 // EEPROM macros
 #define EEA_ID              0               /**< Address of unique ID */
@@ -126,28 +159,18 @@
 /** This macro reads the state of the pushbutton switch on the encoder. */
 #define btnState()          (!digitalRead(PIN_SW))
 
-/** This macro drives the welding pulse. */
-#define weldPulse(state)    digitalWrite(PIN_PULSE,state?HIGH:LOW)
-
-/** Where has this macro gone?? It was in WString.h */
-#define FPSTR(pstr_pointer) (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))               
 
 /***************************************************************************************************
-* OLED Display Configuration                                                                       *
+* Display Configuration                                                                       *
 ***************************************************************************************************/
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-
-#define OLED_RESET          4               /**< OLED mode */
-#define OLED_INVERT         2               /**< OLED defined orientation mode - check OLED doc'n */
 #define SPLASHTIME          2500            /**< Splash screen time (ms) */
 
 
 /***************************************************************************************************
 * Structure, union, and enumerated type definitions                                                *
 ***************************************************************************************************/
-
+// !!!!!!!!!!!!!!!!!!!!!!!
 typedef  enum {                             /**< Type enumerations for format of variables */
          VF_BATTALM,                        /**< Battery alarm voltage */
          VF_TEMPALM,                        /**< Temperature Alarm value */
@@ -159,26 +182,58 @@ typedef  enum {                             /**< Type enumerations for format of
          VF_SHTPLS,                         /**< Short pulse duration */
          VF_DELAY                           /**< Delay */
 } vf_Type;
+// !!!!!!!!!!!!!!!!!!!!!!!
 
 typedef  struct   progData {                /**< Program operating data structure */
-         uint8_t  autoPulseDelay;           /**< Auto-pulse delay (ms/100) */ 
-         uint8_t  batteryAlarm;             /**< Low battery voltage (A/D count) */
-         uint8_t  batteryhighAlarm;         /**< High battery voltage (A/D count) */
-         uint8_t  TCelsius;                 /**< Temperature in Celsius */
-         uint8_t  maxTCelsius;              /**< maximum Temperature in Celsius */
-         uint16_t weldCount;                /**< Count of welds performed */
-         uint16_t pulseTime;                /**< Pulse time (ms) */ 
-         uint16_t maxPulseTime;             /**< Maximum allowed pulse time (ms) */ 
-         uint8_t  shortPulseTime;           /**< Short pulse time (% of pulse time) */ 
-         int8_t   batteryOffset;            /**< Battery voltage calibration offset (signed) x10 */
-         uint16_t  PulseBatteryVoltage;     /**< Battery voltage during pulse x10 */
-         uint16_t  PulseAmps;               /**< esimated Amps during pulse x10 */  
+
+        uint8_t  tempRunAwayDelta;
+        uint8_t  tempRunAwayCycles;
+        uint16_t setTemp;						 /**< Current set temperature */
+        uint16_t controlPeriod;             /**< Control period (ms) */
+        uint16_t processInterval;           /**< Process interval (ms) */
+        uint16_t processDuration;            /**< Process duration (ms) */
+        uint16_t serialPrintInterval;       /**< Serial print interval (ms) */
+        uint16_t  kp;                        /**< Proportional gain */
+        uint16_t  ki;                        /**< Integral gain */
+        uint16_t  kd;                        /**< Derivative gain */
+        uint8_t  cp;                        /**< Derivative constant for dynamic tuning */
+        uint8_t ci;                        /**< Integral constant for dynamic tuning */
+        uint8_t  cd;                        /**< Derivative constant for dynamic tuning */
+        uint8_t gapThreshold;               /**< Temperature gap threshold */
 } progData;
+
+/*
+Fixed-width integer types and their usage:
+
+1. Unsigned integers (only non-negative values):
+   - uint8_t:  8-bit unsigned integer, range 0 to 255.
+   - uint16_t: 16-bit unsigned integer, range 0 to 65,535.
+   - uint32_t: 32-bit unsigned integer, range 0 to 4,294,967,295.
+   - uint64_t: 64-bit unsigned integer, range 0 to 18,446,744,073,709,551,615.
+
+2. Signed integers (positive and negative values):
+   - int8_t:  8-bit signed integer, range -128 to 127.
+   - int16_t: 16-bit signed integer, range -32,768 to 32,767.
+   - int32_t: 32-bit signed integer, range -2,147,483,648 to 2,147,483,647.
+   - int64_t: 64-bit signed integer, range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807.
+
+Benefits of using fixed-width integers:
+- Memory Efficiency: Allows for optimization of memory usage by selecting the smallest adequate type.
+- Performance: Can enhance processing speed, especially in arrays or on certain architectures.
+- Portability & Predictability: Ensures consistent behavior across different platforms.
+- Code Clarity: Indicates the intended use and range of values, improving readability and maintenance.
+
+These types are defined in the <cstdint> header and provide a standardized way to declare integers with specific sizes, ensuring consistent application behavior.
+*/
+
 
 /***************************************************************************************************
 * Procedure prototypes                                                                             *
 ***************************************************************************************************/
 
+// LLM this part at the end
+
+/*
 void     stateMachine();
 
 void     resetEeprom(boolean = false);
@@ -210,8 +265,9 @@ void     displayHighTemperature();
 void     drawStatusLine();
 void     setTextProp(uint8_t, uint8_t, uint8_t, uint16_t = WHITE, boolean = false);
 char*    valStr(char*, uint16_t, vf_Type);
+*/
 
-#endif // _ARDUINO_SPOT_WELDER_V3_H
+#endif // _PRESS_CONTROL_v1_0_0_H
 
-// EOF Arduino_Spot_Welder_V3.h
+// EOF press_controller_v1_0_0.h
  

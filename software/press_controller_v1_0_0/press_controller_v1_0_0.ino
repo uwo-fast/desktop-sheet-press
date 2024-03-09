@@ -73,27 +73,24 @@
 #include <Adafruit_MAX31855.h>
 #include <EEPROM.h>
 
+// The I2C LCD library
+#include <LiquidCrystal_I2C.h>
+// The menu wrapper library
+#include <LiquidMenu.h>
+
+
 #include <press_controller_v1_0_0.h>
 
 // Machine states
 enum states
 {
-	ST_STANDBY,			/**< Machine state: standby */
-	ST_MAIN_SCREEN,		/**< Machine state: display main screen */
-	ST_MAIN_SCREEN_CNT, /**< Machine state: display statistics */
-	ST_MENU_SCREEN,		/**< Machine state: display menu screen */
-	ST_SUB_MENU_1,		/**< Machine state: display sub-menu1 */
-	ST_SUB_MENU_2,		/**< Machine state: display sub-menu2 */
-	ST_BATTERY_LOW,		/**< Machine state: low battery voltage */
-	ST_BATTERY_HIGH,	/**< Machine state: high battery voltage */
-	ST_TEMP_HIGH,		/**< Machine state: high temperature */
+	ST_STANDBY,		/**< Machine state: standby */
+	ST_HOME_SCREEN, /**< Machine state: home screen */
 
-	ST_SYSTEM_HOME,	  /**< Machine state: display system screen */
-	ST_SYSTEM_MENU,	  /**< Machine state: display system menu */
-	ST_SETTINGS_MENU, /**< Machine state: display settings menu */
-	ST_REBOOT_MENU,	  /**< Machine state: display reboot menu */
+	ST_SYSTEM_SCREEN, /**< Machine state: display system screen, currently only manual eeprom reset */
 };
 
+// Machine events
 enum event
 {
 	// Private machine events
@@ -117,6 +114,7 @@ enum event
 progData pData;								   /**< Program operating data */
 Adafruit_MAX31855 thermocouple1(CLK, CS1, DO); /**< Thermocouple 1 object */
 Adafruit_MAX31855 thermocouple2(CLK, CS2, DO); /**< Thermocouple 2 object */
+LiquidCrystal_I2C lcd(0x3F, 16, 2);
 
 // PID object setup for both thermocouples
 // PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, P_ON_M, DIRECT);
@@ -126,16 +124,52 @@ PID myPID2(&Input2, &Output2, &Setpoint, consKp, consKi, consKd, DIRECT); /**< P
 // Adafruit_SSD1306 display( 128, 64, &Wire, OLED_RESET, 800000L ); /**< OLED display object */ REPLACE WITH I2C LCD
 
 // Static variables
-uint8_t mState = ST_MAIN_SCREEN;		 /**< Current machine state */
-uint8_t TCelsius;						 /**< System temperature in celsius */
-uint8_t batteryVoltage = DEF_NOM_BATT_V; /**< Current battery voltage x10 */
-int8_t batt_gauge;						 /**< Battery gauge segments to display */
-boolean sysMenu = false;				 /**< In the system menu structure */
+uint8_t mState = ST_MAIN_SCREEN;				/**< Current machine state */
+bool tempRunAwayAlarm1 = DEF_TEMP_RUNA_ALARM_1; /**< Temperature runaway alarm for thermocouple 1 */
+bool tempRunAwayAlarm2 = DEF_TEMP_RUNA_ALARM_2; /**< Temperature runaway alarm for thermocouple 2 */
+bool tc1Status = TC_FAULT;						/**< Thermocouple 1 status */
+bool tc2Status = TC_FAULT;						/**< Thermocouple 2 status */
+uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0};	/**< Error flags for MAX31855 thermocouple sensor */
+int8_t temp1;									/**< Current temperature reading from thermocouple 1 */
+int8_t temp2;									/**< Current temperature reading from thermocouple 2 */
+int8_t lastValidTemp1;							/**< Last valid temperature reading from thermocouple 1 */
+int8_t lastValidTemp2;							/**< Last valid temperature reading from thermocouple 2 */
+bool validTemp1 = false;						/**< Flag indicating if the temperature reading from thermocouple 1 is valid */
+bool validTemp2 = false;						/**< Flag indicating if the temperature reading from thermocouple 2 is valid */
+
+boolean sysMenu = false; //***********//	 /**< In the system menu structure */
 
 // Volatile variables - will be changed by the ISR
 volatile unsigned long lastActiveTime;
 volatile uint8_t mEvent; /**< Current pending machine event */
 
+// Process Varaibles
+unsigned long processTimeComplete = 0;
+unsigned long currentMillis = 0;
+unsigned long lastMillis = 0; // Variable to hold the last update time
+
+unsigned long cycleStart1 = 0;
+unsigned long cycleStart2 = 0;
+
+unsigned long lastSerialPrint = 0;
+
+// Process Parameters
+uint8_t Setpoint, Input1, Output1, Input2, Output2;
+
+// ------------------------------------------------------
+// SETUP -------------------------------------------------
+// ------------------------------------------------------
+
+/**
+ * @brief Prepares MCU for startup by clearing reset flags and disabling the watchdog timer.
+ *
+ * Executes in the .init3 section during AVR startup, ensuring a clean state by:
+ * - Clearing MCU Status Register (MCUSR) to remove any reset flags.
+ * - Disabling the watchdog timer to prevent unintended resets at startup.
+ *
+ * Utilizes `__attribute__((naked))` to avoid standard prologue/epilogue and
+ * `__attribute__((section(".init3")))` for early execution before main().
+ */
 void reset_mcusr(void) __attribute__((naked)) __attribute__((section(".init3")));
 void reset_mcusr(void)
 {
@@ -143,177 +177,122 @@ void reset_mcusr(void)
 	wdt_disable();
 }
 
-//--------------------------------------------------------------------------------------------
-
-// Initialization and Setup
-// Define Chip Select pins and I2C pins for MAX31855s
-
-// Initializing thermocouples 1 and 2
-
-// Initializing the setup error flags
-bool tcInitFlag1 = false;
-bool tcInitFlag2 = false;
-
-// Initializing error flags
-uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0};
-
-// Define period and duty cycle for SSR control
-const unsigned long period = 1 * 1000;
-unsigned long cycleStart1 = 0;
-unsigned long cycleStart2 = 0;
-
-// Initializing temperatures and set points for PID
-double setTemp = 0.0;
-double temp1 = 0.0;
-double temp2 = 0.0;
-double lastValidTemp1 = 0.0; // * Varaible to preserve the last valid temp 1 reading
-double lastValidTemp2 = 0.0; // * Varaible to preserve the last valid temp 2 reading
-bool validTemp1 = false;	 // * Variable to indicate if the temp 1 reading is valid
-bool validTemp2 = false;	 // * Variable to indicate if the temp 2 reading is valid
-
-// Process varaibles
-unsigned long processDuration = 5.0 * 1000 * 60; // format is for illustrative effect, e.g. 1.0*1000*60*60 = 1 minute
-unsigned long processTime = 0;
-unsigned long currentMillis = 0;
-unsigned long lastMillis = 0;	 // Variable to hold the last update time
-const long processInterval = 10; // Interval time for the process loop
-unsigned long lastActiveTime;
-
-// Process Parameters
-double Setpoint, Input1, Output1, Input2, Output2;
-double Cp = 1, Ci = 1, Cd = 1;										  // Constants to divide aggressive params to get the conservative params
-double aggKp = 1, aggKi = 0.1, aggKd = 0.02;						  // Aggressive PID Tuning Params
-double consKp = aggKp / Cp, consKi = aggKi / Ci, consKd = aggKd / Cd; // Conservative PID Tuning Params
-
-double gapThres = 5; // Gap threshold for the dynamic tunings
-
-// Serial print interval settings
-unsigned long serialPrintStart = 0;
-const unsigned long serialPrintInterval = 1000;
-
-// ------------------------------------------------------
-// SETUP -------------------------------------------------
-// ------------------------------------------------------
-
 // Setup helpers
-
-void thermocoupleSetup(Adafruit_MAX31855 &thermocouple, int tcNum)
+bool thermocoupleSetup(Adafruit_MAX31855 &thermocouple)
 {
-	Serial.println("Initializing TC sensor...");
+	// Initializing the setup error flag
+	bool tcInitFlag = false;
+
 	// Check if thermocouple initialization fails
 	if (!thermocouple.begin())
 	{
-		if (tcNum == 1)
-		{
-			tcInitFlag1 = true;
-		}
-		else if (tcNum == 2)
-		{
-			tcInitFlag2 = true;
-		}
-		Serial.println("Thermocouple " + String(tcNum) + " ERROR.");
+		tcInitFlag = false;
 	}
 	else
 	{
-		if (tcNum == 1)
-		{
-			tcInitFlag1 = false;
-		}
-		else if (tcNum == 2)
-		{
-			tcInitFlag2 = false;
-		}
-		Serial.println("Thermocouple " + String(tcNum) + " OK.");
+		tcInitFlag = true; // replace with macro
 	}
-}
-
-void eepromSetup()
-{
-	Serial.println("Initializing EEPROM...");
-	byte tmpArraEe[10], tmp2ArrEe[10];
-	eeprom_read_bytes(0, tmpArraEe, 8);
-
-	if (memcmp(tmpArraEe, &gAllData, 8) != 0)
-	{
-		if (tmpArraEe[6] == 0xFF)
-		{
-			memcpy(tmp2ArrEe, &gAllData, 8);
-			eeprom_write_bytes(0, tmp2ArrEe, 8);
-		}
-		else
-		{
-			memcpy(&gAllData, tmpArraEe, 8);
-		}
-	}
-	eepromReset();
-
-	Delay = gAllData.delay;
-	BatteryAlarm = gAllData.failureAlarms;
-	WeldCount = gAllData.processCount;
-
-	Serial.println(gAllData.delay);
-	Serial.println(gAllData.failureAlarms);
-	Serial.println(gAllData.processCount);
-}
-
-void updateEeprom()
-{
-	byte tmpArraEe[10], tmp2ArrEe[10];
-	if (gAllData.delay != Delay ||
-		gAllData.failureAlarms != FailureAlarms ||
-		gAllData.processCount != ProcessCount ||)
-	{
-
-		gAllData.delay = Delay;
-		gAllData.failureAlarms = FailureAlarms;
-		gAllData.processCount = ProcessCount;
-
-		memcpy(tmp2ArrEe, &gAllData, 8);
-		eeprom_write_bytes(0, tmp2ArrEe, 8);
-		Serial.println("Updated eeprom");
-	}
+	return tcInitFlag;
 }
 
 // Setup Main
 void setup()
 {
+#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+	Serial.begin(_SERIAL_BAUD_);
+#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
+
 	// The interrupt is used to sense the encoder rotation. It could just as well be polled
 	// without loss of responsiveness. This was actually tried and no noticeable performance
 	// degradation was observed. Interrupts are usefull for high speed encoders such as
 	// used on servo systems. Manually adjusted encoders are very slow.
+	// This needs to happen before the delay to allow the interrupt to be set up before the
+	// user needs to use it to possibly enter the system menu.
 	attachInterrupt(ENC_INT, isr, FALLING);
 
-	lastActiveTime = millis();
-
-	// Initialize serial communication at 9600 baud rate
-	Serial.begin(9600); // max is prob 115200
+	// Delay to allow entering eeprom reset on GUI or to click and open serial monitor on PC
 	delay(500);
 
 	// Initialize thermocouples
 	pinMode(CS1, OUTPUT);
 	pinMode(CS2, OUTPUT);
-	thermocoupleSetup(thermocouple1, 1);
-	thermocoupleSetup(thermocouple2, 2);
 
 	// Set SSR pins as output
 	pinMode(PIN_SSR1, OUTPUT);
 	pinMode(PIN_SSR2, OUTPUT);
 
+	tc1Status = thermocoupleSetup(thermocouple1);
+	tc2Status = thermocoupleSetup(thermocouple2);
+
+#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+	Serial.println("Initializing TC sensor...");
+
+	if (tc1Status == TC_FAULT)
+	{
+		Serial.println("Thermocouple 1 ERROR, could not initialize.");
+	}
+	else
+	{
+		Serial.println("Thermocouple 1 initialized.");
+	}
+
+	if (tc2Status == TC_FAULT)
+	{
+		Serial.println("Thermocouple 2 ERROR, could not initialize.");
+	}
+	else
+	{
+		Serial.println("Thermocouple 2 initialized.");
+	}
+#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
+
 	// Applying the default PID tunings / settings
 	// Set initial setpoint temperature
 	Setpoint = setTemp;
 
-	// Set PID controllers to automatic mode
+	/***********************
+	Set PID controllers to automatic mode
+	* In most applications, there is a desire to sometimes turn off the PID
+	* controller and adjust the output by hand, without the controller interfering.
+	* \todo
+	* Add a switch to turn off the PID controller and adjust the output by hand
+	* as a future feature to try and reverse thermal runaway proacivtively, rather than
+	* just detecting and stopping it reactively.
+	******************* */
 	myPID1.SetMode(AUTOMATIC);
 	myPID2.SetMode(AUTOMATIC);
 	// Set PID sample time
-	myPID1.SetSampleTime(period);
-	myPID2.SetSampleTime(period);
-	// Function to initialize thermocouples
-	myPID1.SetOutputLimits(10 * 2.55, 255);
-	myPID2.SetOutputLimits(10 * 2.55, 255);
+	myPID1.SetSampleTime(pData.period);
+	myPID2.SetSampleTime(pData.period);
+	myPID1.SetOutputLimits(0, 255);
+	myPID2.SetOutputLimits(0, 255);
 
-	eepromSetup();
+	/**
+	 * @brief Loads program data from EEPROM on startup.
+	 *
+	 * This function is called during the setup phase of the Arduino sketch to initialize
+	 * the system with user settings and history stored in EEPROM. It includes a mechanism
+	 * to determine whether the EEPROM contains valid data for this program.
+	 *
+	 * A unique identifier (magic number) is used at the beginning of the EEPROM to verify
+	 * the data's validity. If the magic number does not match (indicating either a first-time
+	 * program upload, data corruption, or previous use of the EEPROM by another program),
+	 * the function resets the EEPROM to default program values.
+	 *
+	 * The use of a unique ID helps ensure that the EEPROM contains a valid data set belonging
+	 * to this specific program. However, it is acknowledged that there are more robust methods
+	 * for EEPROM data validation, which are not used here due to code space constraints.
+	 *
+	 * It's important to note that the reliability of this mechanism is based on the convention
+	 * of starting EEPROM writes at the beginning of its address space. Deviating from this
+	 * convention in subsequent programs might lead to a false positive validation of EEPROM
+	 * data integrity, as the magic number might remain unaltered.
+	 *
+	 * @note This function is guaranteed to reset data to defaults only on the first upload
+	 *       of the program. Subsequent uploads not adhering to the EEPROM writing convention
+	 *       may inadvertently preserve the unique ID, leading to incorrect data validation.
+	 */
+	void loadEeprom();
 
 	int suDelay = 100;
 	delay(suDelay);
@@ -335,16 +314,16 @@ ProcessState currentProcessState = INACTIVE_PROCESS;
 
 void loop()
 {
-	SystemChecks();
-	UserStateMachine();
+	userStateMachine();
+	systemChecks();
 	handleSerialCommands();
 	printSerialData();
 	updateEeprom();
-	logSD();
+	logSD(); //TODO
 
 	currentMillis = millis();
 
-	if (currentMillis - lastMillis >= processInterval)
+	if (currentMillis - lastMillis >= pData.processInterval)
 	{
 		switch (currentProcessState)
 		{
@@ -358,8 +337,8 @@ void loop()
 			// dynamicTuning();
 			myPID1.Compute();
 			myPID2.Compute();
-			slowPWM(PIN_SSR1, cycleStart1, period, Output1);
-			slowPWM(PIN_SSR2, cycleStart2, period, Output2);
+			slowPWM(PIN_SSR1, cycleStart1, pData.period, Output1);
+			slowPWM(PIN_SSR2, cycleStart2, pData.period, Output2);
 			// Further operations for the active process
 			processTimeManagement();
 			break;
@@ -375,7 +354,7 @@ void loop()
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
 			// Signal error condition, e.g., by blinking an LED or sending an error message
-			signalError();
+			signalError(); // TODO
 			break;
 
 		default:
@@ -389,25 +368,80 @@ void loop()
 	}
 }
 
-void signalError()
+/* -------------------------------Signal Error----------------------------------*/
+/**
+ *  \brief    Signals an error condition.
+ *  \remarks
+ *
+ */
+void signalError() // TODO
 {
 	// Implement continuous error signaling in LCD corner and serial output
 	// on first pass log dumb to SD card and serial error message. record in eeprom
 }
 
-void SystemChecks()
+/* -------------------------------System Checks----------------------------------*/
+/**
+ *  \brief    System checks.
+ *  \remarks  Checks for system errors and issues a standby timeout event if the standby time has
+ *            expired without any activity.
+ */
+void systemChecks()
 {
-	thermalRunawayCheck();
+	thermalRunawayCheck(); // TODO
 	readCheckTemp();
 	checkSleep();
 }
 
-
-thermalRunawayCheck()
+/* -------------------------------Thermal Runaway Check----------------------------------*/
+/**
+ *  \brief    Checks for thermal runaway.
+ *  \remarks
+ */
+void thermalRunawayCheck() // TODO
 {
 
 }
 
+/* -------------------------------Log Data to SD----------------------------------*/
+/**
+ *  \brief    Logs data to the SD card.
+ *  \remarks  Logs data to the SD card.
+ */
+void logSD() // TODO
+{
+	// Log data to SD card
+}
+
+/* -------------------------------Read and Check Button Event----------------------------------*/
+/**
+ *  \brief    Reads the rotary encoder push button switch transition event.
+ *  \remarks  Issues a switch transition event according to whether the switch is has been pressed
+ *            and the debounce interval has expired or whether the switch has been released.
+ */
+void checkForBtnEvent()
+{
+	static unsigned long lastBtnTime = 0;
+	static boolean lastBtnState = B_UP;
+	boolean thisBtnState;
+
+	thisBtnState = btnState();
+
+	// Ignore changes that occur within the debounce period.
+	if (millis() - lastBtnTime > RS_DEBOUNCE)
+	{
+
+		// Only respond to a change of the biutton state.
+		if (thisBtnState != lastBtnState)
+		{
+			// Issue an event based on the current state of the button.
+			mEvent = thisBtnState == B_UP ? EV_BTNUP : EV_BTNDN;
+
+			lastActiveTime = lastBtnTime = millis();
+			lastBtnState = thisBtnState;
+		}
+	}
+}
 
 /*-------------------------------Check Sleep for Standby----------------------------------*/
 /**
@@ -426,7 +460,7 @@ void checkSleep()
 /* -------------------------------Read and Check Temperature----------------------------------*/
 /**
  *  \brief    Reads the temperature from the thermocouples and checks for errors.
- *  \remarks  
+ *  \remarks
  */
 void readCheckTemp()
 {
@@ -459,12 +493,11 @@ void checkIsnan(double &temp1, double &temp2)
 	lastValidTemp2 = temp2;
 }
 
-
 void processTimeManagement()
 {
 
 	// TODO DURATION CONTROL
-	// Check if processTime has reached processDuration
+	// Check if processTimeComplete has reached processDuration
 
 	// Check if temperature readings meet condition
 	if (temp1 >= setTemp && temp2 >= setTemp)
@@ -484,17 +517,16 @@ void processTimeManagement()
 	// Update the process time
 	if (tempConditionMet == 5)
 	{
-		processTime += processInterval;
+		processTimeComplete += pData.processInterval;
 	}
 
-	// Check if processTime has reached processDuration
-	if (processTime >= processDuration)
+	// Check if processTimeComplete has reached processDuration
+	if (processTimeComplete >= processDuration)
 	{
 		processDone = true;
 	}
 	lastSetTemp = setTemp;
 }
-
 
 // Function to implement slow PWM for SSR control
 void slowPWM(int SSRn, unsigned long &cycleStart, double period, double output)
@@ -525,88 +557,85 @@ void slowPWM(int SSRn, unsigned long &cycleStart, double period, double output)
 void dynamicTuning()
 {
 	double gap1 = abs(Setpoint - Input1);
-	if (gap1 < gapThres)
+	if (gap1 < pData.gapThreshold)
 	{ // Less aggressive tuning parameters for small gap
-		myPID1.SetTunings(consKp, consKi, consKd);
+		myPID1.SetTunings(pData.kp / pData.cp, pData.ki / pData.ci, pData.kd / pData.cd);
 	}
 	else
 	{ // More aggressive tuning parameters for large gap
-		myPID1.SetTunings(aggKp, aggKi, aggKd);
+		myPID1.SetTunings(pData.kp, pData.ki, pData.kd);
 	}
 
 	double gap2 = abs(Setpoint - Input2);
-	if (gap2 < gapThres)
+	if (gap2 < pData.gapThreshold)
 	{ // Less aggressive tuning parameters for small gap
-		myPID2.SetTunings(consKp, consKi, consKd);
+		myPID2.SetTunings(pData.kp / pData.cp, pData.ki / pData.ci, pData.kd / pData.cd);
 	}
 	else
 	{ // More aggressive tuning parameters for large gap
-		myPID2.SetTunings(aggKp, aggKi, aggKd);
+		myPID2.SetTunings(pData.kp, pData.ki, pData.kd);
 	}
 }
 
-// Functon to allow serial navigation and control
+// Function to allow serial navigation and control
 void handleSerialCommands()
 {
+#if defined _DEVELOPMENT_ || defined _BOOTSYS_
 	static String received = "";
 	while (Serial.available() > 0)
 	{
 		char inChar = (char)Serial.read();
 		received += inChar;
-
 		if (inChar == '\n')
 		{					 // when a complete command is received
 			received.trim(); // remove potential leading/trailing white space
-
 			if (received.startsWith("t1="))
 			{
-				temp1 = received.substring(3).toDouble();
+				temp1 = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("t2="))
 			{
-				temp2 = received.substring(3).toDouble();
+				temp2 = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("st="))
 			{
-				setTemp = received.substring(3).toDouble();
+				pData.setTemp = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("o1="))
 			{
-				Output1 = received.substring(3).toDouble();
+				Output1 = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("o2="))
 			{
-				Output2 = received.substring(3).toDouble();
+				Output2 = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("dt="))
 			{
-				processDuration = (long)(received.substring(3).toDouble() * 1000 * 60); // converting minutes to milliseconds
-			}
-			else if (received.startsWith("t="))
-			{
-				processTime = (long)(received.substring(2).toDouble() * 1000 * 60); // converting minutes to milliseconds
+				// Assuming dt is for processDuration in minutes, converted to milliseconds
+				pData.processDuration = (uint16_t)(received.substring(3).toInt() * 1000 * 60);
 			}
 			else if (received.startsWith("kp="))
 			{
-				aggKp = received.substring(3).toDouble();
+				pData.kp = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("ki="))
 			{
-				aggKi = received.substring(3).toDouble();
+				pData.ki = (uint8_t)received.substring(3).toInt();
 			}
 			else if (received.startsWith("kd="))
 			{
-				aggKd = received.substring(3).toDouble();
+				pData.kd = (uint8_t)received.substring(3).toInt();
 			}
-
 			received = ""; // clear received data
 		}
 	}
+#endif /* _DEVELOPMENT_ || _BOOTSYS_ */
 }
 
 void printSerialData()
 {
-	if (millis() - serialPrintStart > serialPrintInterval)
+#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+	if (millis() - lastSerialPrint > pData.serialPrintInterval)
 	{
 
 		Serial.print("Error flags: ");
@@ -629,23 +658,20 @@ void printSerialData()
 		Serial.print(", o2: ");
 		Serial.print(Output2);
 		Serial.print(", t: ");
-		Serial.print((float)processTime / 1000 / 60);
+		Serial.print((float)processTimeComplete / 1000 / 60);
 		Serial.print(", dt: ");
-		Serial.print((float)processDuration / 1000 / 60);
-		Serial.print(", nrg: ");
-		Serial.print(accumulatedEnergy / 1000);
+		Serial.print((float)pData.processDuration / 1000 / 60);
 		Serial.print(", aggKp: ");
-		Serial.print(aggKp);
+		Serial.print(pData.kp);
 		Serial.print(", aggKi: ");
-		Serial.print(aggKi);
+		Serial.print(pData.ki);
 		Serial.print(", aggKd: ");
-		Serial.println(aggKd); // Use println to add newline at the end
+		Serial.println(pData.kd); // Use println to add newline at the end
 
-		serialPrintStart = millis();
+		lastSerialPrint = millis();
 	}
+#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
 }
-
-
 
 /***************************************************************************************************
  * State Machine                                                                                    *
@@ -654,28 +680,27 @@ void printSerialData()
  *  \brief  Implementation of state machine.
  */
 
-void stateMachine()
+void userStateMachine()
 {
-	char str[5];
-	static uint8_t selectedMenu = 0;
-	static uint8_t selectedMainMenu = 0;
-	static uint8_t selectedSubMenu = 0;
-	static uint8_t measuredVoltage;
+	static uint8_t currentMenuItemIndex = 0;
+	static uint8_t mainMenuSelectionIndex = 0;
+	static uint8_t subMenuSelectionIndex = 0;
 
 	// Scan for events - the event queue length is one.
-
 	// Process any public boot events. These events are the highest priority
 	// and must be processed before any of the private events.
 	if (mEvent == EV_BOOTDN)
 	{
-		mState = ST_EEPROM_SCREEN;
+		mState = ST_SYSTEM_SCREEN;
 		mEvent = EV_NONE;
 	}
 	else
 	{
 		// Search for and process any private events.
+		// Check for button events
 		checkForBtnEvent();
 
+		// MACHINE EVENTS
 		switch (mEvent)
 		{
 		case EV_STBY_TIMEOUT:
@@ -686,7 +711,7 @@ void stateMachine()
 			break;
 		}
 
-		// Machine states
+		// MACHINE STATES
 		switch (mState)
 		{
 
@@ -714,7 +739,7 @@ void splash()
 
 	display.print(F(_DEVICENAME_)); // 16 chars per line
 
-	display.print(F("Ver " xstr(_VERSION_MAJOR_) "." xstr(_VERSION_MINOR_) "." xstr(_REVISION_) " " __DATE__));
+	display.print(F("Ver " toString(_VERSION_MAJOR_) "." toString(_VERSION_MINOR_) "." toString(_REVISION_) " " __DATE__));
 
 	display.print(F("by " _AUTHOR_));
 
@@ -754,51 +779,6 @@ void isr()
 }
 
 /***************************************************************************************************
- * Utility Conversion Functions                                                                     *
- ***************************************************************************************************/
-/**
- *  \brief                    Returns a character string representing a formatted numeric value.
- *  \param [in] char *str     Pointer to the string to receive the formatted result.
- *  \param [in] uint16_t val  The integer value to be formatted.
- *  \param [in] vf_Type fType The type of variable to be formatted.
- *  \return     char*         Pointer to the formatted string.
- */
-char *valStr(char *str, uint16_t val, vf_Type fType)
-{
-
-	// We must resort to this awkward kludge to format the variables because variable width and
-	// precision (* specifier) are not implemented in avr gcc - bugger!!!
-
-	switch (fType)
-	{
-	case VF_BATTALM:
-	case VF_BATTV:
-		sprintf_P(str, PSTR("%2.1u.%01u"), val / 10, val % 10);
-		break;
-	case VF_BATTA:
-		sprintf_P(str, PSTR("%2.1u.%01u"), val / 10, val % 10);
-		break;
-	case VF_WELDCNT:
-		sprintf_P(str, PSTR("%5.1u"), val);
-		break;
-	case VF_TEMP:
-		sprintf_P(str, PSTR("%5.1u"), val);
-		break;
-	case VF_PLSDLY:
-		sprintf_P(str, PSTR("%4.1u"), val);
-		break;
-	case VF_SHTPLS:
-		sprintf_P(str, PSTR("%3.1u"), val);
-		break;
-	case VF_DELAY:
-		sprintf_P(str, PSTR("%1.1u.%01u"), val / 10, val % 10);
-		break;
-	}
-
-	return str;
-}
-
-/***************************************************************************************************
  * Utility EEPROM Functions                                                                         *
  ***************************************************************************************************/
 /**
@@ -809,6 +789,21 @@ char *valStr(char *str, uint16_t val, vf_Type fType)
  */
 void resetEeprom(boolean full)
 {
+
+	pData.tempRunAwayDelta = DEF_TEMP_RUNA_DELTA;
+	pData.tempRunAwayCycles = DEF_TEMP_RUNA_CYCLES;
+	pData.setTemp = DEF_SET_TEMP;
+	pData.controlPeriod = DEF_CONTROL_PERIOD;
+	pData.processInterval = DEF_PROCESS_INTERVAL;
+	pData.processDuration = DEF_PROCESS_DURATION;
+	pData.serialPrintInterval = DEF_SERIAL_PRINT_INTERVAL;
+	pData.kp = DEF_KP;
+	pData.ki = DEF_KI;
+	pData.kd = DEF_KD;
+	pData.cp = DEF_CP;
+	pData.ci = DEF_CI;
+	pData.cd = DEF_CD;
+	pData.gapThreshold = DEF_GAP_THRESHOLD;
 
 	// Write the factory default data to the eeprom. In the case of a full reset, the weld count,
 	// battery offset, and screen orientation are zeroed, otherwise they are left unchanged.
@@ -839,7 +834,6 @@ void resetEeprom(boolean full)
 		Serial.print(F("EEPROM Full Reset"));
 	else
 		Serial.println(F("EEPROM Reset"));
-
 #endif /* _DEVELOPMENT_ || _BOOTSYS_*/
 }
 
@@ -851,6 +845,8 @@ void loadEeprom()
 
 	EEPROM.get(EEA_ID, uniqueID);
 
+	// If the unique id is not present (first upload or change of program) or is
+	// incorrect (corrupted, falsely overwritten) then the eeprom is reset to factory
 	if (uniqueID != EE_UNIQUEID)
 		resetEeprom(EE_FULL_RESET);
 	else
