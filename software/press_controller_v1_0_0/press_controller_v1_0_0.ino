@@ -66,7 +66,6 @@
  */
 /***********************************************************************************************/
 
-
 // Libraries for PID and Thermocouples
 #include <SPI.h>
 #include <Wire.h>
@@ -76,7 +75,6 @@
 
 #include <PID_v1.h>
 #include <Adafruit_MAX31855.h>
-
 
 #ifdef _LCDGUI_
 // The I2C LCD library
@@ -95,19 +93,20 @@
  * Global program variables and objects                                                             *
  ***************************************************************************************************/
 
-
 // Static variables
-bool tempRunAwayAlarm1 = false; /**< Temperature runaway alarm for thermocouple 1 */
-bool tempRunAwayAlarm2 = false; /**< Temperature runaway alarm for thermocouple 2 */
-bool tc1Status = TC_FAULT;						/**< Thermocouple 1 status */
-bool tc2Status = TC_FAULT;						/**< Thermocouple 2 status */
-uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0};	/**< Error flags for MAX31855 thermocouple sensor */
-int8_t temp1;									/**< Current temperature reading from thermocouple 1 */
-int8_t temp2;									/**< Current temperature reading from thermocouple 2 */
-int8_t lastValidTemp1;							/**< Last valid temperature reading from thermocouple 1 */
-int8_t lastValidTemp2;							/**< Last valid temperature reading from thermocouple 2 */
-bool validTemp1 = false;						/**< Flag indicating if the temperature reading from thermocouple 1 is valid */
-bool validTemp2 = false;						/**< Flag indicating if the temperature reading from thermocouple 2 is valid */
+int drivingDeltaCounter1 = 0;
+int drivingDeltaCounter2 = 0;
+bool tempRunAwayAlarm1 = false;				  /**< Temperature runaway alarm for thermocouple 1 */
+bool tempRunAwayAlarm2 = false;				  /**< Temperature runaway alarm for thermocouple 2 */
+bool tc1Status = TC_FAULT;					  /**< Thermocouple 1 status */
+bool tc2Status = TC_FAULT;					  /**< Thermocouple 2 status */
+uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0}; /**< Error flags for MAX31855 thermocouple sensor */
+int8_t temp1;								  /**< Current temperature reading from thermocouple 1 */
+int8_t temp2;								  /**< Current temperature reading from thermocouple 2 */
+int8_t lastValidTemp1;						  /**< Last valid temperature reading from thermocouple 1 */
+int8_t lastValidTemp2;						  /**< Last valid temperature reading from thermocouple 2 */
+bool validTemp1 = false;					  /**< Flag indicating if the temperature reading from thermocouple 1 is valid */
+bool validTemp2 = false;					  /**< Flag indicating if the temperature reading from thermocouple 2 is valid */
 
 // Process Varaibles
 unsigned long processTimeComplete = 0;
@@ -117,10 +116,10 @@ unsigned long lastMillis = 0; // Variable to hold the last update time
 unsigned long cycleStart1 = 0;
 unsigned long cycleStart2 = 0;
 
+unsigned long lastThermalRunawayCheck = 0;  // Tracks the last thermal runaway check time
 
 // PID Process Parameters
 double Setpoint, Input1, Output1, Input2, Output2;
-
 
 // Timing variable for the serial print interval, for serial command mode
 #ifdef _SERIALCMD_
@@ -129,29 +128,37 @@ unsigned long lastSerialPrint = 0;
 
 // LCD State and Event variables
 #ifdef _LCDGUI_
-uint8_t mState = ST_MAIN_SCREEN;				/**< Current machine state */
-uint8_t mEvent; /**< Current pending machine event */
-int16_t encLastPos, encNewPos; /**< Encoder position variables */
+uint8_t mState = ST_MAIN_SCREEN; /**< Current machine state */
+uint8_t mEvent;					 /**< Current pending machine event */
+int16_t encLastPos, encNewPos;	 /**< Encoder position variables */
 unsigned long lastActiveTime;
 #endif /* _LCDGUI_ */
 
-
 // Structures and objects
-progData pData;								   /**< Program operating data */
+progData pData; /**< Program operating data */
 
 Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
 Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermocouple 2 object */
 
 #ifdef _LCDGUI_
-ClickEncoder *encoder;	/**< Encoder object */
-LiquidCrystal_I2C lcd(0x3F, 16, 2);	/**< LCD display object */
-#endif /* _LCDGUI_ */
+ClickEncoder *encoder;				/**< Encoder object */
+LiquidCrystal_I2C lcd(0x3F, 16, 2); /**< LCD display object */
+#endif								/* _LCDGUI_ */
 
 // PID object setup for both thermocouples
 // PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, P_ON_M, DIRECT);
-PID myPID1(&Input1, &Output1, &Setpoint, DEF_KP/MILLI_UNIT, DEF_KI/MILLI_UNIT, DEF_KD/MILLI_UNIT, DIRECT); /**< PID1 object gets input from thermocouple 1 and ouputs to relay 1*/
-PID myPID2(&Input2, &Output2, &Setpoint, DEF_KP/MILLI_UNIT, DEF_KI/MILLI_UNIT, DEF_KD/MILLI_UNIT, DIRECT); /**< PID2 object gets input from thermocouple 2 and ouputs to relay 2*/
+PID myPID1(&Input1, &Output1, &Setpoint, DEF_KP / MILLI_UNIT, DEF_KI / MILLI_UNIT, DEF_KD / MILLI_UNIT, DIRECT); /**< PID1 object gets input from thermocouple 1 and ouputs to relay 1*/
+PID myPID2(&Input2, &Output2, &Setpoint, DEF_KP / MILLI_UNIT, DEF_KI / MILLI_UNIT, DEF_KD / MILLI_UNIT, DIRECT); /**< PID2 object gets input from thermocouple 2 and ouputs to relay 2*/
 
+enum ProcessState
+{
+	INACTIVE_PROCESS, // Indicates an inactive process
+	ACTIVE_PROCESS,	  // Indicates an active process
+	ERROR_PROCESS,	  // Indicates an error in the process
+	STANDBY_PROCESS	  // Indicates the system is in standby
+};
+
+ProcessState currentProcessState = INACTIVE_PROCESS;
 
 // ------------------------------------------------------
 // SETUP -------------------------------------------------
@@ -193,8 +200,9 @@ bool thermocoupleSetup(Adafruit_MAX31855 &thermocouple)
 }
 
 #ifdef _LCDGUI_
-void timerIsr() {
-  encoder->service();
+void timerIsr()
+{
+	encoder->service();
 }
 #endif /* _LCDGUI_ */
 
@@ -211,7 +219,7 @@ void setup()
 	encoder = new ClickEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, 4);
 
 	Timer1.initialize(1 * MILLI_UNIT); // 1* MILLI_UNIT = 1,000ms = 1s
-	Timer1.attachInterrupt(timerIsr); 
+	Timer1.attachInterrupt(timerIsr);
 #endif /* _LCDGUI_ */
 
 	// Delay to allow entering eeprom reset on GUI or to click and open serial monitor on PC
@@ -273,7 +281,7 @@ void setup()
 
 	// Test if the pushbutton is pressed at boot time. If so then ensure entry to the system
 	// menu by the issue of a boot button down event.
-#ifdef _BOOTSYS_ && _LCDGUI_
+#ifdef _BOOTSYS_ &&_LCDGUI_
 	mEvent = EV_BOOTDN;
 #endif
 
@@ -317,24 +325,16 @@ void setup()
 // LOOP -------------------------------------------------
 //
 
-enum ProcessState
-{
-	INACTIVE_PROCESS, // Indicates an inactive process
-	ACTIVE_PROCESS,	  // Indicates an active process
-	ERROR_PROCESS,	  // Indicates an error in the process
-	STANDBY_PROCESS	  // Indicates the system is in standby
-};
-
-ProcessState currentProcessState = INACTIVE_PROCESS;
 
 void loop()
 {
 	lcdUserStateMachine();
-	systemChecks();
+	readCheckTemp();
+	checkSleep();	
 	handleSerialCommands();
 	printSerialData();
 	updateEeprom();
-	logSD(); //TODO
+	logSD(); // TODO
 
 	currentMillis = millis();
 
@@ -343,8 +343,9 @@ void loop()
 		switch (currentProcessState)
 		{
 		case ACTIVE_PROCESS:
-			// Only run PID and slowPWM if activeProcess is true
+			thermalRunawayCheck();
 
+			// Only run PID and slowPWM if activeProcess is true
 			Input1 = (double)temp1;
 			Input2 = (double)temp2;
 			Setpoint = (double)pData.setTemp;
@@ -360,28 +361,37 @@ void loop()
 
 		case INACTIVE_PROCESS:
 			// If the process is not active, just read temperatures and write SSRs LOW
+
 			Setpoint = 0;
 			Output1 = 0;
+			Output2 = 0;
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
+
 			break;
 
 		case ERROR_PROCESS:
+
 			Setpoint = 0;
+			Output1 = 0;
 			Output2 = 0;
 			// Handle error condition, perhaps by setting SSRs to LOW and signaling error
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
 			// Signal error condition, e.g., by blinking an LED or sending an error message
 			signalError(); // TODO
+
 			break;
 
 		default: // STANDBY_PROCESS & ALL ELSE
+
 			Setpoint = 0;
+			Output1 = 0;
 			Output2 = 0;
 			// Default action, perhaps similar to INACTIVE_PROCESS or specific safe state
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
+
 			break;
 		}
 
@@ -401,28 +411,64 @@ void signalError() // TODO
 	// on first pass log dumb to SD card and serial error message. record in eeprom
 }
 
-/* -------------------------------System Checks----------------------------------*/
-/**
- *  \brief    System checks.
- *  \remarks  Checks for system errors and issues a standby timeout event if the standby time has
- *            expired without any activity.
- */
-void systemChecks()
-{
-	thermalRunawayCheck(); // TODO
-	readCheckTemp();
-	checkSleep();
-}
 
 /* -------------------------------Thermal Runaway Check----------------------------------*/
 /**
  *  \brief    Checks for thermal runaway.
- *  \remarks
+ *  \remarks This function checks for thermal runaway by comparing the temperature readings
+ *  to the setpoint plus a delta value. If the temperature readings exceed the setpoint plus
+ *  the delta value for a certain number of cycles and if the output for that temperature
+ *  is not issuing a zero output, a thermal runaway event is issued.
  */
 void thermalRunawayCheck() // TODO
 {
 
+	// The drivingDeltaCounter holds how many cycles the temperature has been above the setpoint plus the 
+	// delta value while still driving the output. If the temperature is below the setpoint plus the delta
+	// value, the counter is reset to zero. If the counter reaches the number of cycles set in the program
+	// data, a thermal runaway event is issued. drivingDeltaCounter only increases once per control period.
+	
+
+    unsigned long currentMillis = millis();
+    // Check if enough time has passed for the next thermal runaway check
+    if (currentMillis - lastThermalRunawayCheck >= pData.controlPeriod) 
+    {
+        // The actual thermal runaway check logic remains the same
+        if(temp1 > pData.setTemp + pData.tempRunAwayDelta || temp2 > pData.setTemp + pData.tempRunAwayDelta)
+        {
+            // Check if the output is not zero
+            if((int)Output1 > 0)
+            {
+                tempRunAwayAlarm1 = true;
+                drivingDeltaCounter1++;
+            }
+
+            if((int)Output2 > 0)
+            {
+                tempRunAwayAlarm2 = true;
+                drivingDeltaCounter2++;
+            }
+        }
+        else
+        {
+            tempRunAwayAlarm1 = false;
+            tempRunAwayAlarm2 = false;
+            drivingDeltaCounter1 = 0;
+            drivingDeltaCounter2 = 0;
+        }
+
+        if(drivingDeltaCounter1 >= pData.tempRunAwayCycles || drivingDeltaCounter2 >= pData.tempRunAwayCycles)
+        {
+            currentProcessState = ERROR_PROCESS;
+            // Signal error condition
+            signalError();
+        }
+
+        // Update the last check time
+        lastThermalRunawayCheck = currentMillis;
+    }
 }
+
 
 /* -------------------------------Log Data to SD----------------------------------*/
 /**
@@ -431,9 +477,8 @@ void thermalRunawayCheck() // TODO
  */
 void logSD() // TODO
 {
-	// Log data to SD card
-}
 
+}
 
 /*-------------------------------Check Sleep for Standby----------------------------------*/
 /**
@@ -444,12 +489,12 @@ void checkSleep()
 {
 #ifdef _LCDGUI_
 	// \todo
-		// make sure it doesnt go to sleep if the process is active
+	// make sure it doesnt go to sleep if the process is active
 
 	// The last active time is updated every time some activity occurs. If the standby timeout
 	// period has expired without any activity then a timeout event is issued.
 	if (lastActiveTime + STANDBY_TIME_OUT < millis())
-			mEvent = EV_STBY_TIMEOUT;
+		mEvent = EV_STBY_TIMEOUT;
 #endif /* _LCDGUI_ */
 }
 
@@ -465,7 +510,7 @@ void readCheckTemp()
 	checkIsnan(temp1, temp2);
 
 	// \todo
-		// error ratio checking
+	// error ratio checking
 }
 
 // Function to check if temperature readings are NaN and perform error handling
@@ -493,40 +538,36 @@ void checkIsnan(double temp1, double temp2)
 void processTimeManagement()
 {
 
-	// TODO DURATION CONTROL
 	// Check if processTimeComplete has reached processDuration
 
-/*
-	// Check if temperature readings meet condition
-	if (temp1 >= pData.setTemp && temp2 >= pData.setTemp)
-	{
-		tempConditionMet = min(tempConditionMet + 1, 5);
-	}
-	else
-	{
-		tempConditionMet = 0; // Reset counter if condition not met
-	}
+		// Check if temperature readings meet condition
+		if (temp1 >= pData.setTemp && temp2 >= pData.setTemp)
+		{
+			tempConditionMet = min(tempConditionMet + 1, 5);
+		}
+		else
+		{
+			tempConditionMet = 0; // Reset counter if condition not met
+		}
 
-	if (lastSetTemp != pData.setTemp)
-	{
-		tempConditionMet = 0;
-	}
+		if (lastSetTemp != pData.setTemp)
+		{
+			tempConditionMet = 0;
+		}
 
-	// Update the process time
-	if (tempConditionMet == 5)
-	{
-		processTimeComplete += pData.processInterval;
-	}
+		// Update the process time
+		if (tempConditionMet == 5)
+		{
+			processTimeComplete += pData.processInterval;
+		}
 
-	// Check if processTimeComplete has reached processDuration
-	if (processTimeComplete >= processDuration)
-	{
-		processDone = true;
-	}
-	lastSetTemp = pData.setTemp;
-*/
+		// Check if processTimeComplete has reached processDuration
+		if (processTimeComplete >= processDuration)
+		{
+			processDone = true;
+		}
+		lastSetTemp = pData.setTemp;
 }
-
 
 // Function to implement slow PWM for SSR control
 void slowPWM(int SSRn, unsigned long &cycleStart, double period, double output)
@@ -616,21 +657,31 @@ void handleSerialCommands()
 			}
 			else if (received.startsWith("kp="))
 			{
-				pData.kp = (uint8_t)received.substring(3).toInt();
+				pData.kp = (uint16_t)(received.substring(3).toFloat() * MILLI_UNIT);
 			}
 			else if (received.startsWith("ki="))
 			{
-				pData.ki = (uint8_t)received.substring(3).toInt();
+				pData.ki = (uint16_t)(received.substring(3).toFloat() * MILLI_UNIT);
 			}
 			else if (received.startsWith("kd="))
 			{
-				pData.kd = (uint8_t)received.substring(3).toInt();
+				pData.kd = (uint16_t)(received.substring(3).toFloat() * MILLI_UNIT);
 			}
+			else if (received == "ON")
+			{
+				currentProcessState = ACTIVE_PROCESS;
+			}
+			else if (received == "OFF")
+			{
+				currentProcessState = INACTIVE_PROCESS;
+			}
+
 			received = ""; // clear received data
 		}
 	}
 #endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_ */
 }
+
 
 void printSerialData()
 {
@@ -638,7 +689,7 @@ void printSerialData()
 	if (millis() - lastSerialPrint > pData.serialPrintInterval)
 	{
 
-		Serial.print("Error flags: ");
+		Serial.print("MAX flags: ");
 
 		int errorFlagsMAXSize = sizeof(errorFlagsMAX) / sizeof(errorFlagsMAX[0]);
 		// Print error flags
@@ -646,7 +697,10 @@ void printSerialData()
 		{
 			Serial.print(errorFlagsMAX[i]);
 		}
-
+		Serial.print(", TRA1 Alarm: ");
+		Serial.print(tempRunAwayAlarm1 ? "WARNING" : "SAFE");
+		Serial.print(", TRA2 Alarm: ");
+		Serial.print(tempRunAwayAlarm2 ? "WARNING" : "SAFE");
 		Serial.print(", t1: ");
 		Serial.print(temp1);
 		Serial.print(", t2: ");
@@ -654,37 +708,59 @@ void printSerialData()
 		Serial.print(", st: ");
 		Serial.print(pData.setTemp);
 		Serial.print(", o1: ");
-		Serial.print(Output1);
+		Serial.print((int)Output1);
 		Serial.print(", o2: ");
-		Serial.print(Output2);
+		Serial.print((int)Output2);
 		Serial.print(", t: ");
 		Serial.print((float)processTimeComplete / MILLI_UNIT / 60);
 		Serial.print(", dt: ");
 		Serial.print((float)pData.processDuration / MILLI_UNIT / 60);
 		Serial.print(", Kp: ");
-		Serial.print(pData.kp / MILLI_UNIT);
+		Serial.print((float)pData.kp / MILLI_UNIT); 
+		// \todo instead of floats, use a function to convert to string and shift float point
 		Serial.print(", Ki: ");
-		Serial.print(pData.ki / MILLI_UNIT);
+		Serial.print((float)pData.ki / MILLI_UNIT);
 		Serial.print(", Kd: ");
-		Serial.println(pData.kd); // Use println to add newline at the end
+		Serial.print((float)pData.kd/ MILLI_UNIT); // Use println to add newline at the end
+		Serial.print(", State: ");
+		Serial.print(processStateToString(currentProcessState));
+		Serial.println();
 
 		lastSerialPrint = millis();
 	}
 #endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 }
 
+String processStateToString(ProcessState state)
+{
+	switch(state)
+	{
+	case INACTIVE_PROCESS:
+		return "INACTIVE";
+	case ACTIVE_PROCESS:
+		return "ACTIVE";
+	case ERROR_PROCESS:
+		return "ERROR";
+	case STANDBY_PROCESS:
+		return "STANDBY";
+	default:
+		return "UNKNOWN";
+	}
+}
+
+
 // Machine events
 #ifdef _LCDGUI_
 enum event
 {
 	// Private machine events
-	EV_NONE,  /**< Machine event: no pending event */
-	EV_BTN_CLICKED, /**< Machine event: button pressed */
+	EV_NONE,		 /**< Machine event: no pending event */
+	EV_BTN_CLICKED,	 /**< Machine event: button pressed */
 	EV_BTN_2CLICKED, /**< Machine event: button double pressed */
-	EV_BTN_HELD, /**< Machine event: button held */
-	EV_BTN_RELEASED /**< Machine event: button released */
-	EV_ENCUP, /**< Machine event: encoder rotate right */
-	EV_ENCDN, /**< Machine event: encoder rotate left */
+	EV_BTN_HELD,	 /**< Machine event: button held */
+	EV_BTN_RELEASED	 /**< Machine event: button released */
+		EV_ENCUP,	 /**< Machine event: encoder rotate right */
+	EV_ENCDN,		 /**< Machine event: encoder rotate left */
 
 	// Public machine events
 	EV_BOOTDN,		 /**< Machine event: button pressed on boot */
@@ -701,28 +777,30 @@ enum event
  *            variable accordingly.
  */
 
-
 void encoderEvent()
 {
 #ifdef _LCDGUI_
 	static unsigned long lastEncTime = 0;
-	
+
 	// Check rotary action first since button takes precendence and we want to avoid
 	// overwriting the button event and missing a button event.
 	encNewPos += encoder->getValue();
 
-	  if (value != last) {
+	if (value != last)
+	{
 		lastActiveTime = lastEncTime = millis();
 
-		if(encNewPos < encLastPos){
+		if (encNewPos < encLastPos)
+		{
 			mEvent = EV_ENCDN;
 		}
-		else if(encNewPos > encLastPos){
+		else if (encNewPos > encLastPos)
+		{
 			mEvent = EV_ENCUP;
 		}
 
 		encLastPos = encNewPos;
-	  }
+	}
 
 	ClickEncoder::Button b = encoder->getButton();
 	if (b != ClickEncoder::Open)
@@ -767,10 +845,8 @@ enum states
 	ST_STANDBY,		/**< Machine state: standby */
 	ST_HOME_SCREEN, /**< Machine state: home screen */
 
-
-
 	ST_STANDBY_SCREEN, /**< Machine state: standby screen */
-	ST_SYSTEM_SCREEN, /**< Machine state: display system screen, currently only manual eeprom reset */
+	ST_SYSTEM_SCREEN,  /**< Machine state: display system screen, currently only manual eeprom reset */
 };
 #endif /* _LCDGUI_ */
 
@@ -849,7 +925,6 @@ void splash()
 
 #endif /* _LCDGUI_ */
 
-
 /***************************************************************************************************
  * Utility EEPROM Functions                                                                         *
  ***************************************************************************************************/
@@ -862,10 +937,10 @@ void splash()
 void resetEeprom(boolean full)
 {
 
-	// Write the factory default data to the eeprom. In the case of 
+	// Write the factory default data to the eeprom. In the case of
 	// \todo
-		// [vals], these are zeroed, otherwise they are left unchanged.
-	
+	// [vals], these are zeroed, otherwise they are left unchanged.
+
 	pData.tempRunAwayDelta = DEF_TEMP_RUNA_DELTA;
 	pData.tempRunAwayCycles = DEF_TEMP_RUNA_CYCLES;
 	pData.setTemp = DEF_SET_TEMP;

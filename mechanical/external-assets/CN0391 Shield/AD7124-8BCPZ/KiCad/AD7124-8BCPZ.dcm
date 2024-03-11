@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0
-#
-$CMP AD7124-8BCPZ
-D 8-Channel, Low Noise, Low Power, 24-Bit, Sigma-Delta ADC with PGA and Reference
-K
-F https://www.analog.com/AD7124-8/datasheet
-$ENDCMP
-#
-#End Doc Library

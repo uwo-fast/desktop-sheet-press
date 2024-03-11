@@ -100,9 +100,9 @@
 #define DEF_PROCESS_INTERVAL 10             /**< Default process interval (ms) */
 #define DEF_PROCESS_DURATION 300000          /** <f e.g. 300000 = 5 minute */
 #define DEF_SERIAL_PRINT_INTERVAL 1000       /**< Default serial print interval (ms) */
-#define DEF_KP               1000               /**< Default Proportional milli gain [1.000] */
-#define DEF_KI               0100                /**< Default Integral milli gain [0.100] */
-#define DEF_KD               0020                /**< Default Derivative milli gain [0.020] */
+#define DEF_KP               2000               /**< Default Proportional milli gain [2.000] */
+#define DEF_KI               0400                /**< Default Integral milli gain [0.400] */
+#define DEF_KD               0050                /**< Default Derivative milli gain [0.050] */
 #define DEF_CP               2                /**< Default Derivative scale constant for dynamic tuning */
 #define DEF_CI               2                /**< Default Integral scale constant for dynamic tuning */
 #define DEF_CD               2                /**< Default Derivative scale constant for dynamic tuning */
@@ -177,24 +177,10 @@
 /***************************************************************************************************
 * Structure, union, and enumerated type definitions                                                *
 ***************************************************************************************************/
-// !!!!!!!!!!!!!!!!!!!!!!!
-typedef  enum {                             /**< Type enumerations for format of variables */
-         VF_BATTALM,                        /**< Battery alarm voltage */
-         VF_TEMPALM,                        /**< Temperature Alarm value */
-         VF_BATTV,                          /**< Battery voltage */
-         VF_BATTA,                          /**< Battery Amps */
-         VF_TEMP,                           /**< Temperature */
-         VF_WELDCNT,                        /**< Weld count */
-         VF_PLSDLY,                         /**< Pulse delay */
-         VF_SHTPLS,                         /**< Short pulse duration */
-         VF_DELAY                           /**< Delay */
-} vf_Type;
-// !!!!!!!!!!!!!!!!!!!!!!!
-
 typedef  struct   progData {                /**< Program operating data structure */
 
         uint8_t  tempRunAwayDelta;
-        uint8_t  tempRunAwayCycles;
+        uint8_t  tempRunAwayCycles;        
         uint16_t setTemp;						 /**< Current set temperature */
         uint16_t controlPeriod;             /**< Control period (ms) */
         uint16_t processInterval;           /**< Process interval (ms) */
@@ -206,7 +192,7 @@ typedef  struct   progData {                /**< Program operating data structur
         uint8_t  cp;                        /**< Derivative constant for dynamic tuning */
         uint8_t ci;                        /**< Integral constant for dynamic tuning */
         uint8_t  cd;                        /**< Derivative constant for dynamic tuning */
-        uint8_t gapThreshold;               /**< Temperature gap threshold */
+        uint8_t gapThreshold;               /**< Temperature gap threshold for dynamic tuning */
 } progData;
 
 /*
@@ -238,41 +224,29 @@ These types are defined in the <cstdint> header and provide a standardized way t
 * Procedure prototypes                                                                             *
 ***************************************************************************************************/
 
-// LLM this part at the end
+// Process control and state handling
+void handleSerialCommands();
+void printSerialData();
+void signalError(); // Placeholder for actual implementation
+void systemChecks();
+void thermalRunawayCheck(); // Placeholder for actual implementation
+void logSD(); // Placeholder for actual implementation
+void checkSleep();
+void readCheckTemp();
+void checkIsnan(double temp1, double temp2);
+void processTimeManagement();
+void slowPWM(int SSRn, unsigned long &cycleStart, double period, double output);
+void dynamicTuning();
 
-/*
-void     stateMachine();
+#ifdef _LCDGUI_
+void encoderEvent();
+void lcdUserStateMachine();
+#endif /* _LCDGUI_ */
 
-void     resetEeprom(boolean = false);
-void     loadEeprom();
-void     updateEeprom();
-
-void     checkForLowVoltageEvent();
-void     checkForSleepEvent();
-void     checkForBtnEvent();
-void     checkTemp();
-void     foot_switch_error();
-void     FootSwitch_Alarm();
-void     Boot_Sound();
-void     LowBattery_Sound();
-void     isr();
-void     splash();
-void     sendWeldPulse(uint8_t, uint16_t, uint16_t, boolean = PL_ACTIVE_H);  
-void     message(const __FlashStringHelper*, const __FlashStringHelper*,
-                 const __FlashStringHelper*, uint8_t = 0);
-void     displayMenuType1(const __FlashStringHelper*, const __FlashStringHelper*,
-                          const __FlashStringHelper*, const __FlashStringHelper*, 
-                          uint8_t SelectedItem);
-void     displayMenuType2(const __FlashStringHelper*, const char*, const __FlashStringHelper*);
-void     displayMainScreen();
-void     displayPulseData();
-void     displayLowBattery();
-void     displayHighBattery();
-void     displayHighTemperature();
-void     drawStatusLine();
-void     setTextProp(uint8_t, uint8_t, uint8_t, uint16_t = WHITE, boolean = false);
-char*    valStr(char*, uint16_t, vf_Type);
-*/
+// EEPROM management functions
+void resetEeprom(bool full);
+void loadEeprom();
+void updateEeprom();
 
 #endif // _PRESS_CONTROL_v1_0_0_H
 
