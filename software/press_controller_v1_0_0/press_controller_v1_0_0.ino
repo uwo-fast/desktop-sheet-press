@@ -66,67 +66,39 @@
  */
 /***********************************************************************************************/
 
+
 // Libraries for PID and Thermocouples
-#include <PID_v1.h>
 #include <SPI.h>
 #include <Wire.h>
-#include <Adafruit_MAX31855.h>
+#include <avr/wdt.h>
+
 #include <EEPROM.h>
 
+#include <PID_v1.h>
+#include <Adafruit_MAX31855.h>
+
+
+#ifdef _LCDGUI_
 // The I2C LCD library
 #include <LiquidCrystal_I2C.h>
 // The menu wrapper library
 #include <LiquidMenu.h>
 
+// For Rotary Click Encoder
+#include <ClickEncoder.h>
+#include <TimerOne.h>
+#endif /* _LCDGUI_ */
 
-#include <press_controller_v1_0_0.h>
-
-// Machine states
-enum states
-{
-	ST_STANDBY,		/**< Machine state: standby */
-	ST_HOME_SCREEN, /**< Machine state: home screen */
-
-	ST_SYSTEM_SCREEN, /**< Machine state: display system screen, currently only manual eeprom reset */
-};
-
-// Machine events
-enum event
-{
-	// Private machine events
-	EV_NONE,  /**< Machine event: no pending event */
-	EV_BTNDN, /**< Machine event: button pressed */
-	EV_BTNUP, /**< Machine event: button released */
-	EV_ENCUP, /**< Machine event: encoder rotate right */
-	EV_ENCDN, /**< Machine event: encoder rotate left */
-
-	// Public machine events
-	EV_BOOTDN,		 /**< Machine event: button pressed on boot */
-	EV_STBY_TIMEOUT, /**< Machine event: standby timer has timed out */
-	EV_EEUPD,		 /**< Machine event: EEPROM needs updating */
-};
+#include "press_controller_v1_0_0.h"
 
 /***************************************************************************************************
  * Global program variables and objects                                                             *
  ***************************************************************************************************/
 
-// Structures and objects
-progData pData;								   /**< Program operating data */
-Adafruit_MAX31855 thermocouple1(CLK, CS1, DO); /**< Thermocouple 1 object */
-Adafruit_MAX31855 thermocouple2(CLK, CS2, DO); /**< Thermocouple 2 object */
-LiquidCrystal_I2C lcd(0x3F, 16, 2);
-
-// PID object setup for both thermocouples
-// PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, P_ON_M, DIRECT);
-PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, DIRECT); /**< PID1 object gets input from thermocouple 1 and ouputs to relay 1*/
-PID myPID2(&Input2, &Output2, &Setpoint, consKp, consKi, consKd, DIRECT); /**< PID2 object gets input from thermocouple 2 and ouputs to relay 2*/
-
-// Adafruit_SSD1306 display( 128, 64, &Wire, OLED_RESET, 800000L ); /**< OLED display object */ REPLACE WITH I2C LCD
 
 // Static variables
-uint8_t mState = ST_MAIN_SCREEN;				/**< Current machine state */
-bool tempRunAwayAlarm1 = DEF_TEMP_RUNA_ALARM_1; /**< Temperature runaway alarm for thermocouple 1 */
-bool tempRunAwayAlarm2 = DEF_TEMP_RUNA_ALARM_2; /**< Temperature runaway alarm for thermocouple 2 */
+bool tempRunAwayAlarm1 = false; /**< Temperature runaway alarm for thermocouple 1 */
+bool tempRunAwayAlarm2 = false; /**< Temperature runaway alarm for thermocouple 2 */
 bool tc1Status = TC_FAULT;						/**< Thermocouple 1 status */
 bool tc2Status = TC_FAULT;						/**< Thermocouple 2 status */
 uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0};	/**< Error flags for MAX31855 thermocouple sensor */
@@ -137,12 +109,6 @@ int8_t lastValidTemp2;							/**< Last valid temperature reading from thermocoup
 bool validTemp1 = false;						/**< Flag indicating if the temperature reading from thermocouple 1 is valid */
 bool validTemp2 = false;						/**< Flag indicating if the temperature reading from thermocouple 2 is valid */
 
-boolean sysMenu = false; //***********//	 /**< In the system menu structure */
-
-// Volatile variables - will be changed by the ISR
-volatile unsigned long lastActiveTime;
-volatile uint8_t mEvent; /**< Current pending machine event */
-
 // Process Varaibles
 unsigned long processTimeComplete = 0;
 unsigned long currentMillis = 0;
@@ -151,10 +117,41 @@ unsigned long lastMillis = 0; // Variable to hold the last update time
 unsigned long cycleStart1 = 0;
 unsigned long cycleStart2 = 0;
 
-unsigned long lastSerialPrint = 0;
 
-// Process Parameters
-uint8_t Setpoint, Input1, Output1, Input2, Output2;
+// PID Process Parameters
+double Setpoint, Input1, Output1, Input2, Output2;
+
+
+// Timing variable for the serial print interval, for serial command mode
+#ifdef _SERIALCMD_
+unsigned long lastSerialPrint = 0;
+#endif /* _SERIALCMD_ */
+
+// LCD State and Event variables
+#ifdef _LCDGUI_
+uint8_t mState = ST_MAIN_SCREEN;				/**< Current machine state */
+uint8_t mEvent; /**< Current pending machine event */
+int16_t encLastPos, encNewPos; /**< Encoder position variables */
+unsigned long lastActiveTime;
+#endif /* _LCDGUI_ */
+
+
+// Structures and objects
+progData pData;								   /**< Program operating data */
+
+Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
+Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermocouple 2 object */
+
+#ifdef _LCDGUI_
+ClickEncoder *encoder;	/**< Encoder object */
+LiquidCrystal_I2C lcd(0x3F, 16, 2);	/**< LCD display object */
+#endif /* _LCDGUI_ */
+
+// PID object setup for both thermocouples
+// PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, P_ON_M, DIRECT);
+PID myPID1(&Input1, &Output1, &Setpoint, DEF_KP/MILLI_UNIT, DEF_KI/MILLI_UNIT, DEF_KD/MILLI_UNIT, DIRECT); /**< PID1 object gets input from thermocouple 1 and ouputs to relay 1*/
+PID myPID2(&Input2, &Output2, &Setpoint, DEF_KP/MILLI_UNIT, DEF_KI/MILLI_UNIT, DEF_KD/MILLI_UNIT, DIRECT); /**< PID2 object gets input from thermocouple 2 and ouputs to relay 2*/
+
 
 // ------------------------------------------------------
 // SETUP -------------------------------------------------
@@ -195,27 +192,34 @@ bool thermocoupleSetup(Adafruit_MAX31855 &thermocouple)
 	return tcInitFlag;
 }
 
+#ifdef _LCDGUI_
+void timerIsr() {
+  encoder->service();
+}
+#endif /* _LCDGUI_ */
+
 // Setup Main
 void setup()
 {
-#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
 	Serial.begin(_SERIAL_BAUD_);
-#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 
-	// The interrupt is used to sense the encoder rotation. It could just as well be polled
-	// without loss of responsiveness. This was actually tried and no noticeable performance
-	// degradation was observed. Interrupts are usefull for high speed encoders such as
-	// used on servo systems. Manually adjusted encoders are very slow.
-	// This needs to happen before the delay to allow the interrupt to be set up before the
+#ifdef _LCDGUI_
+	// This needs to happen before the delay to allow the Timer1 to be set up before the
 	// user needs to use it to possibly enter the system menu.
-	attachInterrupt(ENC_INT, isr, FALLING);
+	encoder = new ClickEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, 4);
+
+	Timer1.initialize(1 * MILLI_UNIT); // 1* MILLI_UNIT = 1,000ms = 1s
+	Timer1.attachInterrupt(timerIsr); 
+#endif /* _LCDGUI_ */
 
 	// Delay to allow entering eeprom reset on GUI or to click and open serial monitor on PC
 	delay(500);
 
 	// Initialize thermocouples
-	pinMode(CS1, OUTPUT);
-	pinMode(CS2, OUTPUT);
+	pinMode(PIN_TC_CS1, OUTPUT);
+	pinMode(PIN_TC_CS2, OUTPUT);
 
 	// Set SSR pins as output
 	pinMode(PIN_SSR1, OUTPUT);
@@ -224,7 +228,7 @@ void setup()
 	tc1Status = thermocoupleSetup(thermocouple1);
 	tc2Status = thermocoupleSetup(thermocouple2);
 
-#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
 	Serial.println("Initializing TC sensor...");
 
 	if (tc1Status == TC_FAULT)
@@ -244,11 +248,11 @@ void setup()
 	{
 		Serial.println("Thermocouple 2 initialized.");
 	}
-#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 
 	// Applying the default PID tunings / settings
 	// Set initial setpoint temperature
-	Setpoint = setTemp;
+	Setpoint = pData.setTemp;
 
 	/***********************
 	Set PID controllers to automatic mode
@@ -262,12 +266,23 @@ void setup()
 	myPID1.SetMode(AUTOMATIC);
 	myPID2.SetMode(AUTOMATIC);
 	// Set PID sample time
-	myPID1.SetSampleTime(pData.period);
-	myPID2.SetSampleTime(pData.period);
+	myPID1.SetSampleTime(pData.controlPeriod);
+	myPID2.SetSampleTime(pData.controlPeriod);
 	myPID1.SetOutputLimits(0, 255);
 	myPID2.SetOutputLimits(0, 255);
 
-	/**
+	// Test if the pushbutton is pressed at boot time. If so then ensure entry to the system
+	// menu by the issue of a boot button down event.
+#ifdef _BOOTSYS_ && _LCDGUI_
+	mEvent = EV_BOOTDN;
+#endif
+
+#ifdef _LCDGUI_
+	encoderEvent();
+	mEvent == EV_BTN_HELD ? EV_BOOTDN : EV_NONE;
+#endif /* _BOOTSYS_ && _LCDGUI_ */
+
+	/** IMPORTANT FOR UNDERSTANDING THE EEPROM AND VARIABLE INITIALIZATION
 	 * @brief Loads program data from EEPROM on startup.
 	 *
 	 * This function is called during the setup phase of the Arduino sketch to initialize
@@ -292,7 +307,7 @@ void setup()
 	 *       of the program. Subsequent uploads not adhering to the EEPROM writing convention
 	 *       may inadvertently preserve the unique ID, leading to incorrect data validation.
 	 */
-	void loadEeprom();
+	loadEeprom();
 
 	int suDelay = 100;
 	delay(suDelay);
@@ -307,14 +322,14 @@ enum ProcessState
 	INACTIVE_PROCESS, // Indicates an inactive process
 	ACTIVE_PROCESS,	  // Indicates an active process
 	ERROR_PROCESS,	  // Indicates an error in the process
-	STANDBY_PROCESS	  // Indicates the system is in standby, operationally analogous to INACTIVE_PROCESS
+	STANDBY_PROCESS	  // Indicates the system is in standby
 };
 
 ProcessState currentProcessState = INACTIVE_PROCESS;
 
 void loop()
 {
-	userStateMachine();
+	lcdUserStateMachine();
 	systemChecks();
 	handleSerialCommands();
 	printSerialData();
@@ -330,26 +345,30 @@ void loop()
 		case ACTIVE_PROCESS:
 			// Only run PID and slowPWM if activeProcess is true
 
-			Input1 = temp1;
-			Input2 = temp2;
-			Setpoint = setTemp;
+			Input1 = (double)temp1;
+			Input2 = (double)temp2;
+			Setpoint = (double)pData.setTemp;
 
-			// dynamicTuning();
+			dynamicTuning();
 			myPID1.Compute();
 			myPID2.Compute();
-			slowPWM(PIN_SSR1, cycleStart1, pData.period, Output1);
-			slowPWM(PIN_SSR2, cycleStart2, pData.period, Output2);
+			slowPWM(PIN_SSR1, cycleStart1, pData.controlPeriod, Output1);
+			slowPWM(PIN_SSR2, cycleStart2, pData.controlPeriod, Output2);
 			// Further operations for the active process
 			processTimeManagement();
 			break;
 
 		case INACTIVE_PROCESS:
 			// If the process is not active, just read temperatures and write SSRs LOW
+			Setpoint = 0;
+			Output1 = 0;
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
 			break;
 
 		case ERROR_PROCESS:
+			Setpoint = 0;
+			Output2 = 0;
 			// Handle error condition, perhaps by setting SSRs to LOW and signaling error
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
@@ -357,7 +376,9 @@ void loop()
 			signalError(); // TODO
 			break;
 
-		default:
+		default: // STANDBY_PROCESS & ALL ELSE
+			Setpoint = 0;
+			Output2 = 0;
 			// Default action, perhaps similar to INACTIVE_PROCESS or specific safe state
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
@@ -413,35 +434,6 @@ void logSD() // TODO
 	// Log data to SD card
 }
 
-/* -------------------------------Read and Check Button Event----------------------------------*/
-/**
- *  \brief    Reads the rotary encoder push button switch transition event.
- *  \remarks  Issues a switch transition event according to whether the switch is has been pressed
- *            and the debounce interval has expired or whether the switch has been released.
- */
-void checkForBtnEvent()
-{
-	static unsigned long lastBtnTime = 0;
-	static boolean lastBtnState = B_UP;
-	boolean thisBtnState;
-
-	thisBtnState = btnState();
-
-	// Ignore changes that occur within the debounce period.
-	if (millis() - lastBtnTime > RS_DEBOUNCE)
-	{
-
-		// Only respond to a change of the biutton state.
-		if (thisBtnState != lastBtnState)
-		{
-			// Issue an event based on the current state of the button.
-			mEvent = thisBtnState == B_UP ? EV_BTNUP : EV_BTNDN;
-
-			lastActiveTime = lastBtnTime = millis();
-			lastBtnState = thisBtnState;
-		}
-	}
-}
 
 /*-------------------------------Check Sleep for Standby----------------------------------*/
 /**
@@ -450,11 +442,15 @@ void checkForBtnEvent()
  */
 void checkSleep()
 {
+#ifdef _LCDGUI_
+	// \todo
+		// make sure it doesnt go to sleep if the process is active
+
 	// The last active time is updated every time some activity occurs. If the standby timeout
 	// period has expired without any activity then a timeout event is issued.
 	if (lastActiveTime + STANDBY_TIME_OUT < millis())
-		if (mState != ST_BATTERY_LOW)
 			mEvent = EV_STBY_TIMEOUT;
+#endif /* _LCDGUI_ */
 }
 
 /* -------------------------------Read and Check Temperature----------------------------------*/
@@ -468,11 +464,12 @@ void readCheckTemp()
 	temp2 = thermocouple2.readCelsius();
 	checkIsnan(temp1, temp2);
 
-	// error ratio checking
+	// \todo
+		// error ratio checking
 }
 
 // Function to check if temperature readings are NaN and perform error handling
-void checkIsnan(double &temp1, double &temp2)
+void checkIsnan(double temp1, double temp2)
 {
 	// Read error flags from thermocouple 1 and generate error code
 	uint8_t e1 = thermocouple1.readError();
@@ -499,8 +496,9 @@ void processTimeManagement()
 	// TODO DURATION CONTROL
 	// Check if processTimeComplete has reached processDuration
 
+/*
 	// Check if temperature readings meet condition
-	if (temp1 >= setTemp && temp2 >= setTemp)
+	if (temp1 >= pData.setTemp && temp2 >= pData.setTemp)
 	{
 		tempConditionMet = min(tempConditionMet + 1, 5);
 	}
@@ -509,7 +507,7 @@ void processTimeManagement()
 		tempConditionMet = 0; // Reset counter if condition not met
 	}
 
-	if (lastSetTemp != setTemp)
+	if (lastSetTemp != pData.setTemp)
 	{
 		tempConditionMet = 0;
 	}
@@ -525,8 +523,10 @@ void processTimeManagement()
 	{
 		processDone = true;
 	}
-	lastSetTemp = setTemp;
+	lastSetTemp = pData.setTemp;
+*/
 }
+
 
 // Function to implement slow PWM for SSR control
 void slowPWM(int SSRn, unsigned long &cycleStart, double period, double output)
@@ -559,28 +559,28 @@ void dynamicTuning()
 	double gap1 = abs(Setpoint - Input1);
 	if (gap1 < pData.gapThreshold)
 	{ // Less aggressive tuning parameters for small gap
-		myPID1.SetTunings(pData.kp / pData.cp, pData.ki / pData.ci, pData.kd / pData.cd);
+		myPID1.SetTunings(pData.kp / pData.cp / MILLI_UNIT, pData.ki / pData.ci / MILLI_UNIT, pData.kd / pData.cd / MILLI_UNIT);
 	}
 	else
 	{ // More aggressive tuning parameters for large gap
-		myPID1.SetTunings(pData.kp, pData.ki, pData.kd);
+		myPID1.SetTunings(pData.kp / MILLI_UNIT, pData.ki / MILLI_UNIT, pData.kd / MILLI_UNIT);
 	}
 
 	double gap2 = abs(Setpoint - Input2);
 	if (gap2 < pData.gapThreshold)
 	{ // Less aggressive tuning parameters for small gap
-		myPID2.SetTunings(pData.kp / pData.cp, pData.ki / pData.ci, pData.kd / pData.cd);
+		myPID2.SetTunings(pData.kp / pData.cp / MILLI_UNIT, pData.ki / pData.ci / MILLI_UNIT, pData.kd / pData.cd / MILLI_UNIT);
 	}
 	else
 	{ // More aggressive tuning parameters for large gap
-		myPID2.SetTunings(pData.kp, pData.ki, pData.kd);
+		myPID2.SetTunings(pData.kp / MILLI_UNIT, pData.ki / MILLI_UNIT, pData.kd / MILLI_UNIT);
 	}
 }
 
 // Function to allow serial navigation and control
 void handleSerialCommands()
 {
-#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
 	static String received = "";
 	while (Serial.available() > 0)
 	{
@@ -612,7 +612,7 @@ void handleSerialCommands()
 			else if (received.startsWith("dt="))
 			{
 				// Assuming dt is for processDuration in minutes, converted to milliseconds
-				pData.processDuration = (uint16_t)(received.substring(3).toInt() * 1000 * 60);
+				pData.processDuration = (uint16_t)(received.substring(3).toInt() * MILLI_UNIT * 60);
 			}
 			else if (received.startsWith("kp="))
 			{
@@ -629,12 +629,12 @@ void handleSerialCommands()
 			received = ""; // clear received data
 		}
 	}
-#endif /* _DEVELOPMENT_ || _BOOTSYS_ */
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_ */
 }
 
 void printSerialData()
 {
-#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
 	if (millis() - lastSerialPrint > pData.serialPrintInterval)
 	{
 
@@ -652,25 +652,105 @@ void printSerialData()
 		Serial.print(", t2: ");
 		Serial.print(temp2);
 		Serial.print(", st: ");
-		Serial.print(setTemp);
+		Serial.print(pData.setTemp);
 		Serial.print(", o1: ");
 		Serial.print(Output1);
 		Serial.print(", o2: ");
 		Serial.print(Output2);
 		Serial.print(", t: ");
-		Serial.print((float)processTimeComplete / 1000 / 60);
+		Serial.print((float)processTimeComplete / MILLI_UNIT / 60);
 		Serial.print(", dt: ");
-		Serial.print((float)pData.processDuration / 1000 / 60);
-		Serial.print(", aggKp: ");
-		Serial.print(pData.kp);
-		Serial.print(", aggKi: ");
-		Serial.print(pData.ki);
-		Serial.print(", aggKd: ");
+		Serial.print((float)pData.processDuration / MILLI_UNIT / 60);
+		Serial.print(", Kp: ");
+		Serial.print(pData.kp / MILLI_UNIT);
+		Serial.print(", Ki: ");
+		Serial.print(pData.ki / MILLI_UNIT);
+		Serial.print(", Kd: ");
 		Serial.println(pData.kd); // Use println to add newline at the end
 
 		lastSerialPrint = millis();
 	}
-#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
+}
+
+// Machine events
+#ifdef _LCDGUI_
+enum event
+{
+	// Private machine events
+	EV_NONE,  /**< Machine event: no pending event */
+	EV_BTN_CLICKED, /**< Machine event: button pressed */
+	EV_BTN_2CLICKED, /**< Machine event: button double pressed */
+	EV_BTN_HELD, /**< Machine event: button held */
+	EV_BTN_RELEASED /**< Machine event: button released */
+	EV_ENCUP, /**< Machine event: encoder rotate right */
+	EV_ENCDN, /**< Machine event: encoder rotate left */
+
+	// Public machine events
+	EV_BOOTDN,		 /**< Machine event: button pressed on boot */
+	EV_STBY_TIMEOUT, /**< Machine event: standby timer has timed out */
+};
+#endif /* _LCDGUI_ */
+
+/***************************************************************************************************
+ * Click Button Encoder Event Processor                                                            *
+ ***************************************************************************************************/
+/**
+ *  \brief    Processes the button and encoder events.
+ *  \remarks  This function processes the button and encoder events and sets the machine event
+ *            variable accordingly.
+ */
+
+
+void encoderEvent()
+{
+#ifdef _LCDGUI_
+	static unsigned long lastEncTime = 0;
+	
+	// Check rotary action first since button takes precendence and we want to avoid
+	// overwriting the button event and missing a button event.
+	encNewPos += encoder->getValue();
+
+	  if (value != last) {
+		lastActiveTime = lastEncTime = millis();
+
+		if(encNewPos < encLastPos){
+			mEvent = EV_ENCDN;
+		}
+		else if(encNewPos > encLastPos){
+			mEvent = EV_ENCUP;
+		}
+
+		encLastPos = encNewPos;
+	  }
+
+	ClickEncoder::Button b = encoder->getButton();
+	if (b != ClickEncoder::Open)
+	{
+		switch (b)
+		{
+		case ClickEncoder::Clicked:
+			lastActiveTime = lastEncTime = millis();
+			mEvent = EV_BTN_CLICKED;
+			break;
+		case ClickEncoder::DoubleClicked:
+			lastActiveTime = lastEncTime = millis();
+			mEvent = EV_BTN_2CLICKED;
+			break;
+		case ClickEncoder::Held:
+			lastActiveTime = lastEncTime = millis();
+			mEvent = EV_BTN_HELD;
+			break;
+		case ClickEncoder::Released:
+			lastActiveTime = lastEncTime = millis();
+			mEvent = EV_BTN_RELEASED;
+			break;
+		default:
+			mEvent = EV_NONE;
+			break;
+		}
+	}
+#endif /* _LCDGUI_ */
 }
 
 /***************************************************************************************************
@@ -680,8 +760,23 @@ void printSerialData()
  *  \brief  Implementation of state machine.
  */
 
-void userStateMachine()
+// Machine states
+#ifdef _LCDGUI_
+enum states
 {
+	ST_STANDBY,		/**< Machine state: standby */
+	ST_HOME_SCREEN, /**< Machine state: home screen */
+
+
+
+	ST_STANDBY_SCREEN, /**< Machine state: standby screen */
+	ST_SYSTEM_SCREEN, /**< Machine state: display system screen, currently only manual eeprom reset */
+};
+#endif /* _LCDGUI_ */
+
+void lcdUserStateMachine()
+{
+#ifdef _LCDGUI_
 	static uint8_t currentMenuItemIndex = 0;
 	static uint8_t mainMenuSelectionIndex = 0;
 	static uint8_t subMenuSelectionIndex = 0;
@@ -696,22 +791,18 @@ void userStateMachine()
 	}
 	else
 	{
-		// Search for and process any private events.
-		// Check for button events
-		checkForBtnEvent();
-
-		// MACHINE EVENTS
+		// MACHINE EVENTS -----------------------
 		switch (mEvent)
 		{
 		case EV_STBY_TIMEOUT:
-			mState = ST_STANDBY;
+			mState = ST_STANDBY_SCREEN;
 			mEvent = EV_NONE;
 			break;
 		default:
 			break;
 		}
 
-		// MACHINE STATES
+		// MACHINE STATES -----------------------
 		switch (mState)
 		{
 
@@ -723,7 +814,10 @@ void userStateMachine()
 			break;
 		}
 	}
+#endif /* _LCDGUI_ */
 }
+
+#ifdef _LCDGUI_
 
 /***************************************************************************************************
  * LCD DISPLAYS SCREENS		                                                                       *
@@ -753,30 +847,8 @@ void splash()
 	display.display(); // set to home screen
 }
 
-/***************************************************************************************************
- * Interrupt service routine                                                                        *
- ***************************************************************************************************/
-/**
- *  \brief    Interrupt service routine.
- *  \remarks  Responds to interrupts from the rotary encoder. Manages and tracks rotary encoder
- *            position changes. Issues encoder position transition events according to whether
- *            the encoder is rotated clockwise (up) or anticlockwise (down).
- */
-void isr()
-{
-	static volatile unsigned long lastInterruptTime = 0;
+#endif /* _LCDGUI_ */
 
-	// Ignore changes that occur within the debounce period.
-	if ((millis() - lastInterruptTime) > RS_DEBOUNCE)
-	{
-
-		// There are two pins to the encoder. One pin issues the interrupt. The other pin
-		// therefore indicates the phase, which is effectively the direction of rotation.
-		// Read the phase pin and issue an encoder direction event based on its state.
-		mEvent = digitalRead(PIN_DT) ? EV_ENCDN : EV_ENCUP;
-		lastActiveTime = lastInterruptTime = millis();
-	}
-}
 
 /***************************************************************************************************
  * Utility EEPROM Functions                                                                         *
@@ -790,6 +862,10 @@ void isr()
 void resetEeprom(boolean full)
 {
 
+	// Write the factory default data to the eeprom. In the case of 
+	// \todo
+		// [vals], these are zeroed, otherwise they are left unchanged.
+	
 	pData.tempRunAwayDelta = DEF_TEMP_RUNA_DELTA;
 	pData.tempRunAwayCycles = DEF_TEMP_RUNA_CYCLES;
 	pData.setTemp = DEF_SET_TEMP;
@@ -805,21 +881,6 @@ void resetEeprom(boolean full)
 	pData.cd = DEF_CD;
 	pData.gapThreshold = DEF_GAP_THRESHOLD;
 
-	// Write the factory default data to the eeprom. In the case of a full reset, the weld count,
-	// battery offset, and screen orientation are zeroed, otherwise they are left unchanged.
-	pData.autoPulseDelay = DEF_AUTO_PLSDELAY;
-	pData.PulseBatteryVoltage = DEF_PULSE_VOLTAGE;
-	pData.PulseAmps = DEF_PULSE_AMPS;
-	pData.batteryAlarm = DEF_BATT_ALARM;
-	pData.batteryhighAlarm = DEF_HIGH_BATT_ALARM;
-	pData.weldCount = full == EE_FULL_RESET ? 0 : pData.weldCount;
-	pData.pulseTime = DEF_PULSE_TIME;
-	pData.maxPulseTime = DEF_MAX_PULSE_TIME;
-	pData.shortPulseTime = DEF_SPULSE_TIME;
-	pData.batteryOffset = full == DEF_BATTERY_OFFSET ? 0 : pData.batteryOffset;
-	pData.pFlags.en_autoPulse = DEF_AUTO_PULSE;
-	pData.pFlags.en_oledInvert = full ? DEF_OLED_INVERT : pData.pFlags.en_oledInvert;
-
 	// The put function does not write new data if the existing data is the same thereby
 	// limiting eeprom wearout.
 	EEPROM.put(EEA_PDATA, pData);
@@ -828,13 +889,13 @@ void resetEeprom(boolean full)
 	// (there are much better methods but we don't have the code space to spare).
 	EEPROM.put(EEA_ID, EE_UNIQUEID);
 
-#if defined _DEVELOPMENT_ || defined _BOOTSYS_
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
 
 	if (full)
 		Serial.print(F("EEPROM Full Reset"));
 	else
 		Serial.println(F("EEPROM Reset"));
-#endif /* _DEVELOPMENT_ || _BOOTSYS_*/
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 }
 
 void loadEeprom()

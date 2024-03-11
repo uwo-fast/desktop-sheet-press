@@ -1,5 +1,5 @@
-#ifndef _PRESS_CONTROL_v1_0_0
-#define _PRESS_CONTROL_v1_0_0
+#ifndef _PRESS_CONTROL_v1_0_0_H
+#define _PRESS_CONTROL_v1_0_0_H
 
 /***********************************************************************************************//**
  *  \par        Press Controller - Header.
@@ -57,40 +57,48 @@
 /***************************************************************************************************
 * User Configuration                                                                               *
 ***************************************************************************************************/
+// Uncomment the below line to enable the serial command interface
+#define _SERIALCMD_                   /**< Enable serial command interface */
+// Uncomment the below line to enable the LCD GUI interface
+// #define _LCDGUI_                      /**< Enable the LCD GUI interface */
 // Uncomment the below line to enable development mode for use without GUI
 // #define _DEVELOPMENT_                /**< Allows printing of to serial for development*/
 // Uncomment the below line to enable boot to system menu for testing, currently only for manual eeprom reset
-// #define _BOOTSYS_                           /**< Force boot to system menu for testing */
+// #define _BOOTSYS_                           /**< Force boot to system menu for testing. NEED TO ENABLE GUI */
+
+
 #define _LANG_EN_                       /**< Language:  _LANG_EN/DE/FR/ES/IT_ */
 #define _SERIAL_BAUD_       115200      /**< Comms rate for serial, maximum before it got dicey was 115200*/
 
 /***************************************************************************************************
 * Pin and interrupt definitions                                                                    *
 ***************************************************************************************************/
-
-#define ENC_INT                 0               /**< Rotary interrupt for CLK input (Ph0) */
-#define PIN_ENC_CLK             2               /**< Rotary encoder CLK input (Ph0) */
-#define PIN_ENC_DT              8               /**< Rotary encoder DT input (Ph1) */
-#define PIN_ENC_SW              6               /**< Rotary encoder push button switch input */
-#define TC_CS1                  5               /**< Thermocouple 1 SPI chip select */
-#define TC_CLK                  6               /**< Thermocouple SPI clock */
-#define TC_CS2                  7               /**< Thermocouple 2 SPI chip select */
-#define TC_DO                   8               /**< Thermocouple SPI data out */
-#define PIN_SSR1                11               /**< Relay 1 output | 14 - A0 */
-#define PIN_SSR2                12               /**< Relay 2 output | 15 - A1 */
+#define PIN_ENC_SW              2               /**< Rotary encoder push button switch input */
+#define PIN_ENC_DT              3               /**< Rotary encoder DT input */
+#define PIN_ENC_CLK             4               /**< Rotary encoder CLK input  */
+#define PIN_TC_CS1              5               /**< Thermocouple 1 SPI chip select */
+#define PIN_TC_CLK              7               /**< Thermocouple SPI clock */
+#define PIN_TC_CS2              6               /**< Thermocouple 2 SPI chip select */
+#define PIN_TC_DO               8               /**< Thermocouple SPI data out */
+#define SD_MISO                 9               /**< SD card SPI MISO */
+#define SD_SCK                  10              /**< SD card SPI SCK */
+#define SD_CS                   11              /**< SD card SPI CS */
+#define SD_MOSI                 12              /**< SD card SPI MOSI */
+#define UNUSED                  13              /**< UNUSED PIN */
+#define PIN_SSR1                14               /**< Relay 1 output | 14 - A0 */
+#define PIN_SSR2                15               /**< Relay 2 output | 15 - A1 */
 
 /***************************************************************************************************
 * Macros                                                                                           *
 ***************************************************************************************************/
 // Defaults for operational variables
-#define DEF_TEMP_RUNA_ALARM_1  false              /**< Default temperature 1 gap flag
-#define DEF_TEMP_RUNA_ALARM_2  false              /**< Default temperature 1 gap flag
+
 #define DEF_TEMP_RUNA_DELTA  30              /**< Default temperature gap in C */
 #define DEF_TEMP_RUNA_CYCLES  20              /**< Default number of allowed active temperature gap cycles */
 #define DEF_SET_TEMP         150              /**< Default set temperature in C */
 #define DEF_CONTROL_PERIOD   1000             /**< Default control period (ms) */
 #define DEF_PROCESS_INTERVAL 10             /**< Default process interval (ms) */
-#define DEF_PROCESS_DURATION 5.0 * 60 * 1000; /** <format is for illustrative effect, e.g. 1.0*1000*60*60 = 1 minute
+#define DEF_PROCESS_DURATION 300000          /** <f e.g. 300000 = 5 minute */
 #define DEF_SERIAL_PRINT_INTERVAL 1000       /**< Default serial print interval (ms) */
 #define DEF_KP               1000               /**< Default Proportional milli gain [1.000] */
 #define DEF_KI               0100                /**< Default Integral milli gain [0.100] */
@@ -101,10 +109,10 @@
 #define DEF_GAP_THRESHOLD    20                /**< Default temperature gap threshold */
 
 // Limits for operational variables
-#define MIN_TEMP_RUNA_DELTA 30              /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
-#define MAX_TEMP_RUNA_DELTA 30             /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
-#define MIN_TEMP_RUNA_CYCLES 20              /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
-#define MAX_TEMP_RUNA_CYCLES 20             /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MIN_TEMP_RUNA_DELTA 31              /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MAX_TEMP_RUNA_DELTA 29             /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MIN_TEMP_RUNA_CYCLES 19              /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
+#define MAX_TEMP_RUNA_CYCLES 21             /**< Current hardcoded until further investigation into safe limits are done before users can be given control */
 #define MIN_TEMP            0               /**< Min temperature, thermocouple min is -100C; this would require elements to be removed and additional cooling implementation */
 #define MAX_TEMP            480              /**< Max temperature, thermocouple max is 1100C and max of heaters is 480C */
 #define MIN_CONTROL_PERIOD  500             /**< Minimum control period (ms) */
@@ -136,6 +144,7 @@
 #define EEPROM_UPDATE_T     5000            /**< EEPROM update time (ms) */
 #define RS_DEBOUNCE         50  /*20*/      /**< Rotary encoder & switch debounce time (ms) */
 #define T_INTERVAL          10000           /**< temperature measurement interval (ms) */
+#define MILLI_UNIT          1000            /**< Milli unit for gain values */
 
 
 // Macros to define logical states
@@ -143,8 +152,6 @@
 #define DD_WRITE            false           /**< Data transfer direction - write */ // UN USED ???
 #define P_ON                true            /**< General macro for ON state */
 #define P_OFF               false           /**< General macro for OFF state */
-#define B_DN                true            /**< General macro for DOWN state */
-#define B_UP                false           /**< General macro for UP state */
 #define PL_ACTIVE_H         false           /**< Pin logic macro for Active High */
 #define PL_ACTIVE_L         true            /**< Pin logic macro for Active Low */
 #define TC_FAULT            false            /**< Thermocouple fault state */
@@ -193,9 +200,9 @@ typedef  struct   progData {                /**< Program operating data structur
         uint16_t processInterval;           /**< Process interval (ms) */
         uint16_t processDuration;            /**< Process duration (ms) */
         uint16_t serialPrintInterval;       /**< Serial print interval (ms) */
-        uint16_t  kp;                        /**< Proportional gain */
-        uint16_t  ki;                        /**< Integral gain */
-        uint16_t  kd;                        /**< Derivative gain */
+        uint16_t  kp;                        /**< Proportional gain in milli */
+        uint16_t  ki;                        /**< Integral gain in milli */
+        uint16_t  kd;                        /**< Derivative gain in milli*/
         uint8_t  cp;                        /**< Derivative constant for dynamic tuning */
         uint8_t ci;                        /**< Integral constant for dynamic tuning */
         uint8_t  cd;                        /**< Derivative constant for dynamic tuning */
