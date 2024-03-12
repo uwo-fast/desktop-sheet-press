@@ -109,9 +109,14 @@ bool validTemp1 = false;					  /**< Flag indicating if the temperature reading f
 bool validTemp2 = false;					  /**< Flag indicating if the temperature reading from thermocouple 2 is valid */
 
 // Process Varaibles
-unsigned long processTimeComplete = 0;
+unsigned long activeTime = 0;
+unsigned long preheatingTime = 0;
+unsigned long heatingTime = 0;
+
+unsigned long preheatTransitionStartTime = 0; // Tracks when both temps first meet preheating criteria
+
 unsigned long currentMillis = 0;
-unsigned long lastMillis = 0; // Variable to hold the last update time
+unsigned long lastMillis = 0; 
 
 unsigned long cycleStart1 = 0;
 unsigned long cycleStart2 = 0;
@@ -158,7 +163,17 @@ enum ProcessState
 	STANDBY_PROCESS	  // Indicates the system is in standby
 };
 
+enum ActiveProcessSubstate {
+    UNKNOWN,    // Default or initial substate
+	PREHEATING,    // Preheating phase of the active process
+    HEATING,    // Main processing phase
+    COOLING_DOWN   // Cooling down phase after processing
+};
+
+
 ProcessState currentProcessState = INACTIVE_PROCESS;
+
+ActiveProcessSubstate currentActiveProcessSubstate = UNKNOWN; // Default or initial substate
 
 // ------------------------------------------------------
 // SETUP -------------------------------------------------
@@ -317,6 +332,9 @@ void setup()
 	 */
 	loadEeprom();
 
+	// manual
+	//resetEeprom(EE_FULL_RESET);
+
 	int suDelay = 100;
 	delay(suDelay);
 }
@@ -355,8 +373,43 @@ void loop()
 			myPID2.Compute();
 			slowPWM(PIN_SSR1, cycleStart1, pData.controlPeriod, Output1);
 			slowPWM(PIN_SSR2, cycleStart2, pData.controlPeriod, Output2);
-			// Further operations for the active process
-			processTimeManagement();
+
+			switch (currentActiveProcessSubstate) {
+				case PREHEATING:
+					preheatingTime += pData.processInterval;
+					// Check if both temperatures are equal to or greater than setTemp - offset
+					if (temp1 >= pData.setTemp - pData.preToHeatTempOffset && temp2 >= pData.setTemp - pData.preToHeatTempOffset) {
+						// If preheatTransitionStartTime is 0, this is the first loop iteration where both temps meet the criteria
+						if (preheatTransitionStartTime == 0) {
+							preheatTransitionStartTime = currentMillis; // Start tracking time
+						} else if (currentMillis - preheatTransitionStartTime >= pData.preToHeatHoldTime) { 
+							// Conditions have been met for 10 seconds, transition to HEATING
+							currentActiveProcessSubstate = HEATING;
+							heatingTime = 0; // Reset or start tracking processing time
+							preheatTransitionStartTime = 0; // Reset preheat start time for next use
+						}
+					} else {
+						// If conditions are not met, reset the start time
+						preheatTransitionStartTime = 0;
+					}
+					break;
+				case HEATING:
+					// Accumulate heating process duration
+					heatingTime += pData.processInterval;
+
+					// Check if process duration has been met
+					if (heatingTime >= pData.heatingDuration) {
+						currentActiveProcessSubstate = COOLING_DOWN;
+					}					
+					break;
+				case COOLING_DOWN:
+                    currentProcessState = INACTIVE_PROCESS; //hardcoded at the moment, present system doesnt have active cooling
+                    currentActiveProcessSubstate = UNKNOWN;
+					break;
+				default:
+                    currentProcessState = INACTIVE_PROCESS;
+					break;
+			}
 			break;
 
 		case INACTIVE_PROCESS:
@@ -384,7 +437,7 @@ void loop()
 			break;
 
 		default: // STANDBY_PROCESS & ALL ELSE
-
+		
 			Setpoint = 0;
 			Output1 = 0;
 			Output2 = 0;
@@ -394,7 +447,6 @@ void loop()
 
 			break;
 		}
-
 		lastMillis = currentMillis;
 	}
 }
@@ -419,15 +471,13 @@ void signalError() // TODO
  *  to the setpoint plus a delta value. If the temperature readings exceed the setpoint plus
  *  the delta value for a certain number of cycles and if the output for that temperature
  *  is not issuing a zero output, a thermal runaway event is issued.
+ * 	The drivingDeltaCounter holds how many cycles the temperature has been above the setpoint plus the 
+ *  delta value while still driving the output. If the temperature is below the setpoint plus the delta
+ *  value, the counter is reset to zero. If the counter reaches the number of cycles set in the program
+ *  data, a thermal runaway event is issued. drivingDeltaCounter only increases once per control period.
  */
 void thermalRunawayCheck() // TODO
 {
-
-	// The drivingDeltaCounter holds how many cycles the temperature has been above the setpoint plus the 
-	// delta value while still driving the output. If the temperature is below the setpoint plus the delta
-	// value, the counter is reset to zero. If the counter reaches the number of cycles set in the program
-	// data, a thermal runaway event is issued. drivingDeltaCounter only increases once per control period.
-	
 
     unsigned long currentMillis = millis();
     // Check if enough time has passed for the next thermal runaway check
@@ -480,23 +530,7 @@ void logSD() // TODO
 
 }
 
-/*-------------------------------Check Sleep for Standby----------------------------------*/
-/**
- *  \brief    Issues a standby timeout event if the standby time has expired without any activity.
- *  \remarks  The standby timeout period is defined in ms in the file header.
- */
-void checkSleep()
-{
-#ifdef _LCDGUI_
-	// \todo
-	// make sure it doesnt go to sleep if the process is active
 
-	// The last active time is updated every time some activity occurs. If the standby timeout
-	// period has expired without any activity then a timeout event is issued.
-	if (lastActiveTime + STANDBY_TIME_OUT < millis())
-		mEvent = EV_STBY_TIMEOUT;
-#endif /* _LCDGUI_ */
-}
 
 /* -------------------------------Read and Check Temperature----------------------------------*/
 /**
@@ -535,39 +569,6 @@ void checkIsnan(double temp1, double temp2)
 	lastValidTemp2 = temp2;
 }
 
-void processTimeManagement()
-{
-
-	// Check if processTimeComplete has reached processDuration
-
-		// Check if temperature readings meet condition
-		if (temp1 >= pData.setTemp && temp2 >= pData.setTemp)
-		{
-			tempConditionMet = min(tempConditionMet + 1, 5);
-		}
-		else
-		{
-			tempConditionMet = 0; // Reset counter if condition not met
-		}
-
-		if (lastSetTemp != pData.setTemp)
-		{
-			tempConditionMet = 0;
-		}
-
-		// Update the process time
-		if (tempConditionMet == 5)
-		{
-			processTimeComplete += pData.processInterval;
-		}
-
-		// Check if processTimeComplete has reached processDuration
-		if (processTimeComplete >= processDuration)
-		{
-			processDone = true;
-		}
-		lastSetTemp = pData.setTemp;
-}
 
 // Function to implement slow PWM for SSR control
 void slowPWM(int SSRn, unsigned long &cycleStart, double period, double output)
@@ -652,8 +653,7 @@ void handleSerialCommands()
 			}
 			else if (received.startsWith("dt="))
 			{
-				// Assuming dt is for processDuration in minutes, converted to milliseconds
-				pData.processDuration = (uint16_t)(received.substring(3).toInt() * MILLI_UNIT * 60);
+				pData.heatingDuration = (received.substring(3).toDouble() * MILLI_UNIT * 60);
 			}
 			else if (received.startsWith("kp="))
 			{
@@ -670,10 +670,13 @@ void handleSerialCommands()
 			else if (received == "ON")
 			{
 				currentProcessState = ACTIVE_PROCESS;
+				currentActiveProcessSubstate = PREHEATING;
 			}
 			else if (received == "OFF")
 			{
 				currentProcessState = INACTIVE_PROCESS;
+				currentActiveProcessSubstate = UNKNOWN;
+
 			}
 
 			received = ""; // clear received data
@@ -703,19 +706,24 @@ void printSerialData()
 		Serial.print(tempRunAwayAlarm2 ? "WARNING" : "SAFE");
 		Serial.print(", t1: ");
 		Serial.print(temp1);
-		Serial.print(", t2: ");
+		Serial.print("C, t2: ");
 		Serial.print(temp2);
-		Serial.print(", st: ");
+		Serial.print("C, st: ");
 		Serial.print(pData.setTemp);
-		Serial.print(", o1: ");
+		Serial.print("C, o1: ");
 		Serial.print((int)Output1);
 		Serial.print(", o2: ");
 		Serial.print((int)Output2);
-		Serial.print(", t: ");
-		Serial.print((float)processTimeComplete / MILLI_UNIT / 60);
+        Serial.print(", Preheat t: ");
+        Serial.print((float)preheatingTime / MILLI_UNIT / 60, 2); 
+        Serial.print("m, Heat t: ");
+        Serial.print((float)heatingTime / MILLI_UNIT / 60, 2); 
+        Serial.print("m, Total t: ");
+        Serial.print(((float)(preheatingTime + heatingTime) / MILLI_UNIT / 60), 2); // Total time in minutes
+        Serial.print("m");
 		Serial.print(", dt: ");
-		Serial.print((float)pData.processDuration / MILLI_UNIT / 60);
-		Serial.print(", Kp: ");
+		Serial.print((float)pData.heatingDuration / MILLI_UNIT / 60);
+		Serial.print("m, Kp: ");
 		Serial.print((float)pData.kp / MILLI_UNIT); 
 		// \todo instead of floats, use a function to convert to string and shift float point
 		Serial.print(", Ki: ");
@@ -724,6 +732,8 @@ void printSerialData()
 		Serial.print((float)pData.kd/ MILLI_UNIT); // Use println to add newline at the end
 		Serial.print(", State: ");
 		Serial.print(processStateToString(currentProcessState));
+		Serial.print(", Substate: ");
+		Serial.print(activeProcessSubstateToString(currentActiveProcessSubstate));
 		Serial.println();
 
 		lastSerialPrint = millis();
@@ -731,6 +741,7 @@ void printSerialData()
 #endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 }
 
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
 String processStateToString(ProcessState state)
 {
 	switch(state)
@@ -746,6 +757,43 @@ String processStateToString(ProcessState state)
 	default:
 		return "UNKNOWN";
 	}
+}
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
+
+#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
+String activeProcessSubstateToString(ActiveProcessSubstate substate)
+{
+    switch(substate)
+    {
+        case PREHEATING:
+            return "PREHEATING";
+        case HEATING:
+            return "HEATING";
+        case COOLING_DOWN:
+            return "COOLING_DOWN";
+        default:
+            return "UNKNOWN";
+    }
+}
+#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_ */
+
+
+/*-------------------------------Check Sleep for Standby----------------------------------*/
+/**
+ *  \brief    Issues a standby timeout event if the standby time has expired without any activity.
+ *  \remarks  The standby timeout period is defined in ms in the file header.
+ */
+void checkSleep()
+{
+#ifdef _LCDGUI_
+	// \todo
+	// make sure it doesnt go to sleep if the process is active
+
+	// The last active time is updated every time some activity occurs. If the standby timeout
+	// period has expired without any activity then a timeout event is issued.
+	if (lastActiveTime + STANDBY_TIME_OUT < millis())
+		mEvent = EV_STBY_TIMEOUT;
+#endif /* _LCDGUI_ */
 }
 
 
@@ -946,7 +994,9 @@ void resetEeprom(boolean full)
 	pData.setTemp = DEF_SET_TEMP;
 	pData.controlPeriod = DEF_CONTROL_PERIOD;
 	pData.processInterval = DEF_PROCESS_INTERVAL;
-	pData.processDuration = DEF_PROCESS_DURATION;
+	pData.heatingDuration = DEF_HEATING_DURATION;
+  pData.preToHeatTempOffset = DEF_PRE_TO_HEAT_TEMP_OFFSET;      
+  pData.preToHeatHoldTime = DEF_PRE_TO_HEAT_HOLD_TIME;         
 	pData.serialPrintInterval = DEF_SERIAL_PRINT_INTERVAL;
 	pData.kp = DEF_KP;
 	pData.ki = DEF_KI;

@@ -73,20 +73,22 @@
 /***************************************************************************************************
 * Pin and interrupt definitions                                                                    *
 ***************************************************************************************************/
-#define PIN_ENC_SW              2               /**< Rotary encoder push button switch input */
-#define PIN_ENC_DT              3               /**< Rotary encoder DT input */
-#define PIN_ENC_CLK             4               /**< Rotary encoder CLK input  */
-#define PIN_TC_CS1              5               /**< Thermocouple 1 SPI chip select */
-#define PIN_TC_CLK              7               /**< Thermocouple SPI clock */
-#define PIN_TC_CS2              6               /**< Thermocouple 2 SPI chip select */
-#define PIN_TC_DO               8               /**< Thermocouple SPI data out */
-#define SD_MISO                 9               /**< SD card SPI MISO */
-#define SD_SCK                  10              /**< SD card SPI SCK */
-#define SD_CS                   11              /**< SD card SPI CS */
-#define SD_MOSI                 12              /**< SD card SPI MOSI */
-#define UNUSED                  13              /**< UNUSED PIN */
-#define PIN_SSR1                14               /**< Relay 1 output | 14 - A0 */
-#define PIN_SSR2                15               /**< Relay 2 output | 15 - A1 */
+#define PIN_ENC_SW              17               /**< Rotary encoder push button switch input */
+#define PIN_ENC_DT              6               /**< Rotary encoder DT input */
+#define PIN_ENC_CLK             7               /**< Rotary encoder CLK input  */
+
+#define PIN_TC_CS1              4               /**< Thermocouple 1 SPI chip select */
+#define PIN_TC_CLK              2               /**< Thermocouple SPI clock */
+#define PIN_TC_CS2              5               /**< Thermocouple 2 SPI chip select */
+#define PIN_TC_DO               3               /**< Thermocouple SPI data out */
+
+#define SD_MISO                 12               /**< SD card SPI MISO */
+#define SD_SCK                  13              /**< SD card SPI SCK */
+#define SD_CS                   10              /**< SD card SPI CS */
+#define SD_MOSI                 11              /**< SD card SPI MOSI */
+
+#define PIN_SSR1                8               /**< Relay 1 output | 14 - A0 */
+#define PIN_SSR2                9               /**< Relay 2 output | 15 - A1 */
 
 /***************************************************************************************************
 * Macros                                                                                           *
@@ -98,8 +100,10 @@
 #define DEF_SET_TEMP         150              /**< Default set temperature in C */
 #define DEF_CONTROL_PERIOD   1000             /**< Default control period (ms) */
 #define DEF_PROCESS_INTERVAL 10             /**< Default process interval (ms) */
-#define DEF_PROCESS_DURATION 300000          /** <f e.g. 300000 = 5 minute */
-#define DEF_SERIAL_PRINT_INTERVAL 1000       /**< Default serial print interval (ms) */
+#define DEF_HEATING_DURATION 300000          /** <f e.g. 300000 = 5 minute */
+#define DEF_PRE_TO_HEAT_TEMP_OFFSET 5        /**< Default preheat to heating process state temperature offset to transition requirements */
+#define DEF_PRE_TO_HEAT_HOLD_TIME  10000         /**< (ms) Default preheat to heating process state required hold time to meet transition requirements */
+#define DEF_SERIAL_PRINT_INTERVAL 4000       /**< Default serial print interval (ms) */
 #define DEF_KP               2000               /**< Default Proportional milli gain [2.000] */
 #define DEF_KI               0400                /**< Default Integral milli gain [0.400] */
 #define DEF_KD               0050                /**< Default Derivative milli gain [0.050] */
@@ -119,8 +123,12 @@
 #define MAX_CONTROL_PERIOD  5000            /**< Maximum control period (ms) */
 #define MIN_PROCESS_INTERVAL 5              /**< Minimum process interval (ms) */
 #define MAX_PROCESS_INTERVAL 100            /**< Maximum process interval (ms) */
-#define MIN_PROCESS_DURATION (1.0 * 60 * 1000) /**< Minimum process duration in ms (1 minute) */
-#define MAX_PROCESS_DURATION (120.0 * 60 * 1000) /**< Maximum process duration in ms (120 minutes) */
+#define MIN_HEATING_DURATION (1.0 * 60 * 1000) /**< Minimum process duration in ms (1 minute) */
+#define MAX_HEATING_DURATION (120.0 * 60 * 1000) /**< Maximum process duration in ms (120 minutes) */
+#define MIN_PRE_TO_HEAT_TEMP_OFFSET 0       /**< Minimum preheat to heating process state temperature offset to transition requirements */
+#define MAX_PRE_TO_HEAT_TEMP_OFFSET 25      /**< Maximum preheat to heating process state temperature offset to transition requirements */
+#define MIN_PRE_TO_HEAT_HOLD_TIME  1000     /**< Minimum preheat to heating process state required hold time to  meet transition requirements */
+#define MAX_PRE_TO_HEAT_HOLD_TIME  60000    /**< Maximum preheat to heating process state required hold time to  meet transition requirements */
 #define MIN_SERIAL_PRINT_INTERVAL 100       /**< Minimum serial print interval (ms) */
 #define MAX_SERIAL_PRINT_INTERVAL 5000      /**< Maximum serial print interval (ms) */
 #define MIN_KP               0               /**< Minimum Proportional milli gain */
@@ -184,7 +192,9 @@ typedef  struct   progData {                /**< Program operating data structur
         uint16_t setTemp;						 /**< Current set temperature */
         uint16_t controlPeriod;             /**< Control period (ms) */
         uint16_t processInterval;           /**< Process interval (ms) */
-        uint16_t processDuration;            /**< Process duration (ms) */
+        double heatingDuration;            /**< Process duration (ms) */
+        uint8_t preToHeatTempOffset;        /**< Preheat to heating process state temperature offset to transition requirements */
+        uint8_t preToHeatHoldTime;          /**< Preheat to heating process state required hold time to  meet transition requirements */
         uint16_t serialPrintInterval;       /**< Serial print interval (ms) */
         uint16_t  kp;                        /**< Proportional gain in milli */
         uint16_t  ki;                        /**< Integral gain in milli */
