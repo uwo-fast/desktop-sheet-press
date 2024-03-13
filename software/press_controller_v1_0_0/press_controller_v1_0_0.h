@@ -58,13 +58,13 @@
 * User Configuration                                                                               *
 ***************************************************************************************************/
 // Uncomment the below line to enable the serial command interface
-#define _SERIALCMD_                   /**< Enable serial command interface */
+#define _SERIALCMD_ 1                  /**< Enable serial command interface */
 // Uncomment the below line to enable the LCD GUI interface
-// #define _LCDGUI_                      /**< Enable the LCD GUI interface */
+#define _LCDGUI_  1                    /**< Enable the LCD GUI interface */
 // Uncomment the below line to enable development mode for use without GUI
-// #define _DEVELOPMENT_                /**< Allows printing of to serial for development*/
+// #define _DEVELOPMENT_  1              /**< Allows printing of to serial for development*/
 // Uncomment the below line to enable boot to system menu for testing, currently only for manual eeprom reset
-// #define _BOOTSYS_                           /**< Force boot to system menu for testing. NEED TO ENABLE GUI */
+// #define _BOOTSYS_   1                        /**< Force boot to system menu for testing. NEED TO ENABLE GUI */
 
 
 #define _LANG_EN_                       /**< Language:  _LANG_EN/DE/FR/ES/IT_ */
@@ -103,7 +103,7 @@
 #define DEF_HEATING_DURATION 300000          /** <f e.g. 300000 = 5 minute */
 #define DEF_PRE_TO_HEAT_TEMP_OFFSET 5        /**< Default preheat to heating process state temperature offset to transition requirements */
 #define DEF_PRE_TO_HEAT_HOLD_TIME  10000         /**< (ms) Default preheat to heating process state required hold time to meet transition requirements */
-#define DEF_SERIAL_PRINT_INTERVAL 4000       /**< Default serial print interval (ms) */
+#define DEF_SERIAL_PRINT_INTERVAL 1000       /**< Default serial print interval (ms) */
 #define DEF_KP               2000               /**< Default Proportional milli gain [2.000] */
 #define DEF_KI               0400                /**< Default Integral milli gain [0.400] */
 #define DEF_KD               0050                /**< Default Derivative milli gain [0.050] */
