@@ -161,6 +161,11 @@ unsigned long lastActiveTime;
 // Structures and objects
 progData pData; /**< Program operating data */
 
+ProcessStateWrapper currentProcessState(INACTIVE_PROCESS);
+String currentProcessStateString = currentProcessState.toString();
+
+ActiveProcessSubstate currentActiveProcessSubstate = UNKNOWN; // Default or initial substate
+
 Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
 Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermocouple 2 object */
 
@@ -168,20 +173,35 @@ Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermoc
 ClickEncoder *encoder;				/**< Encoder object */
 LiquidCrystal_I2C lcd(0x27, 16, 2); /**< LCD display object */
 
-////////////////////////////////////////////////////////////////
+// SETUP DISPLAYS		
 
-// Here there is not only a text string but also a changing integer variable.
-LiquidLine analogReading_line(0, 0, "Analog: ", uEvent);
-LiquidScreen test_screen(analogReading_line);
+LiquidLine setup_line1(0, 0, "Device:");
+LiquidLine setup_line2(0, 1, "OSCHSS Press");
+LiquidLine setup_line3(0, 0, "Author:");
+LiquidLine setup_line4(0, 1, "CKB-MCW-JMP ~ MC");
+LiquidLine setup_line5(0, 0, "Version:");
+LiquidLine setup_line6(0, 1, "1.0.0");
+LiquidLine setup_line7(0, 0, "License:");
+LiquidLine setup_line8(0, 1, "GPLv3 \"FREE\"");
+LiquidLine setup_line9(0, 0, "Organization:");
+LiquidLine setup_line10(0, 1, "FAST Research");
+LiquidScreen setup_screenA(setup_line1, setup_line2);
+LiquidScreen setup_screenB(setup_line3, setup_line4);
+LiquidScreen setup_screenC(setup_line5, setup_line6);
+LiquidScreen setup_screenD(setup_line7, setup_line8);
+LiquidMenu setup_menu(lcd, setup_screenA, setup_screenB, setup_screenC, setup_screenD);
 
-/*
- * The LiquidMenu object combines the LiquidScreen objects to form the
- * menu. Here it is only instantiated and the screens are added later
- * using menu.add_screen(someScreen_object);. This object is used to
- * control the menu, for example: menu.next_screen(), menu.switch_focus()...
- */
-LiquidMenu menu(lcd);
-////////////////////////////////////////////////////////////////
+
+LiquidLine machine_status_line1(0, 0, "1:", temp1, "C ", currentProcessStateString);
+LiquidLine machine_status_line2(0, 1, "2:", temp2, "C ");
+LiquidScreen machine_status_screenA(machine_status_line1, machine_status_line2);
+LiquidMenu machine_status_menu(lcd, machine_status_screenA);
+
+//LiquidLine analogReading_line(0, 0, "Analog: ", uEvent);
+//LiquidScreen test_screen(analogReading_line);
+
+LiquidSystem menu_system(setup_menu, machine_status_menu);
+
 
 #endif /* _LCDGUI_ */
 
@@ -190,25 +210,6 @@ LiquidMenu menu(lcd);
 PID myPID1(&Input1, &Output1, &Setpoint, DEF_KP / MILLI_UNIT, DEF_KI / MILLI_UNIT, DEF_KD / MILLI_UNIT, DIRECT); /**< PID1 object gets input from thermocouple 1 and ouputs to relay 1*/
 PID myPID2(&Input2, &Output2, &Setpoint, DEF_KP / MILLI_UNIT, DEF_KI / MILLI_UNIT, DEF_KD / MILLI_UNIT, DIRECT); /**< PID2 object gets input from thermocouple 2 and ouputs to relay 2*/
 
-enum ProcessState
-{
-	INACTIVE_PROCESS, // Indicates an inactive process
-	ACTIVE_PROCESS,	  // Indicates an active process
-	ERROR_PROCESS,	  // Indicates an error in the process
-	STANDBY_PROCESS	  // Indicates the system is in standby
-};
-
-enum ActiveProcessSubstate
-{
-	UNKNOWN,	 // Default or initial substate
-	PREHEATING,	 // Preheating phase of the active process
-	HEATING,	 // Main processing phase
-	COOLING_DOWN // Cooling down phase after processing
-};
-
-ProcessState currentProcessState = INACTIVE_PROCESS;
-
-ActiveProcessSubstate currentActiveProcessSubstate = UNKNOWN; // Default or initial substate
 
 // ------------------------------------------------------
 // SETUP -------------------------------------------------
@@ -259,33 +260,35 @@ void timerIsr()
 // Setup Main
 void setup()
 {
-#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
-	Serial.begin(_SERIAL_BAUD_);
-#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
-
 #ifdef _LCDGUI_
-
-	////////////////////////////////////////////////////////////////
-	// This is the I2C LCD object initialization.
-	lcd.init();
-	lcd.backlight();
-
-	// Menu initialization.
-	menu.init();
-
-	menu.add_screen(test_screen);
-	////////////////////////////////////////////////////////////////
-
 	// This needs to happen before the delay to allow the Timer1 to be set up before the
 	// user needs to use it to possibly enter the system menu.
 	encoder = new ClickEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, 4);
 
 	Timer1.initialize(1 * MILLI_UNIT); // 1* MILLI_UNIT = 1,000ms = 1s
 	Timer1.attachInterrupt(timerIsr);
-#endif /* _LCDGUI_ */
 
-	// Delay to allow entering eeprom reset on GUI or to click and open serial monitor on PC
-	delay(500);
+	// This is the I2C LCD object initialization.
+	lcd.init();
+	lcd.backlight();
+
+	// Menu initialization.
+	menu_system.init();
+	menu_system.update();
+	menu_system.change_menu(setup_menu);
+
+    unsigned long setupMenuMillis = 0; 
+    const long setupMenuInterval = 3000; // interval at which to change screen (milliseconds)
+
+	// This timing loop also allows time for entering eeprom reset on GUI or to click and open serial monitor on PC
+	// Display the setup screens
+    for(int i = 0; i < 5; i++) 
+	{
+        setupMenuMillis = millis();
+        while(millis() - setupMenuMillis < setupMenuInterval){}
+        if(i!=0){setup_menu.next_screen();}
+    }
+#endif /* _LCDGUI_ */
 
 	// Initialize thermocouples
 	pinMode(PIN_TC_CS1, OUTPUT);
@@ -299,24 +302,26 @@ void setup()
 	tc2Status = thermocoupleSetup(thermocouple2);
 
 #ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
-	Serial.println("Initializing TC sensor...");
+	Serial.begin(_SERIAL_BAUD_);
+
+	Serial.println(F("Initializing TC sensor..."));
 
 	if (tc1Status == TC_FAULT)
 	{
-		Serial.println("Thermocouple 1 ERROR, could not initialize.");
+		Serial.println(F("Thermocouple 1 ERROR, could not initialize."));
 	}
 	else
 	{
-		Serial.println("Thermocouple 1 initialized.");
+		Serial.println(F("Thermocouple 1 initialized."));
 	}
 
 	if (tc2Status == TC_FAULT)
 	{
-		Serial.println("Thermocouple 2 ERROR, could not initialize.");
+		Serial.println(F("Thermocouple 2 ERROR, could not initialize."));
 	}
 	else
 	{
-		Serial.println("Thermocouple 2 initialized.");
+		Serial.println(F("Thermocouple 2 initialized."));
 	}
 #endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 
@@ -341,8 +346,8 @@ void setup()
 	myPID1.SetOutputLimits(0, 255);
 	myPID2.SetOutputLimits(0, 255);
 
-	// Test if the pushbutton is pressed at boot time. If so then ensure entry to the system
-	// menu by the issue of a boot button down event.
+// Test if the pushbutton is pressed at boot time. If so then ensure entry to the system
+// menu by the issue of a boot button down event.
 #ifdef _BOOTSYS_ &&_LCDGUI_
 	uEvent = EV_BOOTDN;
 #endif
@@ -351,7 +356,6 @@ void setup()
 	encoderEvent();
 	uEvent == EV_BTN_HELD ? EV_BOOTDN : EV_NONE;
 #endif /* _BOOTSYS_ && _LCDGUI_ */
-
 	/** IMPORTANT FOR UNDERSTANDING THE EEPROM AND VARIABLE INITIALIZATION
 	 * @brief Loads program data from EEPROM on startup.
 	 *
@@ -378,31 +382,29 @@ void setup()
 	 *       may inadvertently preserve the unique ID, leading to incorrect data validation.
 	 */
 	loadEeprom();
+	// resetEeprom(EE_FULL_RESET);	// manual
 
-	// manual
-	resetEeprom(EE_FULL_RESET);
+	menu_system.update();
 
-	menu.update();
-
-	int suDelay = 100;
-	delay(suDelay);
 }
 
 // ------------------------------------------------------
 // LOOP -------------------------------------------------
-//
+// ------------------------------------------------------
 
 unsigned int lcdRefreshPeriod = 300;
 unsigned long lcdLastRefresh = 0;
 
 void updateLcdGui()
 {
+#ifdef _LCDGUI_
 	if (millis() - lcdLastRefresh > lcdRefreshPeriod)
 	{
 
 		lcdLastRefresh = millis();
-		menu.update();
+		menu_system.update();
 	}
+#endif /* _LCDGUI_ */
 }
 
 void loop()
@@ -427,7 +429,7 @@ void loop()
 	// Check if enough time has passed for the next process control loop
 	if (currentMillis - lastMillis >= pData.processInterval)
 	{
-		switch (currentProcessState)
+		switch (currentProcessState.getState())
 		{
 		case ACTIVE_PROCESS:
 			thermalRunawayCheck();
@@ -767,39 +769,38 @@ void printSerialData()
 		{
 			Serial.print(errorFlagsMAX[i]);
 		}
-		Serial.print(", TRA1 Alarm: ");
+		Serial.print(F(", TRA1 Alarm: "));
 		Serial.print(tempRunAwayAlarm1 ? "WARNING" : "SAFE");
 		Serial.print(", TRA2 Alarm: ");
 		Serial.print(tempRunAwayAlarm2 ? "WARNING" : "SAFE");
-		Serial.print(", t1: ");
+		Serial.print(F(", t1: "));
 		Serial.print(temp1);
-		Serial.print("C, t2: ");
+		Serial.print(F("C, t2: "));
 		Serial.print(temp2);
 		Serial.print("C, st: ");
 		Serial.print(pData.setTemp);
-		Serial.print("C, o1: ");
+		Serial.print(F("C, o1: "));
 		Serial.print((int)Output1);
 		Serial.print(", o2: ");
 		Serial.print((int)Output2);
-		Serial.print(", Preheat t: ");
-		Serial.print((float)preheatingTime / MILLI_UNIT / 60, 2);
-		Serial.print("m, Heat t: ");
-		Serial.print((float)heatingTime / MILLI_UNIT / 60, 2);
-		Serial.print("m, Total t: ");
-		Serial.print(((float)(preheatingTime + heatingTime) / MILLI_UNIT / 60), 2); // Total time in minutes
-		Serial.print("m");
-		Serial.print(", dt: ");
-		Serial.print((float)pData.heatingDuration / MILLI_UNIT / 60);
-		Serial.print("m, Kp: ");
-		Serial.print((float)pData.kp / MILLI_UNIT);
+		Serial.print(F(", Preheat t: "));
 		// \todo instead of floats, use a function to convert to string and shift float point
-		Serial.print(", Ki: ");
+		Serial.print((float)preheatingTime / MILLI_UNIT / 60, 2);
+		Serial.print(F("m, Heat t: "));
+		Serial.print((float)heatingTime / MILLI_UNIT / 60, 2);
+		Serial.print(F("m, Total t: "));
+		Serial.print(((float)(preheatingTime + heatingTime) / MILLI_UNIT / 60), 2); // Total time in minutes
+		Serial.print(F("m, dt: "));
+		Serial.print((float)pData.heatingDuration / MILLI_UNIT / 60);
+		Serial.print(F("m, Kp: "));
+		Serial.print((float)pData.kp / MILLI_UNIT);
+		Serial.print(F(", Ki: "));
 		Serial.print((float)pData.ki / MILLI_UNIT);
-		Serial.print(", Kd: ");
+		Serial.print(F(", Kd: "));
 		Serial.print((float)pData.kd / MILLI_UNIT); // Use println to add newline at the end
-		Serial.print(", State: ");
-		Serial.print(processStateToString(currentProcessState));
-		Serial.print(", Substate: ");
+		Serial.print(F(", State: "));
+		Serial.print(currentProcessState.toString());
+		Serial.print(F(", Substate: "));
 		Serial.print(activeProcessSubstateToString(currentActiveProcessSubstate));
 		Serial.println();
 
@@ -859,7 +860,7 @@ void checkSleep()
 #ifdef _LCDGUI_
 
 	// make sure it doesnt go to sleep if the process is active
-	if (currentProcessState == ACTIVE_PROCESS)
+	if (currentProcessState.getState() == ACTIVE_PROCESS)
 	{
 		lastActiveTime = millis();
 	}
@@ -935,6 +936,7 @@ void encoderEvent()
 
 #endif /* _LCDGUI_ */
 }
+
 
 /***************************************************************************************************
  * Utility EEPROM Functions                                                                         *

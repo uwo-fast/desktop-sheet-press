@@ -185,6 +185,67 @@
 /***************************************************************************************************
 * Structure, union, and enumerated type definitions                                                *
 ***************************************************************************************************/
+
+enum ProcessState
+{
+	INACTIVE_PROCESS, // Indicates an inactive process
+	ACTIVE_PROCESS,	  // Indicates an active process
+	ERROR_PROCESS,	  // Indicates an error in the process
+	STANDBY_PROCESS	  // Indicates the system is in standby
+};
+
+enum ActiveProcessSubstate
+{
+	UNKNOWN,	 // Default or initial substate
+	PREHEATING,	 // Preheating phase of the active process
+	HEATING,	 // Main processing phase
+	COOLING_DOWN // Cooling down phase after processing
+};
+
+class ProcessStateWrapper {
+private:
+    ProcessState state;
+
+public:
+    ProcessStateWrapper(ProcessState initialState) : state(initialState) {}
+
+    String toString() const {
+        switch (state) {
+            case INACTIVE_PROCESS:
+                return "INACTIVE";
+            case ACTIVE_PROCESS:
+                return "ACTIVE";
+            case ERROR_PROCESS:
+                return "ERROR";
+            case STANDBY_PROCESS:
+                return "STANDBY";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+   const char* toChar() const {
+        switch (state) {
+            case INACTIVE_PROCESS:
+                return "INACTIVE";
+            case ACTIVE_PROCESS:
+                return "ACTIVE";
+            case ERROR_PROCESS:
+                return "ERROR";
+            case STANDBY_PROCESS:
+                return "STANDBY";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+    // Method to get the underlying enum value
+    ProcessState getState() const {
+        return state;
+    }
+};
+
+
 typedef  struct   progData {                /**< Program operating data structure */
 
         uint8_t  tempRunAwayDelta;
