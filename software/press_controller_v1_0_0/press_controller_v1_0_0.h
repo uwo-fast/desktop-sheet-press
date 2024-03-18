@@ -58,7 +58,7 @@
 * User Configuration                                                                               *
 ***************************************************************************************************/
 // Uncomment the below line to enable the serial command interface
-#define _SERIALCMD_ 1                  /**< Enable serial command interface */
+// #define _SERIALCMD_ 1                  /**< Enable serial command interface */
 // Uncomment the below line to enable the LCD GUI interface
 #define _LCDGUI_  1                    /**< Enable the LCD GUI interface */
 // Uncomment the below line to enable development mode for use without GUI
@@ -194,14 +194,6 @@ enum ProcessState
 	STANDBY_PROCESS	  // Indicates the system is in standby
 };
 
-enum ActiveProcessSubstate
-{
-	UNKNOWN,	 // Default or initial substate
-	PREHEATING,	 // Preheating phase of the active process
-	HEATING,	 // Main processing phase
-	COOLING_DOWN // Cooling down phase after processing
-};
-
 class ProcessStateWrapper {
 private:
     ProcessState state;
@@ -209,6 +201,16 @@ private:
 public:
     ProcessStateWrapper(ProcessState initialState) : state(initialState) {}
 
+   // Method to set the underlying enum value
+   void setState(ProcessState newState) {
+      state = newState;
+   }
+
+    // Method to get the underlying enum value
+    ProcessState getState() const {
+        return state;
+    }
+    
     String toString() const {
         switch (state) {
             case INACTIVE_PROCESS:
@@ -238,12 +240,95 @@ public:
                 return "UNKNOWN";
         }
     }
+};
+
+enum ActiveProcessSubstate
+{
+	UNKNOWN,	 // Default or initial substate
+	PREHEATING,	 // Preheating phase of the active process
+	HEATING,	 // Main processing phase
+	COOLING_DOWN // Cooling down phase after processing
+};
+
+class ActiveProcessSubstateWrapper {
+private:
+    ActiveProcessSubstate substate;
+
+public:
+    ActiveProcessSubstateWrapper(ActiveProcessSubstate initialSubstate) : substate(initialSubstate) {}
+
+    // Method to set the underlying enum value
+    void setSubstate(ActiveProcessSubstate newSubstate) {
+        substate = newSubstate;
+    }
 
     // Method to get the underlying enum value
-    ProcessState getState() const {
-        return state;
+    ActiveProcessSubstate getSubstate() const {
+        return substate;
+    }
+
+    String toString() const {
+        switch (substate) {
+            case UNKNOWN:
+                return "UNKNOWN";
+            case PREHEATING:
+                return "PREHEATING";
+            case HEATING:
+                return "HEATING";
+            case COOLING_DOWN:
+                return "COOLING DOWN";
+            default:
+                return "UNDEFINED";
+        }
+    }
+
+    const char* toChar() const {
+        switch (substate) {
+            case UNKNOWN:
+                return "UNKNOWN";
+            case PREHEATING:
+                return "PREHEATING";
+            case HEATING:
+                return "HEATING";
+            case COOLING_DOWN:
+                return "COOLING DOWN";
+            default:
+                return "UNDEFINED";
+        }
     }
 };
+
+// User events
+#ifdef _LCDGUI_
+enum Event
+{
+	// Private user events
+	EV_NONE,		 /**< User event: no pending event */
+	EV_BTN_CLICKED,	 /**< User event: button pressed */
+	EV_BTN_2CLICKED, /**< User event: button double pressed */
+	EV_BTN_HELD,	 /**< User event: button held */
+	EV_BTN_RELEASED, /**< User event: button released */
+	EV_ENCUP,		 /**< User event: encoder rotate right */
+	EV_ENCDN,		 /**< User event: encoder rotate left */
+
+	// Public user events
+	EV_BOOTDN,		/**< User event: button pressed on boot, enter system menu */
+	EV_STBY_TIMEOUT /**< User event: standby timer has timed out, enter standby screen */
+};
+
+enum ToggleState
+{
+   TOGGLE_OFF, // Indicates the toggle is off
+   TOGGLE_ON   // Indicates the toggle is on
+};
+
+enum FunctionTypes
+{
+   FUNC_ENTER_MENU, // Indicates a menu enter function, uToggle will not be set
+   FUNC_INCRT_PDATA, // Indicates an increment function, uToggle must be set to TOGGLE_ON using button to increment
+   FUNC_DECRT_PDATA, // Indicates a decrement function, uToggle must be set to TOGGLE_ON using button to decrement
+};
+#endif /* _LCDGUI_ */
 
 
 typedef  struct   progData {                /**< Program operating data structure */

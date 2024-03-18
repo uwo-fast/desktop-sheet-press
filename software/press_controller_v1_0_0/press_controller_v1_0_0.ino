@@ -131,29 +131,12 @@ double Setpoint, Input1, Output1, Input2, Output2;
 unsigned long lastSerialPrint = 0;
 #endif /* _SERIALCMD_ */
 
-// User events
-#ifdef _LCDGUI_
-enum event
-{
-	// Private user events
-	EV_NONE,		 /**< User event: no pending event */
-	EV_BTN_CLICKED,	 /**< User event: button pressed */
-	EV_BTN_2CLICKED, /**< User event: button double pressed */
-	EV_BTN_HELD,	 /**< User event: button held */
-	EV_BTN_RELEASED, /**< User event: button released */
-	EV_ENCUP,		 /**< User event: encoder rotate right */
-	EV_ENCDN,		 /**< User event: encoder rotate left */
 
-	// Public user events
-	EV_BOOTDN,		/**< User event: button pressed on boot, enter system menu */
-	EV_STBY_TIMEOUT /**< User event: standby timer has timed out, enter standby screen */
-};
-
-#endif /* _LCDGUI_ */
 
 // LCD State and Event variables
 #ifdef _LCDGUI_
 uint8_t uEvent;				   /**< Current pending user event */
+uint8_t uToggle;			   /**< Current user toggle */
 int16_t encLastPos, encNewPos; /**< Encoder position variables */
 unsigned long lastActiveTime;
 #endif /* _LCDGUI_ */
@@ -162,9 +145,34 @@ unsigned long lastActiveTime;
 progData pData; /**< Program operating data */
 
 ProcessStateWrapper currentProcessState(INACTIVE_PROCESS);
-String currentProcessStateString = currentProcessState.toString();
 
-ActiveProcessSubstate currentActiveProcessSubstate = UNKNOWN; // Default or initial substate
+ActiveProcessSubstateWrapper currentActiveProcessSubstate(UNKNOWN);
+
+// Example getter function for process state
+const char* getCurrentProcessState() {
+    return currentProcessState.toChar();
+}
+
+const char* getCurrentActiveProcessSubstate() {
+	return currentActiveProcessSubstate.toChar();
+}
+
+const char* getStatusInfo() {
+    static char buffer[20];
+
+    // Ensure heatingDuration is treated accurately as milliseconds in integer math
+    unsigned long heatingDurationMillis = static_cast<unsigned long>(pData.heatingDuration);
+    unsigned long remainingTime = heatingDurationMillis - heatingTime; // Remaining time in milliseconds
+    unsigned long hours = remainingTime / (3600000UL); // 1000 * 60 * 60
+    unsigned long minutes = (remainingTime % (3600000UL)) / (60000UL); // (1000 * 60)
+    unsigned long percentCompletion = (heatingTime * 100UL) / heatingDurationMillis;
+
+    sprintf(buffer, "%lu%% %02lu:%02lu", percentCompletion, hours, minutes); // Format as "XX% HH:MM"
+    return buffer;
+}
+
+
+
 
 Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
 Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermocouple 2 object */
@@ -173,34 +181,39 @@ Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermoc
 ClickEncoder *encoder;				/**< Encoder object */
 LiquidCrystal_I2C lcd(0x27, 16, 2); /**< LCD display object */
 
+
+// A LiquidLine object can be used more that once.
+LiquidLine back_line(11, 1, "/BACK");
+
 // SETUP DISPLAYS		
 
-LiquidLine setup_line1(0, 0, "Device:");
+LiquidLine setup_line1(0, 0, "FAST Research");
 LiquidLine setup_line2(0, 1, "OSCHSS Press");
-LiquidLine setup_line3(0, 0, "Author:");
-LiquidLine setup_line4(0, 1, "CKB-MCW-JMP ~ MC");
-LiquidLine setup_line5(0, 0, "Version:");
-LiquidLine setup_line6(0, 1, "1.0.0");
-LiquidLine setup_line7(0, 0, "License:");
-LiquidLine setup_line8(0, 1, "GPLv3 \"FREE\"");
-LiquidLine setup_line9(0, 0, "Organization:");
-LiquidLine setup_line10(0, 1, "FAST Research");
+LiquidLine setup_line3(0, 0, "Version:");
+LiquidLine setup_line4(0, 1, "1.0.0");
+LiquidLine setup_line5(0, 0, "License:");
+LiquidLine setup_line6(0, 1, "GPLv3 \"FREE\"");
 LiquidScreen setup_screenA(setup_line1, setup_line2);
 LiquidScreen setup_screenB(setup_line3, setup_line4);
 LiquidScreen setup_screenC(setup_line5, setup_line6);
-LiquidScreen setup_screenD(setup_line7, setup_line8);
-LiquidMenu setup_menu(lcd, setup_screenA, setup_screenB, setup_screenC, setup_screenD);
+LiquidMenu setup_menu(lcd, setup_screenA, setup_screenB, setup_screenC);
 
 
-LiquidLine machine_status_line1(0, 0, "1:", temp1, "C ", currentProcessStateString);
-LiquidLine machine_status_line2(0, 1, "2:", temp2, "C ");
+LiquidLine machine_status_line1(0, 0, "1:", temp1, "C ", getCurrentProcessState);
+LiquidLine machine_status_line2(0, 1, "2:", temp2, "C ", getStatusInfo);
 LiquidScreen machine_status_screenA(machine_status_line1, machine_status_line2);
 LiquidMenu machine_status_menu(lcd, machine_status_screenA);
 
-//LiquidLine analogReading_line(0, 0, "Analog: ", uEvent);
-//LiquidScreen test_screen(analogReading_line);
 
-LiquidSystem menu_system(setup_menu, machine_status_menu);
+LiquidLine main_line1(0,0, "Start");
+LiquidLine main_line2(0,1, "Options");
+LiquidLine main_line3(0,0, "Presets");
+LiquidLine main_line4(0,1, "Info");
+LiquidScreen main_screen(main_line1, main_line2, main_line3, main_line4);
+LiquidMenu main_menu(lcd, main_screen);
+
+
+LiquidSystem menu_system(setup_menu, machine_status_menu, main_menu);
 
 
 #endif /* _LCDGUI_ */
@@ -255,6 +268,24 @@ void timerIsr()
 {
 	encoder->service();
 }
+
+void attachLcdFunctions()
+{
+	machine_status_line1.attach_function(FUNC_ENTER_MENU, goto_main_menu);
+
+	machine_status_line2.attach_function(FUNC_ENTER_MENU, goto_main_menu);
+
+	main_line1.attach_function(FUNC_INCRT_PDATA, blank_function);
+	main_line1.attach_function(FUNC_DECRT_PDATA, blank_function);
+	main_line2.attach_function(FUNC_INCRT_PDATA, blank_function);
+	main_line2.attach_function(FUNC_DECRT_PDATA, blank_function);
+	main_line3.attach_function(FUNC_INCRT_PDATA, blank_function);
+	main_line3.attach_function(FUNC_DECRT_PDATA, blank_function);
+	main_line4.attach_function(FUNC_INCRT_PDATA, blank_function);
+	main_line4.attach_function(FUNC_DECRT_PDATA, blank_function);
+
+}
+
 #endif /* _LCDGUI_ */
 
 // Setup Main
@@ -272,17 +303,22 @@ void setup()
 	lcd.init();
 	lcd.backlight();
 
+	// Set the focus position of the back line to the left.
+	back_line.set_focusPosition(Position::LEFT);
+
+	// Attach functions
+	attachLcdFunctions();
+
 	// Menu initialization.
-	menu_system.init();
 	menu_system.update();
 	menu_system.change_menu(setup_menu);
 
     unsigned long setupMenuMillis = 0; 
-    const long setupMenuInterval = 3000; // interval at which to change screen (milliseconds)
+    const long setupMenuInterval = 2000; // interval at which to change screen (milliseconds)
 
-	// This timing loop also allows time for entering eeprom reset on GUI or to click and open serial monitor on PC
+	// This timing loop also the user the physical time for entering eeprom reset on GUI or to click and open serial monitor on PC
 	// Display the setup screens
-    for(int i = 0; i < 5; i++) 
+    for(int i = 0; i < 3; i++) 
 	{
         setupMenuMillis = millis();
         while(millis() - setupMenuMillis < setupMenuInterval){}
@@ -382,8 +418,12 @@ void setup()
 	 *       may inadvertently preserve the unique ID, leading to incorrect data validation.
 	 */
 	loadEeprom();
-	// resetEeprom(EE_FULL_RESET);	// manual
+	//resetEeprom(EE_FULL_RESET);	// manual
 
+	main_screen.set_displayLineCount(2);
+
+	menu_system.change_menu(machine_status_menu);
+	menu_system.switch_focus();
 	menu_system.update();
 
 }
@@ -400,7 +440,7 @@ void updateLcdGui()
 #ifdef _LCDGUI_
 	if (millis() - lcdLastRefresh > lcdRefreshPeriod)
 	{
-
+		lcdEventHandler();
 		lcdLastRefresh = millis();
 		menu_system.update();
 	}
@@ -445,7 +485,7 @@ void loop()
 			slowPWM(PIN_SSR1, cycleStart1, pData.controlPeriod, Output1);
 			slowPWM(PIN_SSR2, cycleStart2, pData.controlPeriod, Output2);
 
-			switch (currentActiveProcessSubstate)
+			switch (currentActiveProcessSubstate.getSubstate())
 			{
 			case PREHEATING:
 				preheatingTime += pData.processInterval;
@@ -460,7 +500,7 @@ void loop()
 					else if (currentMillis - preheatTransitionStartTime >= pData.preToHeatHoldTime)
 					{
 						// Conditions have been met for 10 seconds, transition to HEATING
-						currentActiveProcessSubstate = HEATING;
+						currentActiveProcessSubstate.setSubstate(HEATING);
 						heatingTime = 0;				// Reset or start tracking processing time
 						preheatTransitionStartTime = 0; // Reset preheat start time for next use
 					}
@@ -478,15 +518,15 @@ void loop()
 				// Check if process duration has been met
 				if (heatingTime >= pData.heatingDuration)
 				{
-					currentActiveProcessSubstate = COOLING_DOWN;
+					currentActiveProcessSubstate.setSubstate(COOLING_DOWN);
 				}
 				break;
 			case COOLING_DOWN:
-				currentProcessState = INACTIVE_PROCESS; // hardcoded at the moment, present system doesnt have active cooling
-				currentActiveProcessSubstate = UNKNOWN;
+				currentProcessState.setState(INACTIVE_PROCESS); // hardcoded at the moment, present system doesnt have active cooling
+				currentActiveProcessSubstate.setSubstate(UNKNOWN);
 				break;
 			default:
-				currentProcessState = INACTIVE_PROCESS;
+				currentProcessState.setState(INACTIVE_PROCESS);
 				break;
 			}
 			break;
@@ -587,7 +627,7 @@ void thermalRunawayCheck() // TODO
 
 		if (drivingDeltaCounter1 >= pData.tempRunAwayCycles || drivingDeltaCounter2 >= pData.tempRunAwayCycles)
 		{
-			currentProcessState = ERROR_PROCESS;
+			currentProcessState.setState(ERROR_PROCESS);
 			// Signal error condition
 			signalError();
 		}
@@ -739,13 +779,13 @@ void handleSerialCommands()
 			}
 			else if (received == "ON")
 			{
-				currentProcessState = ACTIVE_PROCESS;
-				currentActiveProcessSubstate = PREHEATING;
+				currentProcessState.setState(ACTIVE_PROCESS);
+				currentActiveProcessSubstate.setSubstate(PREHEATING);
 			}
 			else if (received == "OFF")
 			{
-				currentProcessState = INACTIVE_PROCESS;
-				currentActiveProcessSubstate = UNKNOWN;
+				currentProcessState.setState(INACTIVE_PROCESS);
+				currentActiveProcessSubstate.setSubstate(UNKNOWN);
 			}
 
 			received = ""; // clear received data
@@ -760,7 +800,6 @@ void printSerialData()
 
 	if (millis() - lastSerialPrint > pData.serialPrintInterval)
 	{
-
 		Serial.print("MAX flags: ");
 
 		int errorFlagsMAXSize = sizeof(errorFlagsMAX) / sizeof(errorFlagsMAX[0]);
@@ -780,8 +819,10 @@ void printSerialData()
 		Serial.print("C, st: ");
 		Serial.print(pData.setTemp);
 		Serial.print(F("C, o1: "));
+		Serial.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0" : "");
 		Serial.print((int)Output1);
 		Serial.print(", o2: ");
+		Serial.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0" : "");
 		Serial.print((int)Output2);
 		Serial.print(F(", Preheat t: "));
 		// \todo instead of floats, use a function to convert to string and shift float point
@@ -801,7 +842,7 @@ void printSerialData()
 		Serial.print(F(", State: "));
 		Serial.print(currentProcessState.toString());
 		Serial.print(F(", Substate: "));
-		Serial.print(activeProcessSubstateToString(currentActiveProcessSubstate));
+		Serial.print(currentActiveProcessSubstate.toString());
 		Serial.println();
 
 		lastSerialPrint = millis();
@@ -810,45 +851,80 @@ void printSerialData()
 #endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_*/
 }
 
-#ifdef _SERIALCMD_ || _DEVELOPMENT_ || defined _BOOTSYS_
-
-String processStateToString(ProcessState state)
-{
-	switch (state)
-	{
-	case INACTIVE_PROCESS:
-		return "INACTIVE";
-	case ACTIVE_PROCESS:
-		return "ACTIVE";
-	case ERROR_PROCESS:
-		return "ERROR";
-	case STANDBY_PROCESS:
-		return "STANDBY";
-	default:
-		return "UNKNOWN";
-	}
-}
-
-String activeProcessSubstateToString(ActiveProcessSubstate substate)
-{
-	switch (substate)
-	{
-	case PREHEATING:
-		return "PREHEATING";
-	case HEATING:
-		return "HEATING";
-	case COOLING_DOWN:
-		return "COOLING_DOWN";
-	default:
-		return "UNKNOWN";
-	}
-}
-
-#endif /* _SERIALCMD_ || _DEVELOPMENT_ || _BOOTSYS_ */
-
 /* --------------------------------------------------------------------------------------*/
 /*--------------------------------------- LCD_GUI ---------------------------------------*/
 /* --------------------------------------------------------------------------------------*/
+
+void blank_function()
+{
+	// Do nothing
+}
+
+void goto_main_menu()
+{
+	menu_system.change_menu(main_menu);
+	menu_system.update();
+}
+
+/* -------------------------------LCD Event Handler----------------------------------*/
+void lcdEventHandler()
+{
+
+
+	switch (uEvent)
+	{
+		case(EV_NONE):
+			break;
+		case(EV_BTN_CLICKED):
+			uToggle = uToggle == TOGGLE_OFF ? TOGGLE_ON : TOGGLE_OFF;
+			menu_system.call_function(FUNC_ENTER_MENU);
+			menu_system.switch_focus();
+			uEvent=EV_NONE;
+			uToggle = TOGGLE_OFF;
+			break;
+		case(EV_ENCUP):
+			if(uToggle == TOGGLE_OFF)
+			{
+				menu_system.switch_focus(false);
+				uEvent=EV_NONE;
+			}
+			else
+			{
+				//menu_system.call_function(FUNC_INCRT_PDATA);
+			}
+			break;
+		case(EV_ENCDN):
+			if(uToggle == TOGGLE_OFF)
+			{
+				menu_system.switch_focus(true);
+				uEvent=EV_NONE;
+			}
+			else
+			{
+				//menu_system.call_function(FUNC_DECRT_PDATA);
+			}
+			break;
+		case(EV_BOOTDN):
+
+			break;
+		case(EV_STBY_TIMEOUT):
+
+			break;
+
+		//UNUSED AT THE MOMENT//
+		case(EV_BTN_2CLICKED):
+			break;
+		case(EV_BTN_HELD):
+			break;
+		case(EV_BTN_RELEASED):
+			break;
+		//UNUSED AT THE MOMENT//
+
+		default:
+			break;
+	}
+}
+
 
 /*-------------------------------Check Sleep for Standby----------------------------------*/
 /**
