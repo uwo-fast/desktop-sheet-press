@@ -148,7 +148,6 @@ ProcessStateWrapper currentProcessState(INACTIVE_PROCESS);
 
 ActiveProcessSubstateWrapper currentActiveProcessSubstate(UNKNOWN);
 
-// Example getter function for process state
 const char* getCurrentProcessState() {
     return currentProcessState.toChar();
 }
@@ -156,6 +155,22 @@ const char* getCurrentProcessState() {
 const char* getCurrentActiveProcessSubstate() {
 	return currentActiveProcessSubstate.toChar();
 }
+
+
+const char* getStateInfo() {
+    static char buffer[20]; 
+    unsigned long output = static_cast<unsigned long>(Output1) * 0.5 + static_cast<unsigned long>(Output2) * 0.5;
+
+    if(strcmp(getCurrentProcessState(), "ACTIVE") == 0) {
+        // Concatenate first two letters, setTemp, "C", and output without spaces
+        sprintf(buffer, "%dC %lu", pData.setTemp, output);
+    } else {
+        // For other states, just show the first two letters of the state
+        sprintf(buffer, "%s", getCurrentProcessState());
+    }
+    return buffer;
+}
+
 
 const char* getStatusInfo() {
     static char buffer[20];
@@ -170,8 +185,6 @@ const char* getStatusInfo() {
     sprintf(buffer, "%lu%% %02lu:%02lu", percentCompletion, hours, minutes); // Format as "XX% HH:MM"
     return buffer;
 }
-
-
 
 
 Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
@@ -199,22 +212,49 @@ LiquidScreen setup_screenC(setup_line5, setup_line6);
 LiquidMenu setup_menu(lcd, setup_screenA, setup_screenB, setup_screenC);
 
 
-LiquidLine machine_status_line1(0, 0, "1:", temp1, "C ", getCurrentProcessState);
+LiquidLine machine_status_line1(0, 0, "1:", temp1, "C ", getStateInfo);
 LiquidLine machine_status_line2(0, 1, "2:", temp2, "C ", getStatusInfo);
 LiquidScreen machine_status_screenA(machine_status_line1, machine_status_line2);
 LiquidMenu machine_status_menu(lcd, machine_status_screenA);
 
-
+LiquidLine main_line0(0,0, "/Status Screen");
 LiquidLine main_line1(0,0, "Start");
 LiquidLine main_line2(0,1, "Options");
 LiquidLine main_line3(0,0, "Presets");
 LiquidLine main_line4(0,1, "Info");
-LiquidScreen main_screen(main_line1, main_line2, main_line3, main_line4);
+LiquidScreen main_screen;
 LiquidMenu main_menu(lcd, main_screen);
 
 
 LiquidSystem menu_system(setup_menu, machine_status_menu, main_menu);
 
+
+void attachLcdFunctions()
+{
+	main_screen.add_line(main_line0);
+	main_screen.add_line(main_line1);
+	main_screen.add_line(main_line2);
+	main_screen.add_line(main_line3);
+	main_screen.add_line(main_line4);
+
+	machine_status_line1.attach_function(FUNC_ENTER_MENU, goto_main_menu);
+	machine_status_line1.set_focusPosition(Position::CUSTOM, 16, 0);
+
+	machine_status_line2.attach_function(FUNC_ENTER_MENU, goto_main_menu);
+	machine_status_line2.set_focusPosition(Position::CUSTOM, 16, 0);
+
+	main_line0.attach_function(FUNC_ENTER_MENU, goto_machine_status_menu);
+	main_line1.attach_function(FUNC_ENTER_MENU, activate_proc);
+	main_line2.attach_function(FUNC_ENTER_MENU, blank_function);
+	main_line3.attach_function(FUNC_ENTER_MENU, blank_function);
+	main_line4.attach_function(FUNC_ENTER_MENU, blank_function);
+
+}
+
+void timerIsr()
+{
+	encoder->service();
+}
 
 #endif /* _LCDGUI_ */
 
@@ -263,30 +303,6 @@ bool thermocoupleSetup(Adafruit_MAX31855 &thermocouple)
 	return tcInitFlag;
 }
 
-#ifdef _LCDGUI_
-void timerIsr()
-{
-	encoder->service();
-}
-
-void attachLcdFunctions()
-{
-	machine_status_line1.attach_function(FUNC_ENTER_MENU, goto_main_menu);
-
-	machine_status_line2.attach_function(FUNC_ENTER_MENU, goto_main_menu);
-
-	main_line1.attach_function(FUNC_INCRT_PDATA, blank_function);
-	main_line1.attach_function(FUNC_DECRT_PDATA, blank_function);
-	main_line2.attach_function(FUNC_INCRT_PDATA, blank_function);
-	main_line2.attach_function(FUNC_DECRT_PDATA, blank_function);
-	main_line3.attach_function(FUNC_INCRT_PDATA, blank_function);
-	main_line3.attach_function(FUNC_DECRT_PDATA, blank_function);
-	main_line4.attach_function(FUNC_INCRT_PDATA, blank_function);
-	main_line4.attach_function(FUNC_DECRT_PDATA, blank_function);
-
-}
-
-#endif /* _LCDGUI_ */
 
 // Setup Main
 void setup()
@@ -864,6 +880,18 @@ void goto_main_menu()
 {
 	menu_system.change_menu(main_menu);
 	menu_system.update();
+}
+
+void goto_machine_status_menu()
+{
+	menu_system.change_menu(machine_status_menu);
+	menu_system.update();
+}
+
+void activate_proc()
+{
+	currentProcessState.setState(ACTIVE_PROCESS);
+	currentActiveProcessSubstate.setSubstate(PREHEATING);
 }
 
 /* -------------------------------LCD Event Handler----------------------------------*/
