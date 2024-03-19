@@ -73,7 +73,11 @@
 #include <Wire.h>
 #include <avr/wdt.h>
 
+// The EEPROM library, this is for storing data in the EEPROM memory aka non-volatile memory
 #include <EEPROM.h>
+
+// The PROGMEM library, this is for storing data in the program memory aka flash memory
+#include <avr/pgmspace.h> 
 
 #include <PID_v1.h>
 #include <Adafruit_MAX31855.h>
@@ -194,60 +198,111 @@ Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermoc
 ClickEncoder *encoder;				/**< Encoder object */
 LiquidCrystal_I2C lcd(0x27, 16, 2); /**< LCD display object */
 
-
-// A LiquidLine object can be used more that once.
-LiquidLine back_line(11, 1, "/BACK");
+// Declare strings to store in flash memory
+const char fastResearchText[] PROGMEM = "FAST Research";
+const char oschssPressText[] PROGMEM = "OSCHSS Press";
+const char versionText[] PROGMEM = "Version:";
+const char versionNumberText[] PROGMEM = "1.0.0";
+const char licenseText[] PROGMEM = "License:";
+const char gplv3FreeText[] PROGMEM = "GPLv3 \"FREE\"";
 
 // SETUP DISPLAYS		
-
-LiquidLine setup_line1(0, 0, "FAST Research");
-LiquidLine setup_line2(0, 1, "OSCHSS Press");
-LiquidLine setup_line3(0, 0, "Version:");
-LiquidLine setup_line4(0, 1, "1.0.0");
-LiquidLine setup_line5(0, 0, "License:");
-LiquidLine setup_line6(0, 1, "GPLv3 \"FREE\"");
+LiquidLine setup_line1(0, 0, fastResearchText);
+LiquidLine setup_line2(0, 1, oschssPressText);
+LiquidLine setup_line3(0, 0, versionText);
+LiquidLine setup_line4(0, 1, versionNumberText);
+LiquidLine setup_line5(0, 0, licenseText);
+LiquidLine setup_line6(0, 1, gplv3FreeText);
 LiquidScreen setup_screenA(setup_line1, setup_line2);
 LiquidScreen setup_screenB(setup_line3, setup_line4);
 LiquidScreen setup_screenC(setup_line5, setup_line6);
 LiquidMenu setup_menu(lcd, setup_screenA, setup_screenB, setup_screenC);
 
-
-LiquidLine machine_status_line1(0, 0, "1:", temp1, "C ", getStateInfo);
+const char t1StatusScreenText[] PROGMEM = "1:";
+// MAIN DISPLAY MACHINE STATUS
+LiquidLine machine_status_line1(0, 0, t1StatusScreenText, temp1, "C ", getStateInfo);
 LiquidLine machine_status_line2(0, 1, "2:", temp2, "C ", getStatusInfo);
 LiquidScreen machine_status_screenA(machine_status_line1, machine_status_line2);
 LiquidMenu machine_status_menu(lcd, machine_status_screenA);
 
-LiquidLine main_line0(0,0, "/Status Screen");
-LiquidLine main_line1(0,0, "Start");
-LiquidLine main_line2(0,1, "Options");
-LiquidLine main_line3(0,0, "Presets");
-LiquidLine main_line4(0,1, "Info");
+const char statusScreenText[] PROGMEM = "/Status Screen";
+const char startText[] PROGMEM = "Start";
+const char optionsText[] PROGMEM = "Options";
+const char presetsText[] PROGMEM = "Presets";
+const char infoText[] PROGMEM = "Info";
+
+// MAIN DISPLAY MAIN MENU
+LiquidLine main_line0(0, 0, statusScreenText);
+LiquidLine main_line1(0, 1, startText);
+LiquidLine main_line2(0, 1, optionsText);
+LiquidLine main_line3(0, 1, presetsText);
+LiquidLine main_line4(0, 1, infoText);
 LiquidScreen main_screen;
+
+const char backText[] PROGMEM = "/Back";
+const char startProcessText[] PROGMEM = "Start Process";
+const char presetProcessText[] PROGMEM = "Preset Process";
+const char tuneText[] PROGMEM = "Tune";
+
+LiquidLine start_line0(0, 0, backText);
+LiquidLine start_line1(0, 1, startProcessText);
+LiquidLine start_line2(0, 1, presetProcessText);
+LiquidLine start_line3(0, 1, tuneText);
+LiquidScreen start_screen;
 LiquidMenu main_menu(lcd, main_screen);
 
-
+// Menu system
 LiquidSystem menu_system(setup_menu, machine_status_menu, main_menu);
 
 
-void attachLcdFunctions()
+void setupLcdLines()
 {
-	main_screen.add_line(main_line0);
-	main_screen.add_line(main_line1);
-	main_screen.add_line(main_line2);
-	main_screen.add_line(main_line3);
-	main_screen.add_line(main_line4);
+	setup_line1.set_asProgmem(1);
+	setup_line2.set_asProgmem(1);
+	setup_line3.set_asProgmem(1);
+	setup_line4.set_asProgmem(1);
+	setup_line5.set_asProgmem(1);
+	setup_line6.set_asProgmem(1);
 
+	machine_status_line1.set_asProgmem(1);
 	machine_status_line1.attach_function(FUNC_ENTER_MENU, goto_main_menu);
 	machine_status_line1.set_focusPosition(Position::CUSTOM, 16, 0);
 
 	machine_status_line2.attach_function(FUNC_ENTER_MENU, goto_main_menu);
 	machine_status_line2.set_focusPosition(Position::CUSTOM, 16, 0);
 
+	// Add lines and attach functions to the main menu
+	main_line0.set_asProgmem(1);
+	main_line1.set_asProgmem(1);
+	main_line2.set_asProgmem(1);
+	main_line3.set_asProgmem(1);
+	main_line4.set_asProgmem(1);
+	main_screen.add_line(main_line0);
+	main_screen.add_line(main_line1);
+	main_screen.add_line(main_line2);
+	main_screen.add_line(main_line3);
+	main_screen.add_line(main_line4);
+	main_screen.set_displayLineCount(2);
 	main_line0.attach_function(FUNC_ENTER_MENU, goto_machine_status_menu);
 	main_line1.attach_function(FUNC_ENTER_MENU, activate_proc);
 	main_line2.attach_function(FUNC_ENTER_MENU, blank_function);
 	main_line3.attach_function(FUNC_ENTER_MENU, blank_function);
 	main_line4.attach_function(FUNC_ENTER_MENU, blank_function);
+
+	// Add lines and attach functions to the start menu
+	start_line0.set_asProgmem(1);
+	start_line1.set_asProgmem(1);
+	start_line2.set_asProgmem(1);
+	start_line3.set_asProgmem(1);
+	start_screen.add_line(start_line0);
+	start_screen.add_line(start_line1);
+	start_screen.add_line(start_line2);
+	start_screen.add_line(start_line3);
+	start_screen.set_displayLineCount(2);
+	start_line0.attach_function(FUNC_ENTER_MENU, blank_function);
+	start_line1.attach_function(FUNC_ENTER_MENU, blank_function);
+	start_line2.attach_function(FUNC_ENTER_MENU, blank_function);
+	start_line3.attach_function(FUNC_ENTER_MENU, blank_function);
 
 }
 
@@ -319,11 +374,8 @@ void setup()
 	lcd.init();
 	lcd.backlight();
 
-	// Set the focus position of the back line to the left.
-	back_line.set_focusPosition(Position::LEFT);
-
-	// Attach functions
-	attachLcdFunctions();
+	// Load lines from PROGMEM, add lines, attach functions
+	setupLcdLines();
 
 	// Menu initialization.
 	menu_system.update();
@@ -436,10 +488,7 @@ void setup()
 	loadEeprom();
 	//resetEeprom(EE_FULL_RESET);	// manual
 
-	main_screen.set_displayLineCount(2);
-
 	menu_system.change_menu(machine_status_menu);
-	menu_system.switch_focus();
 	menu_system.update();
 
 }
@@ -871,28 +920,6 @@ void printSerialData()
 /*--------------------------------------- LCD_GUI ---------------------------------------*/
 /* --------------------------------------------------------------------------------------*/
 
-void blank_function()
-{
-	// Do nothing
-}
-
-void goto_main_menu()
-{
-	menu_system.change_menu(main_menu);
-	menu_system.update();
-}
-
-void goto_machine_status_menu()
-{
-	menu_system.change_menu(machine_status_menu);
-	menu_system.update();
-}
-
-void activate_proc()
-{
-	currentProcessState.setState(ACTIVE_PROCESS);
-	currentActiveProcessSubstate.setSubstate(PREHEATING);
-}
 
 /* -------------------------------LCD Event Handler----------------------------------*/
 void lcdEventHandler()
@@ -918,7 +945,7 @@ void lcdEventHandler()
 			}
 			else
 			{
-				//menu_system.call_function(FUNC_INCRT_PDATA);
+				menu_system.call_function(FUNC_INCRT_PDATA);
 			}
 			break;
 		case(EV_ENCDN):
@@ -929,7 +956,7 @@ void lcdEventHandler()
 			}
 			else
 			{
-				//menu_system.call_function(FUNC_DECRT_PDATA);
+				menu_system.call_function(FUNC_DECRT_PDATA);
 			}
 			break;
 		case(EV_BOOTDN):
@@ -952,6 +979,184 @@ void lcdEventHandler()
 			break;
 	}
 }
+/* -------------------------------------FUNCTIONS----------------------------------------*/
+void blank_function()
+{
+	// Do nothing
+}
+
+
+// ------ FUNC_ENTER_MENU ------
+void goto_main_menu()
+{
+	menu_system.change_menu(main_menu);
+	menu_system.update();
+}
+
+void goto_machine_status_menu()
+{
+	menu_system.change_menu(machine_status_menu);
+	menu_system.update();
+}
+
+void activate_proc()
+{
+	currentProcessState.setState(ACTIVE_PROCESS);
+	currentActiveProcessSubstate.setSubstate(PREHEATING);
+}
+
+// ------ FUNC_INCRT_PDATA and FUNC_DECRT_PDATA ------
+// Increment temperature runaway cycles
+void incrt_pdata_tempRunAwayCycles() {
+    if (pData.tempRunAwayCycles < MAX_TEMP_RUNA_CYCLES) pData.tempRunAwayCycles += 1;
+}
+
+// Decrement temperature runaway cycles
+void decrt_pdata_tempRunAwayCycles() {
+    if (pData.tempRunAwayCycles > MIN_TEMP_RUNA_CYCLES) pData.tempRunAwayCycles -= 1;
+}
+
+// Increment set temperature
+void incrt_pdata_setTemp() {
+    if (pData.setTemp + 5 <= MAX_TEMP) pData.setTemp += 5;
+}
+
+// Decrement set temperature
+void decrt_pdata_setTemp() {
+    if (pData.setTemp - 5 >= MIN_TEMP) pData.setTemp -= 5;
+}
+
+// Increment control period
+void incrt_pdata_controlPeriod() {
+    if (pData.controlPeriod + 60000 <= MAX_CONTROL_PERIOD) pData.controlPeriod += 60000;
+}
+
+// Decrement control period
+void decrt_pdata_controlPeriod() {
+    if (pData.controlPeriod - 60000 >= MIN_CONTROL_PERIOD) pData.controlPeriod -= 60000;
+}
+
+// Increment process interval
+void incrt_pdata_processInterval() {
+    if (pData.processInterval + 1 <= MAX_PROCESS_INTERVAL) pData.processInterval += 1;
+}
+
+// Decrement process interval
+void decrt_pdata_processInterval() {
+    if (pData.processInterval - 1 >= MIN_PROCESS_INTERVAL) pData.processInterval -= 1;
+}
+
+// Increment heating duration
+void incrt_pdata_heatingDuration() {
+    if (pData.heatingDuration + 60000 <= MAX_HEATING_DURATION) pData.heatingDuration += 60000;
+}
+
+// Decrement heating duration
+void decrt_pdata_heatingDuration() {
+    if (pData.heatingDuration - 60000 >= MIN_HEATING_DURATION) pData.heatingDuration -= 60000;
+}
+
+// Increment preheat to heat temperature offset
+void incrt_pdata_preToHeatTempOffset() {
+    if (pData.preToHeatTempOffset + 1 <= MAX_PRE_TO_HEAT_TEMP_OFFSET) pData.preToHeatTempOffset += 1;
+}
+
+// Decrement preheat to heat temperature offset
+void decrt_pdata_preToHeatTempOffset() {
+    if (pData.preToHeatTempOffset - 1 >= MIN_PRE_TO_HEAT_TEMP_OFFSET) pData.preToHeatTempOffset -= 1;
+}
+
+// Increment preheat to heat hold time
+void incrt_pdata_preToHeatHoldTime() {
+    if (pData.preToHeatHoldTime + 60000 <= MAX_PRE_TO_HEAT_HOLD_TIME) pData.preToHeatHoldTime += 60000;
+}
+
+// Decrement preheat to heat hold time
+void decrt_pdata_preToHeatHoldTime() {
+    if (pData.preToHeatHoldTime - 60000 >= MIN_PRE_TO_HEAT_HOLD_TIME) pData.preToHeatHoldTime -= 60000;
+}
+
+// Increment serial print interval
+void incrt_pdata_serialPrintInterval() {
+    if (pData.serialPrintInterval + 1 <= MAX_SERIAL_PRINT_INTERVAL) pData.serialPrintInterval += 1;
+}
+
+// Decrement serial print interval
+void decrt_pdata_serialPrintInterval() {
+    if (pData.serialPrintInterval - 1 >= MIN_SERIAL_PRINT_INTERVAL) pData.serialPrintInterval -= 1;
+}
+
+// Increment proportional gain (kp)
+void incrt_pdata_kp() {
+    if (pData.kp + 1 <= MAX_KP) pData.kp += 1;
+}
+
+// Decrement proportional gain (kp)
+void decrt_pdata_kp() {
+    if (pData.kp - 1 >= MIN_KP) pData.kp -= 1;
+}
+
+// Increment integral gain (ki)
+void incrt_pdata_ki() {
+    if (pData.ki + 1 <= MAX_KI) pData.ki += 1;
+}
+
+// Decrement integral gain (ki)
+void decrt_pdata_ki() {
+    if (pData.ki - 1 >= MIN_KI) pData.ki -= 1;
+}
+
+// Increment derivative gain (kd)
+void incrt_pdata_kd() {
+    if (pData.kd + 1 <= MAX_KD) pData.kd += 1;
+}
+
+// Decrement derivative gain (kd)
+void decrt_pdata_kd() {
+    if (pData.kd - 1 >= MIN_KD) pData.kd -= 1;
+}
+
+// Increment cp (Proportional constant for dynamic tuning)
+void incrt_pdata_cp() {
+    if (pData.cp + 1 <= MAX_CP) pData.cp += 1;
+}
+
+// Decrement cp
+void decrt_pdata_cp() {
+    if (pData.cp - 1 >= MIN_CP) pData.cp -= 1;
+}
+
+// Increment ci (Integral constant for dynamic tuning)
+void incrt_pdata_ci() {
+    if (pData.ci + 1 <= MAX_CI) pData.ci += 1;
+}
+
+// Decrement ci
+void decrt_pdata_ci() {
+    if (pData.ci - 1 >= MIN_CI) pData.ci -= 1;
+}
+
+// Increment cd (Derivative constant for dynamic tuning)
+void incrt_pdata_cd() {
+    if (pData.cd + 1 <= MAX_CD) pData.cd += 1;
+}
+
+// Decrement cd
+void decrt_pdata_cd() {
+    if (pData.cd - 1 >= MIN_CD) pData.cd -= 1;
+}
+
+// Increment gap threshold
+void incrt_pdata_gapThreshold() {
+    if (pData.gapThreshold + 1 <= MAX_GAP_THRESHOLD) pData.gapThreshold += 1;
+}
+
+// Decrement gap threshold
+void decrt_pdata_gapThreshold() {
+    if (pData.gapThreshold - 1 >= MIN_GAP_THRESHOLD) pData.gapThreshold -= 1;
+}
+
+
 
 
 /*-------------------------------Check Sleep for Standby----------------------------------*/
