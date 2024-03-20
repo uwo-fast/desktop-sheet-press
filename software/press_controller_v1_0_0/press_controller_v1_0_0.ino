@@ -77,7 +77,7 @@
 #include <EEPROM.h>
 
 // The PROGMEM library, this is for storing data in the program memory aka flash memory
-#include <avr/pgmspace.h> 
+#include <avr/pgmspace.h>
 
 #include <PID_v1.h>
 #include <Adafruit_MAX31855.h>
@@ -135,8 +135,6 @@ double Setpoint, Input1, Output1, Input2, Output2;
 unsigned long lastSerialPrint = 0;
 #endif /* _SERIALCMD_ */
 
-
-
 // LCD State and Event variables
 #ifdef _LCDGUI_
 uint8_t uEvent;				   /**< Current pending user event */
@@ -152,44 +150,80 @@ ProcessStateWrapper currentProcessState(INACTIVE_PROCESS);
 
 ActiveProcessSubstateWrapper currentActiveProcessSubstate(UNKNOWN);
 
-const char* getCurrentProcessState() {
-    return currentProcessState.toChar();
+const char *getCurrentProcessState()
+{
+	return currentProcessState.toChar();
 }
 
-const char* getCurrentActiveProcessSubstate() {
+const char *getCurrentActiveProcessSubstate()
+{
 	return currentActiveProcessSubstate.toChar();
 }
 
+const char *getStateInfo()
+{
+	static char buffer[16];
+	unsigned long output = static_cast<unsigned long>(Output1) * 0.5 + static_cast<unsigned long>(Output2) * 0.5;
 
-const char* getStateInfo() {
-    static char buffer[20]; 
-    unsigned long output = static_cast<unsigned long>(Output1) * 0.5 + static_cast<unsigned long>(Output2) * 0.5;
-
-    if(strcmp(getCurrentProcessState(), "ACTIVE") == 0) {
-        // Concatenate first two letters, setTemp, "C", and output without spaces
-        sprintf(buffer, "%dC %lu", pData.setTemp, output);
-    } else {
-        // For other states, just show the first two letters of the state
-        sprintf(buffer, "%s", getCurrentProcessState());
-    }
-    return buffer;
+	if (strcmp(getCurrentProcessState(), "ACTIVE") == 0)
+	{
+		// Concatenate first two letters, setTemp, "C", and output without spaces
+		sprintf(buffer, "%dC O:%lu", pData.setTemp, output);
+	}
+	else
+	{
+		// For other states, just show the first two letters of the state
+		sprintf(buffer, "%s", getCurrentProcessState());
+	}
+	return buffer;
 }
 
+const char *getStatusInfo()
+{
+	static char buffer[10]; // Buffer to hold the formatted string
 
-const char* getStatusInfo() {
-    static char buffer[20];
+	if (strcmp(getCurrentProcessState(), "ACTIVE") == 0)
+	{
+		// Ensure heatingDuration is treated accurately as milliseconds in integer math
+		unsigned long heatingDurationMillis = static_cast<unsigned long>(pData.heatingDuration);
+		unsigned long remainingTime = heatingDurationMillis - heatingTime; // Remaining time in milliseconds
+		unsigned long hours = remainingTime / (3600000UL);				   // 1000 * 60 * 60
+		unsigned long minutes = (remainingTime % (3600000UL)) / (60000UL); // (1000 * 60)
+		unsigned long percentCompletion = (heatingTime * 100UL) / heatingDurationMillis;
 
-    // Ensure heatingDuration is treated accurately as milliseconds in integer math
-    unsigned long heatingDurationMillis = static_cast<unsigned long>(pData.heatingDuration);
-    unsigned long remainingTime = heatingDurationMillis - heatingTime; // Remaining time in milliseconds
-    unsigned long hours = remainingTime / (3600000UL); // 1000 * 60 * 60
-    unsigned long minutes = (remainingTime % (3600000UL)) / (60000UL); // (1000 * 60)
-    unsigned long percentCompletion = (heatingTime * 100UL) / heatingDurationMillis;
+		sprintf(buffer, "%lu%% %02lu:%02lu", percentCompletion, hours, minutes); // Format as "XX% HH:MM"
+	}
+	else
+	{
+		strcpy(buffer, "---% --:--"); // Set the string for non-ACTIVE states
+	}
 
-    sprintf(buffer, "%lu%% %02lu:%02lu", percentCompletion, hours, minutes); // Format as "XX% HH:MM"
-    return buffer;
+	return buffer;
 }
 
+const char *getDurationInfo()
+{
+	static char buffer[5];
+
+	// Ensure heatingDuration is treated accurately as milliseconds in integer math
+	unsigned long heatingDurationMillis = static_cast<unsigned long>(pData.heatingDuration);
+	unsigned long hours = heatingDurationMillis / (3600000UL);				   // 1000 * 60 * 60
+	unsigned long minutes = (heatingDurationMillis % (3600000UL)) / (60000UL); // (1000 * 60)
+
+	sprintf(buffer, "%02lu:%02lu", hours, minutes); // Format as "XX% HH:MM"
+	return buffer;
+}
+
+const char *getSetTempInfo()
+{
+	static char buffer[16];
+
+	// Get the current set temperature from pData structure
+	unsigned int setTemp = pData.setTemp;
+
+	sprintf(buffer, "Set Temp: %u C", setTemp); // Format as "Set Temp: ### C"
+	return buffer;
+}
 
 Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
 Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermocouple 2 object */
@@ -206,7 +240,7 @@ const char versionNumberText[] PROGMEM = "1.0.0";
 const char licenseText[] PROGMEM = "License:";
 const char gplv3FreeText[] PROGMEM = "GPLv3 \"FREE\"";
 
-// SETUP DISPLAYS		
+// SETUP DISPLAYS
 LiquidLine setup_line1(0, 0, fastResearchText);
 LiquidLine setup_line2(0, 1, oschssPressText);
 LiquidLine setup_line3(0, 0, versionText);
@@ -226,34 +260,22 @@ LiquidScreen machine_status_screenA(machine_status_line1, machine_status_line2);
 LiquidMenu machine_status_menu(lcd, machine_status_screenA);
 
 const char statusScreenText[] PROGMEM = "/Status Screen";
-const char startText[] PROGMEM = "Start";
-const char optionsText[] PROGMEM = "Options";
-const char presetsText[] PROGMEM = "Presets";
-const char infoText[] PROGMEM = "Info";
+const char durationText[] PROGMEM = "Duration: ";
+const char activateText[] PROGMEM = "Activate";
+const char stopText[] PROGMEM = "Stop";
 
 // MAIN DISPLAY MAIN MENU
 LiquidLine main_line0(0, 0, statusScreenText);
-LiquidLine main_line1(0, 1, startText);
-LiquidLine main_line2(0, 1, optionsText);
-LiquidLine main_line3(0, 1, presetsText);
-LiquidLine main_line4(0, 1, infoText);
+LiquidLine main_line1(0, 1, getSetTempInfo);
+LiquidLine main_line2(0, 1, durationText, getDurationInfo);
+LiquidLine main_line3(0, 1, activateText);
+LiquidLine main_line4(0, 1, stopText);
 LiquidScreen main_screen;
 
-const char backText[] PROGMEM = "/Back";
-const char startProcessText[] PROGMEM = "Start Process";
-const char presetProcessText[] PROGMEM = "Preset Process";
-const char tuneText[] PROGMEM = "Tune";
-
-LiquidLine start_line0(0, 0, backText);
-LiquidLine start_line1(0, 1, startProcessText);
-LiquidLine start_line2(0, 1, presetProcessText);
-LiquidLine start_line3(0, 1, tuneText);
-LiquidScreen start_screen;
 LiquidMenu main_menu(lcd, main_screen);
 
 // Menu system
 LiquidSystem menu_system(setup_menu, machine_status_menu, main_menu);
-
 
 void setupLcdLines()
 {
@@ -284,26 +306,14 @@ void setupLcdLines()
 	main_screen.add_line(main_line4);
 	main_screen.set_displayLineCount(2);
 	main_line0.attach_function(FUNC_ENTER_MENU, goto_machine_status_menu);
-	main_line1.attach_function(FUNC_ENTER_MENU, activate_proc);
-	main_line2.attach_function(FUNC_ENTER_MENU, blank_function);
-	main_line3.attach_function(FUNC_ENTER_MENU, blank_function);
-	main_line4.attach_function(FUNC_ENTER_MENU, blank_function);
-
-	// Add lines and attach functions to the start menu
-	start_line0.set_asProgmem(1);
-	start_line1.set_asProgmem(1);
-	start_line2.set_asProgmem(1);
-	start_line3.set_asProgmem(1);
-	start_screen.add_line(start_line0);
-	start_screen.add_line(start_line1);
-	start_screen.add_line(start_line2);
-	start_screen.add_line(start_line3);
-	start_screen.set_displayLineCount(2);
-	start_line0.attach_function(FUNC_ENTER_MENU, blank_function);
-	start_line1.attach_function(FUNC_ENTER_MENU, blank_function);
-	start_line2.attach_function(FUNC_ENTER_MENU, blank_function);
-	start_line3.attach_function(FUNC_ENTER_MENU, blank_function);
-
+	main_line1.attach_function(FUNC_ENTER_MENU, toggle_function);
+	main_line1.attach_function(FUNC_DECRT_PDATA, decrt_pdata_setTemp);
+	main_line1.attach_function(FUNC_INCRT_PDATA, incrt_pdata_setTemp);
+	main_line2.attach_function(FUNC_ENTER_MENU, toggle_function);
+	main_line2.attach_function(FUNC_DECRT_PDATA, decrt_pdata_heatingDuration);
+	main_line2.attach_function(FUNC_INCRT_PDATA, incrt_pdata_heatingDuration);
+	main_line3.attach_function(FUNC_ENTER_MENU, activate_proc);
+	main_line4.attach_function(FUNC_ENTER_MENU, deactivate_proc);
 }
 
 void timerIsr()
@@ -317,7 +327,6 @@ void timerIsr()
 // PID myPID1(&Input1, &Output1, &Setpoint, consKp, consKi, consKd, P_ON_M, DIRECT);
 PID myPID1(&Input1, &Output1, &Setpoint, DEF_KP / MILLI_UNIT, DEF_KI / MILLI_UNIT, DEF_KD / MILLI_UNIT, DIRECT); /**< PID1 object gets input from thermocouple 1 and ouputs to relay 1*/
 PID myPID2(&Input2, &Output2, &Setpoint, DEF_KP / MILLI_UNIT, DEF_KI / MILLI_UNIT, DEF_KD / MILLI_UNIT, DIRECT); /**< PID2 object gets input from thermocouple 2 and ouputs to relay 2*/
-
 
 // ------------------------------------------------------
 // SETUP -------------------------------------------------
@@ -358,7 +367,6 @@ bool thermocoupleSetup(Adafruit_MAX31855 &thermocouple)
 	return tcInitFlag;
 }
 
-
 // Setup Main
 void setup()
 {
@@ -381,17 +389,22 @@ void setup()
 	menu_system.update();
 	menu_system.change_menu(setup_menu);
 
-    unsigned long setupMenuMillis = 0; 
-    const long setupMenuInterval = 2000; // interval at which to change screen (milliseconds)
+	unsigned long setupMenuMillis = 0;
+	const long setupMenuInterval = 500; // interval at which to change screen (milliseconds)
 
 	// This timing loop also the user the physical time for entering eeprom reset on GUI or to click and open serial monitor on PC
 	// Display the setup screens
-    for(int i = 0; i < 3; i++) 
+	for (int i = 0; i < 3; i++)
 	{
-        setupMenuMillis = millis();
-        while(millis() - setupMenuMillis < setupMenuInterval){}
-        if(i!=0){setup_menu.next_screen();}
-    }
+		setupMenuMillis = millis();
+		while (millis() - setupMenuMillis < setupMenuInterval)
+		{
+		}
+		if (i != 0)
+		{
+			setup_menu.next_screen();
+		}
+	}
 #endif /* _LCDGUI_ */
 
 	// Initialize thermocouples
@@ -486,11 +499,11 @@ void setup()
 	 *       may inadvertently preserve the unique ID, leading to incorrect data validation.
 	 */
 	loadEeprom();
-	//resetEeprom(EE_FULL_RESET);	// manual
+	// resetEeprom(EE_FULL_RESET);	// manual
 
 	menu_system.change_menu(machine_status_menu);
 	menu_system.update();
-
+	menu_system.set_focusedLine(0);
 }
 
 // ------------------------------------------------------
@@ -884,10 +897,12 @@ void printSerialData()
 		Serial.print("C, st: ");
 		Serial.print(pData.setTemp);
 		Serial.print(F("C, o1: "));
-		Serial.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0" : "");
+		Serial.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0"
+																   : "");
 		Serial.print((int)Output1);
 		Serial.print(", o2: ");
-		Serial.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0" : "");
+		Serial.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0"
+																   : "");
 		Serial.print((int)Output2);
 		Serial.print(F(", Preheat t: "));
 		// \todo instead of floats, use a function to convert to string and shift float point
@@ -920,63 +935,60 @@ void printSerialData()
 /*--------------------------------------- LCD_GUI ---------------------------------------*/
 /* --------------------------------------------------------------------------------------*/
 
-
 /* -------------------------------LCD Event Handler----------------------------------*/
 void lcdEventHandler()
 {
 
-
 	switch (uEvent)
 	{
-		case(EV_NONE):
-			break;
-		case(EV_BTN_CLICKED):
-			uToggle = uToggle == TOGGLE_OFF ? TOGGLE_ON : TOGGLE_OFF;
-			menu_system.call_function(FUNC_ENTER_MENU);
-			menu_system.switch_focus();
-			uEvent=EV_NONE;
-			uToggle = TOGGLE_OFF;
-			break;
-		case(EV_ENCUP):
-			if(uToggle == TOGGLE_OFF)
-			{
-				menu_system.switch_focus(false);
-				uEvent=EV_NONE;
-			}
-			else
-			{
-				menu_system.call_function(FUNC_INCRT_PDATA);
-			}
-			break;
-		case(EV_ENCDN):
-			if(uToggle == TOGGLE_OFF)
-			{
-				menu_system.switch_focus(true);
-				uEvent=EV_NONE;
-			}
-			else
-			{
-				menu_system.call_function(FUNC_DECRT_PDATA);
-			}
-			break;
-		case(EV_BOOTDN):
+	case (EV_NONE):
+		break;
+	case (EV_BTN_CLICKED):
+		menu_system.call_function(FUNC_ENTER_MENU);
+		uEvent = EV_NONE;
+		break;
+	case (EV_ENCUP):
+		if (uToggle == TOGGLE_OFF)
+		{
+			menu_system.switch_focus(false);
+			uEvent = EV_NONE;
+		}
+		else
+		{
+			menu_system.call_function(FUNC_DECRT_PDATA);
+			uEvent = EV_NONE;
+		}
+		break;
+	case (EV_ENCDN):
+		if (uToggle == TOGGLE_OFF)
+		{
+			menu_system.switch_focus(true);
+			uEvent = EV_NONE;
+		}
+		else
+		{
+			menu_system.call_function(FUNC_INCRT_PDATA);
+			uEvent = EV_NONE;
+		}
+		break;
+	case (EV_BOOTDN):
 
-			break;
-		case(EV_STBY_TIMEOUT):
+		break;
+	case (EV_STBY_TIMEOUT):
 
-			break;
+		break;
 
-		//UNUSED AT THE MOMENT//
-		case(EV_BTN_2CLICKED):
-			break;
-		case(EV_BTN_HELD):
-			break;
-		case(EV_BTN_RELEASED):
-			break;
-		//UNUSED AT THE MOMENT//
+	// UNUSED AT THE MOMENT//
+	case (EV_BTN_2CLICKED):
+		break;
+	case (EV_BTN_HELD):
+		break;
+	case (EV_BTN_RELEASED):
+		break;
+		// UNUSED AT THE MOMENT//
 
-		default:
-			break;
+	default:
+		break;
 	}
 }
 /* -------------------------------------FUNCTIONS----------------------------------------*/
@@ -985,179 +997,93 @@ void blank_function()
 	// Do nothing
 }
 
+void toggle_function()
+{
+	uToggle = uToggle == TOGGLE_OFF ? TOGGLE_ON : TOGGLE_OFF;
+}
 
 // ------ FUNC_ENTER_MENU ------
 void goto_main_menu()
 {
 	menu_system.change_menu(main_menu);
 	menu_system.update();
+	menu_system.set_focusedLine(0);
 }
 
 void goto_machine_status_menu()
 {
 	menu_system.change_menu(machine_status_menu);
 	menu_system.update();
+	menu_system.set_focusedLine(0);
 }
 
 void activate_proc()
 {
 	currentProcessState.setState(ACTIVE_PROCESS);
 	currentActiveProcessSubstate.setSubstate(PREHEATING);
+	menu_system.change_menu(machine_status_menu);
+	menu_system.update();
+	menu_system.set_focusedLine(0);
+}
+
+void deactivate_proc()
+{
+	currentProcessState.setState(INACTIVE_PROCESS);
+	currentActiveProcessSubstate.setSubstate(COOLING_DOWN);
+	menu_system.change_menu(machine_status_menu);
+	menu_system.update();
+	menu_system.set_focusedLine(0);
 }
 
 // ------ FUNC_INCRT_PDATA and FUNC_DECRT_PDATA ------
-// Increment temperature runaway cycles
-void incrt_pdata_tempRunAwayCycles() {
-    if (pData.tempRunAwayCycles < MAX_TEMP_RUNA_CYCLES) pData.tempRunAwayCycles += 1;
-}
-
-// Decrement temperature runaway cycles
-void decrt_pdata_tempRunAwayCycles() {
-    if (pData.tempRunAwayCycles > MIN_TEMP_RUNA_CYCLES) pData.tempRunAwayCycles -= 1;
-}
 
 // Increment set temperature
-void incrt_pdata_setTemp() {
-    if (pData.setTemp + 5 <= MAX_TEMP) pData.setTemp += 5;
+void incrt_pdata_setTemp()
+{
+	if (pData.setTemp + 5 <= MAX_TEMP)
+		pData.setTemp += 5;
+	menu_system.update();
 }
 
 // Decrement set temperature
-void decrt_pdata_setTemp() {
-    if (pData.setTemp - 5 >= MIN_TEMP) pData.setTemp -= 5;
+void decrt_pdata_setTemp()
+{
+	if (pData.setTemp - 5 >= MIN_TEMP)
+		pData.setTemp -= 5;
+	menu_system.update();
 }
 
 // Increment control period
-void incrt_pdata_controlPeriod() {
-    if (pData.controlPeriod + 60000 <= MAX_CONTROL_PERIOD) pData.controlPeriod += 60000;
+void incrt_pdata_controlPeriod()
+{
+	if (pData.controlPeriod + 60000 <= MAX_CONTROL_PERIOD)
+		pData.controlPeriod += 60000;
+	menu_system.update();
 }
 
 // Decrement control period
-void decrt_pdata_controlPeriod() {
-    if (pData.controlPeriod - 60000 >= MIN_CONTROL_PERIOD) pData.controlPeriod -= 60000;
-}
-
-// Increment process interval
-void incrt_pdata_processInterval() {
-    if (pData.processInterval + 1 <= MAX_PROCESS_INTERVAL) pData.processInterval += 1;
-}
-
-// Decrement process interval
-void decrt_pdata_processInterval() {
-    if (pData.processInterval - 1 >= MIN_PROCESS_INTERVAL) pData.processInterval -= 1;
+void decrt_pdata_controlPeriod()
+{
+	if (pData.controlPeriod - 60000 >= MIN_CONTROL_PERIOD)
+		pData.controlPeriod -= 60000;
+	menu_system.update();
 }
 
 // Increment heating duration
-void incrt_pdata_heatingDuration() {
-    if (pData.heatingDuration + 60000 <= MAX_HEATING_DURATION) pData.heatingDuration += 60000;
+void incrt_pdata_heatingDuration()
+{
+	if (pData.heatingDuration + 60000 <= MAX_HEATING_DURATION)
+		pData.heatingDuration += 60000;
+	menu_system.update();
 }
 
 // Decrement heating duration
-void decrt_pdata_heatingDuration() {
-    if (pData.heatingDuration - 60000 >= MIN_HEATING_DURATION) pData.heatingDuration -= 60000;
+void decrt_pdata_heatingDuration()
+{
+	if (pData.heatingDuration - 60000 >= MIN_HEATING_DURATION)
+		pData.heatingDuration -= 60000;
+	menu_system.update();
 }
-
-// Increment preheat to heat temperature offset
-void incrt_pdata_preToHeatTempOffset() {
-    if (pData.preToHeatTempOffset + 1 <= MAX_PRE_TO_HEAT_TEMP_OFFSET) pData.preToHeatTempOffset += 1;
-}
-
-// Decrement preheat to heat temperature offset
-void decrt_pdata_preToHeatTempOffset() {
-    if (pData.preToHeatTempOffset - 1 >= MIN_PRE_TO_HEAT_TEMP_OFFSET) pData.preToHeatTempOffset -= 1;
-}
-
-// Increment preheat to heat hold time
-void incrt_pdata_preToHeatHoldTime() {
-    if (pData.preToHeatHoldTime + 60000 <= MAX_PRE_TO_HEAT_HOLD_TIME) pData.preToHeatHoldTime += 60000;
-}
-
-// Decrement preheat to heat hold time
-void decrt_pdata_preToHeatHoldTime() {
-    if (pData.preToHeatHoldTime - 60000 >= MIN_PRE_TO_HEAT_HOLD_TIME) pData.preToHeatHoldTime -= 60000;
-}
-
-// Increment serial print interval
-void incrt_pdata_serialPrintInterval() {
-    if (pData.serialPrintInterval + 1 <= MAX_SERIAL_PRINT_INTERVAL) pData.serialPrintInterval += 1;
-}
-
-// Decrement serial print interval
-void decrt_pdata_serialPrintInterval() {
-    if (pData.serialPrintInterval - 1 >= MIN_SERIAL_PRINT_INTERVAL) pData.serialPrintInterval -= 1;
-}
-
-// Increment proportional gain (kp)
-void incrt_pdata_kp() {
-    if (pData.kp + 1 <= MAX_KP) pData.kp += 1;
-}
-
-// Decrement proportional gain (kp)
-void decrt_pdata_kp() {
-    if (pData.kp - 1 >= MIN_KP) pData.kp -= 1;
-}
-
-// Increment integral gain (ki)
-void incrt_pdata_ki() {
-    if (pData.ki + 1 <= MAX_KI) pData.ki += 1;
-}
-
-// Decrement integral gain (ki)
-void decrt_pdata_ki() {
-    if (pData.ki - 1 >= MIN_KI) pData.ki -= 1;
-}
-
-// Increment derivative gain (kd)
-void incrt_pdata_kd() {
-    if (pData.kd + 1 <= MAX_KD) pData.kd += 1;
-}
-
-// Decrement derivative gain (kd)
-void decrt_pdata_kd() {
-    if (pData.kd - 1 >= MIN_KD) pData.kd -= 1;
-}
-
-// Increment cp (Proportional constant for dynamic tuning)
-void incrt_pdata_cp() {
-    if (pData.cp + 1 <= MAX_CP) pData.cp += 1;
-}
-
-// Decrement cp
-void decrt_pdata_cp() {
-    if (pData.cp - 1 >= MIN_CP) pData.cp -= 1;
-}
-
-// Increment ci (Integral constant for dynamic tuning)
-void incrt_pdata_ci() {
-    if (pData.ci + 1 <= MAX_CI) pData.ci += 1;
-}
-
-// Decrement ci
-void decrt_pdata_ci() {
-    if (pData.ci - 1 >= MIN_CI) pData.ci -= 1;
-}
-
-// Increment cd (Derivative constant for dynamic tuning)
-void incrt_pdata_cd() {
-    if (pData.cd + 1 <= MAX_CD) pData.cd += 1;
-}
-
-// Decrement cd
-void decrt_pdata_cd() {
-    if (pData.cd - 1 >= MIN_CD) pData.cd -= 1;
-}
-
-// Increment gap threshold
-void incrt_pdata_gapThreshold() {
-    if (pData.gapThreshold + 1 <= MAX_GAP_THRESHOLD) pData.gapThreshold += 1;
-}
-
-// Decrement gap threshold
-void decrt_pdata_gapThreshold() {
-    if (pData.gapThreshold - 1 >= MIN_GAP_THRESHOLD) pData.gapThreshold -= 1;
-}
-
-
-
 
 /*-------------------------------Check Sleep for Standby----------------------------------*/
 /**
@@ -1245,7 +1171,6 @@ void encoderEvent()
 
 #endif /* _LCDGUI_ */
 }
-
 
 /***************************************************************************************************
  * Utility EEPROM Functions                                                                         *
