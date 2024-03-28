@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "Adafruit_MAX31855 v2-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/Adafruit_MAX31855 v2-eagle-import.kicad_sym")(options "")(descr ""))
+)
