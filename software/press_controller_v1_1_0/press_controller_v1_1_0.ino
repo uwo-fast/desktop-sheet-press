@@ -169,7 +169,7 @@ const char *getStateInfo()
 	if (strcmp(getCurrentProcessState(), "ACTIVE") == 0)
 	{
 		// Concatenate first two letters, setTemp, "C", and output without spaces
-		sprintf(buffer, "%dC O:%lu", pData.setTemp, output);
+		sprintf(buffer, "%dC %lu", pData.setTemp, output);
 	}
 	else
 	{
