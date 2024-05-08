@@ -26,7 +26,7 @@ For more information on the FAST group, please visit [FAST on Appropedia](https:
 
 ## Future Directions
 
-1. **5x5' Canadian Standardized Sheet Press**: Aiming for completion between Q4 2023 and Q1 2024, this version will meet industrial standards within the province of Ontario.
+1. **5x5' Canadian Standardized Sheet Press**: This version will meet industrial standards within the province of Ontario.
 2. **Expanding System Topologies**: Work is ongoing to offer more system variations based on desired specifications and features.
 3. **Vacuum Forming Integration**: Plans to incorporate vacuum forming capabilities, expanding the range of products that can be manufactured from the recycled plastic sheets.
 4. **Automation and Industry 4.0**: Future iterations will focus on integrating smart technologies for autonomous operation, real-time data analytics, and IoT capabilities.
