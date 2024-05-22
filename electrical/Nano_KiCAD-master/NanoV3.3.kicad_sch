@@ -8619,14 +8619,7 @@
 		(pin "2"
 			(uuid "3dec7c23-b50a-442d-bc1a-033607c9b909")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "SW4")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -8706,14 +8699,7 @@
 		(pin "5"
 			(uuid "1a922fb8-1d6a-4558-86b4-1d1b6ce952eb")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP2")
-					(unit 4)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_name "Fiducial_3")
@@ -8773,14 +8759,7 @@
 		(pin "1"
 			(uuid "bd42be05-1fe6-4ae7-a378-5c30fb2ffcfb")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "FD2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -8840,14 +8819,7 @@
 		(pin "1"
 			(uuid "14fff3d2-82f0-404c-9ed5-6cf4f73bb55b")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#FLG06")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -8906,14 +8878,7 @@
 		(pin "1"
 			(uuid "d187a23f-cb81-43e4-b121-6dfc11965770")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR08")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -8972,14 +8937,7 @@
 		(pin "1"
 			(uuid "bcf65baf-ecb6-4ac0-8b26-95e66f8eb6ee")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR019")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -9038,14 +8996,7 @@
 		(pin "1"
 			(uuid "d767c42c-5b36-4715-840d-d8a2ebccaa03")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR010")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:VIN")
@@ -9104,14 +9055,7 @@
 		(pin "1"
 			(uuid "67645cb7-1b87-4065-b991-f295f89f5d2f")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR07")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -9170,14 +9114,7 @@
 		(pin "1"
 			(uuid "871bd423-9cd5-4d94-8b48-f62e537c87f3")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR086")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -9236,14 +9173,7 @@
 		(pin "1"
 			(uuid "799f4991-ed1e-4719-be18-1ca96edf486d")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR020")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -9302,14 +9232,7 @@
 		(pin "1"
 			(uuid "5d06e6b9-63c4-47ee-90f9-5b41bbd82996")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR094")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -9368,14 +9291,7 @@
 		(pin "1"
 			(uuid "cb878da9-9e24-4e2b-8851-31a20f3bf7cb")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR015")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -9434,14 +9350,7 @@
 		(pin "1"
 			(uuid "094bc8da-6c60-4c83-9ccf-11a9a5adac7d")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR096")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:VUSB")
@@ -9500,14 +9409,7 @@
 		(pin "1"
 			(uuid "6ffe36f2-e24b-44e3-9bc7-07ac92b02cbf")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#U$06")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -9566,14 +9468,7 @@
 		(pin "1"
 			(uuid "2c3f2f21-5d63-4362-9834-75b1171366bb")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR092")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:VIN")
@@ -9632,14 +9527,7 @@
 		(pin "1"
 			(uuid "280c4d03-df31-4eed-8d01-125683d07054")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR018")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -9698,14 +9586,7 @@
 		(pin "1"
 			(uuid "14874eb2-928a-4a2e-aeaa-d4a6cec80c0a")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR089")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -9764,14 +9645,7 @@
 		(pin "1"
 			(uuid "accb6fee-4b56-440c-862e-360abc45db32")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR014")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:LED")
@@ -9833,14 +9707,7 @@
 		(pin "2"
 			(uuid "3babae12-f92f-474a-bf53-28bf1b8b4410")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "PWR2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:TestPoint")
@@ -9899,14 +9766,7 @@
 		(pin "X"
 			(uuid "bf93a900-2a96-4147-b14b-a242415ce6c2")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "D+2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -9968,14 +9828,7 @@
 		(pin "2"
 			(uuid "0119ede2-aea4-498f-bc83-9a14cd03c102")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C3")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -10034,14 +9887,7 @@
 		(pin "1"
 			(uuid "6dd05155-37f0-41ae-ae0a-259db52781bf")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR093")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -10100,14 +9946,7 @@
 		(pin "1"
 			(uuid "a24414ff-714d-46c3-a391-31725bc74f71")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR097")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Conn_Mini_USB")
@@ -10190,14 +10029,7 @@
 		(pin "9"
 			(uuid "850e3351-1180-4c52-b133-702d481022b8")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "J11")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Conn_2x3")
@@ -10271,14 +10103,7 @@
 		(pin "6"
 			(uuid "3338ffa2-2d3b-4e22-aa71-b009dd78342e")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -10340,14 +10165,7 @@
 		(pin "2"
 			(uuid "c9288f14-fe4c-4595-8a64-32765fa9312d")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C6")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -10409,14 +10227,7 @@
 		(pin "2"
 			(uuid "3cf25bfa-cbd4-44d4-a37d-289b9b7ef21f")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C26")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Fiducial")
@@ -10475,14 +10286,7 @@
 		(pin "1"
 			(uuid "7d061798-07e0-4a8d-9e47-485686ddbb63")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "FD4")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Polyfuse")
@@ -10544,14 +10348,7 @@
 		(pin "2"
 			(uuid "2fab2beb-ea4a-48c5-82c8-216077676cd6")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "F1")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -10631,14 +10428,7 @@
 		(pin "5"
 			(uuid "76f1ea43-32f9-47f7-a011-6f10a4ab75fd")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -10698,14 +10488,7 @@
 		(pin "1"
 			(uuid "200bd9a1-6c2b-4836-be58-c6afbfa4864e")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#FLG05")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -10785,14 +10568,7 @@
 		(pin "5"
 			(uuid "84240abc-1637-42ea-a20a-87bfad726bba")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP1")
-					(unit 4)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -10851,14 +10627,7 @@
 		(pin "1"
 			(uuid "3c2dcc88-a030-4b44-8dda-67c2f4dcad93")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR012")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -10917,14 +10686,7 @@
 		(pin "1"
 			(uuid "30418205-9e59-41d9-be38-180818501ebc")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR05")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -10983,14 +10745,7 @@
 		(pin "1"
 			(uuid "2d9a354c-dee8-4ebf-9fa5-7bd85df650b2")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR095")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -11049,14 +10804,7 @@
 		(pin "1"
 			(uuid "7effe9a8-6339-4f98-9eb2-7c7bc5e05f8e")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR013")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:LED")
@@ -11118,14 +10866,7 @@
 		(pin "2"
 			(uuid "d91064a4-ff9d-4f85-9403-905dc07b89e4")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "TX2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -11205,14 +10946,7 @@
 		(pin "5"
 			(uuid "f2f92787-ad4d-4030-9e7d-1926e1b9c00f")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP2")
-					(unit 3)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Resonator")
@@ -11278,14 +11012,7 @@
 		(pin "3"
 			(uuid "231bafb8-d0a8-4b19-8091-91fcd4ad2dec")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "Y1")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Conn_1x15")
@@ -11386,14 +11113,7 @@
 		(pin "9"
 			(uuid "c6da75b8-c1c3-4af0-bc6b-aaf8dfb63493")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "J3")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -11455,14 +11175,7 @@
 		(pin "2"
 			(uuid "75aed3f1-9a6c-4c53-bcc2-419e379ce1a2")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C9")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_name "Fiducial_2")
@@ -11522,14 +11235,7 @@
 		(pin "1"
 			(uuid "badb86be-6a5d-4184-a1ef-a877785177d3")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "FD1")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -11588,14 +11294,7 @@
 		(pin "1"
 			(uuid "c8d09b12-4298-4caf-ad5a-16c289b04236")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR085")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -11654,14 +11353,7 @@
 		(pin "1"
 			(uuid "d10dfdfd-005a-4211-9b59-374ff8304edf")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR087")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:LM1117")
@@ -11729,14 +11421,7 @@
 		(pin "4"
 			(uuid "9d7e0ce9-f46c-4423-b492-0e56e1ce8c7a")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "IC3")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:FT232R")
@@ -11876,14 +11561,7 @@
 		(pin "9"
 			(uuid "1541f972-6236-400b-bdc0-b0d7fba10c2c")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "IC12")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -11943,14 +11621,7 @@
 		(pin "1"
 			(uuid "f3779f96-706d-4f95-b914-db7c7d8541f8")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#FLG08")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
@@ -12010,14 +11681,7 @@
 		(pin "1"
 			(uuid "a7a9b9cf-a338-41b6-b8ac-b73b43d5d6be")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#FLG07")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -12079,14 +11743,7 @@
 		(pin "2"
 			(uuid "3c1fd0e0-08d2-4484-ba57-2a17e3151c15")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C8")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:Conn_1x15")
@@ -12188,14 +11845,7 @@
 		(pin "9"
 			(uuid "95cf914c-6170-4556-aff8-dd9eef3406f5")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -12254,14 +11904,7 @@
 		(pin "1"
 			(uuid "e6bf7c0b-1f14-4c8a-ad29-83818412baa9")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR083")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:ATmega328P-VQFN")
@@ -12416,14 +12059,7 @@
 		(pin "9"
 			(uuid "205f4844-d9c7-41eb-b2d8-63b6e0d964a7")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "IC11")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:LED")
@@ -12485,14 +12121,7 @@
 		(pin "2"
 			(uuid "ccc47423-6561-40fe-b01a-90c5ae8a94ef")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "L2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:3V3")
@@ -12551,14 +12180,7 @@
 		(pin "1"
 			(uuid "321e1c01-86b7-4692-a79d-2fdfc167d7f1")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR091")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -12617,14 +12239,7 @@
 		(pin "1"
 			(uuid "ce33ab9f-d544-4510-93df-eddb01caa783")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR09")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:3V3")
@@ -12683,14 +12298,7 @@
 		(pin "1"
 			(uuid "3cefc749-9fdf-4bbe-9170-56a1918d0923")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR034")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:TestPoint")
@@ -12749,14 +12357,7 @@
 		(pin "X"
 			(uuid "88090acc-17c3-43d7-adb4-4a9db53b2812")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "D-2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -12815,14 +12416,7 @@
 		(pin "1"
 			(uuid "ed5e221c-6f54-4dc1-ae0a-a48e3a7f20e1")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR084")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -12881,14 +12475,7 @@
 		(pin "1"
 			(uuid "0f4a47c6-dff4-42d3-b1be-f4f4deaedfcd")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR011")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -12947,14 +12534,7 @@
 		(pin "1"
 			(uuid "4f418fcc-9a6b-4f34-8b7c-30dbaff93793")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR016")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -13013,14 +12593,7 @@
 		(pin "1"
 			(uuid "aef512d8-2e42-4668-9de0-9be29b964bbb")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR090")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C_Polarized")
@@ -13082,14 +12655,7 @@
 		(pin "2"
 			(uuid "4449d5ce-cad7-4aba-b375-ad18eb98666e")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C25")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:VUSB")
@@ -13148,14 +12714,7 @@
 		(pin "1"
 			(uuid "3727625e-ddc9-4c89-93e3-ce481b12bb54")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#U$05")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C_Polarized")
@@ -13217,14 +12776,7 @@
 		(pin "2"
 			(uuid "e1a58755-203e-458a-9e21-cb612dab1f12")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C5")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -13304,14 +12856,7 @@
 		(pin "5"
 			(uuid "6ec9e272-6863-43f3-8434-7d0fb887f955")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP2")
-					(unit 2)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -13391,14 +12936,7 @@
 		(pin "5"
 			(uuid "e7dee12d-cf05-4fb9-8363-a98b8d212d32")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP1")
-					(unit 3)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -13460,14 +12998,7 @@
 		(pin "2"
 			(uuid "3dc4ef22-96a4-4d00-9ac7-4dd45a9e8452")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:D")
@@ -13529,14 +13060,7 @@
 		(pin "2"
 			(uuid "a1e4562e-23e5-4552-804f-58e209fa116e")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "D7")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -13595,14 +13119,7 @@
 		(pin "1"
 			(uuid "f59e633c-d7b1-430e-ad7b-cd00cb94caeb")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR088")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -13661,14 +13178,7 @@
 		(pin "1"
 			(uuid "117c851f-0117-4211-be68-2eb11b867403")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR044")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_name "Fiducial_1")
@@ -13728,14 +13238,7 @@
 		(pin "1"
 			(uuid "772943ae-073a-4e6e-b82e-8f4ee1e50624")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "FD3")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:C")
@@ -13797,14 +13300,7 @@
 		(pin "2"
 			(uuid "e02a39c0-20c0-4085-ad7f-549f4d8f587d")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "C7")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:+5V")
@@ -13863,14 +13359,7 @@
 		(pin "1"
 			(uuid "2138cfe6-8769-401e-b555-43e0edf554c2")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR033")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -13950,14 +13439,7 @@
 		(pin "5"
 			(uuid "1016da2f-79cb-43f5-853c-80a005d591a5")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP1")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:VUSB")
@@ -14016,14 +13498,7 @@
 		(pin "1"
 			(uuid "844af23d-96d3-4cff-af00-b9b72f6ebf8f")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#U$04")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:LED")
@@ -14085,14 +13560,7 @@
 		(pin "2"
 			(uuid "c2a69c15-3b44-45c7-be17-a17c09151639")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RX2")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:R_Pack4_Split")
@@ -14172,14 +13640,7 @@
 		(pin "5"
 			(uuid "395db675-8b03-43f4-b28e-0e61928adc0c")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "RP1")
-					(unit 2)
-				)
-			)
-		)
+		(instances)
 	)
 	(symbol
 		(lib_id "NanoV3.3:COM")
@@ -14238,13 +13699,6 @@
 		(pin "1"
 			(uuid "44d1e5d6-ec4f-4722-9c5e-d3283aa4abaf")
 		)
-		(instances
-			(project "press_electrical_prudentia_v1_0"
-				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/7c470111-a06a-4c6d-a912-dbeb45e5dc4a"
-					(reference "#PWR06")
-					(unit 1)
-				)
-			)
-		)
+		(instances)
 	)
 )

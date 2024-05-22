@@ -58,16 +58,13 @@
  * User Configuration                                                                               *
  ***************************************************************************************************/
 // Uncomment the below line to enable the serial command interface
-// #define _SERIALCMD_ 1 /**< Enable serial command interface */
+#define _SERIALCMD_ 1 /**< Enable serial command interface */
 // Uncomment the below line to enable the LCD GUI interface
- #define _LCDGUI_ 1 /**< Enable the LCD GUI interface */
+//#define _LCDGUI_ 1 /**< Enable the LCD GUI interface */
 // Uncomment the below line to enable development mode for use without GUI
 // #define _DEVELOPMENT_  1              /**< Allows printing of to serial for development*/
 // Uncomment the below line to enable boot to system menu for testing, currently only for manual eeprom reset
 // #define _BOOTSYS_   1                        /**< Force boot to system menu for testing. NEED TO ENABLE GUI */
-
-// Uncomment the below line to enable single thermocouple mode
-#define _SINGLETC_ 1
 
 #define _LANG_EN_            /**< Language:  _LANG_EN/DE/FR/ES/IT_ */
 #define _SERIAL_BAUD_ 115200 /**< Comms rate for serial, maximum before it got dicey was 115200*/
@@ -76,21 +73,21 @@
  * Pin and interrupt definitions                                                                    *
  ***************************************************************************************************/
 #define PIN_ENC_SW 17 /**< Rotary encoder push button switch input */
-#define PIN_ENC_DT 6  /**< Rotary encoder DT input */
-#define PIN_ENC_CLK 7 /**< Rotary encoder CLK input  */
+#define PIN_ENC_CLK 2 /**< Rotary encoder CLK input  */
+#define PIN_ENC_DT 3  /**< Rotary encoder DT input */
 
-#define PIN_TC_CS1 5 /**< Thermocouple 1 SPI chip select */
-#define PIN_TC_CLK 2 /**< Thermocouple SPI clock */
-#define PIN_TC_CS2 4 /**< Thermocouple 2 SPI chip select */
-#define PIN_TC_DO 3  /**< Thermocouple SPI data out */
+#define PIN_TC_DO 4  /**< Thermocouple SPI data out */
+#define PIN_TC_CLK 5 /**< Thermocouple SPI clock */
+#define PIN_TC_CS1 6 /**< Thermocouple 1 SPI chip select */
+#define PIN_TC_CS2 7 /**< Thermocouple 2 SPI chip select */
 
-#define SD_MISO 12 /**< SD card SPI MISO */
-#define SD_SCK 13  /**< SD card SPI SCK */
 #define SD_CS 10   /**< SD card SPI CS */
 #define SD_MOSI 11 /**< SD card SPI MOSI */
+#define SD_MISO 12 /**< SD card SPI MISO */
+#define SD_SCK 13  /**< SD card SPI SCK */
 
-#define PIN_SSR1 8 /**< Relay 1 output | 14 - A0 */
-#define PIN_SSR2 9 /**< Relay 2 output | 15 - A1 */
+#define PIN_SSR1 8 /**< Relay 1 output */
+#define PIN_SSR2 9 /**< Relay 2 output */
 
 /***************************************************************************************************
  * Macros                                                                                           *

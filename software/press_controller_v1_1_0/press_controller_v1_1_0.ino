@@ -227,9 +227,7 @@ const char *getSetTempInfo()
 }
 
 Adafruit_MAX31855 thermocouple1(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO); /**< Thermocouple 1 object */
-#ifndef _SINGLETC_
 Adafruit_MAX31855 thermocouple2(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO); /**< Thermocouple 2 object */
-#endif
 
 #ifdef _LCDGUI_
 ClickEncoder *encoder;				/**< Encoder object */
@@ -412,10 +410,9 @@ void setup()
 	// Initialize thermocouple pins
 	pinMode(PIN_TC_CS1, OUTPUT);
 	tc1Status = thermocoupleSetup(thermocouple1);
-#ifndef _SINGLETC_
+
 	pinMode(PIN_TC_CS2, OUTPUT);
 	tc2Status = thermocoupleSetup(thermocouple2);
-#endif
 
 	// Set SSR pins as output
 	pinMode(PIN_SSR1, OUTPUT);
@@ -434,7 +431,6 @@ void setup()
 	{
 		Serial.println(F("Thermocouple 1 initialized."));
 	}
-#ifndef _SINGLETC_
 	if (tc2Status == TC_FAULT)
 	{
 		Serial.println(F("Thermocouple 2 ERROR, could not initialize."));
@@ -443,7 +439,6 @@ void setup()
 	{
 		Serial.println(F("Thermocouple 2 initialized."));
 	}
-#endif
 #endif /* _SERIALCMD_ || _DEVELOPMENT_ */
 
 	// Applying the default PID tunings / settings
@@ -463,11 +458,9 @@ void setup()
 	myPID1.SetSampleTime(pData.controlPeriod);
 	myPID1.SetOutputLimits(0, 255);
 
-#ifndef _SINGLETC_
 	myPID2.SetMode(AUTOMATIC);
 	myPID2.SetSampleTime(pData.controlPeriod);
 	myPID2.SetOutputLimits(0, 255);
-#endif
 
 // Test if the pushbutton is pressed at boot time. If so then ensure entry to the system
 // menu by the issue of a boot button down event.
@@ -569,13 +562,9 @@ void loop()
 
 			Input1 = (double)temp1;
 			myPID1.Compute();
-#ifndef _SINGLETC_
 			Input2 = (double)temp2;
 			myPID2.Compute();
-#endif
-#ifdef _SINGLETC_
 			Output2 = Output1;
-#endif
 			slowPWM(PIN_SSR1, cycleStart1, pData.controlPeriod, Output1);
 			slowPWM(PIN_SSR2, cycleStart2, pData.controlPeriod, Output2);
 
@@ -759,7 +748,6 @@ void readCheckTemp()
 	temp1 = (temp1 <= 0) ? lastValidTemp1 : temp1;
 	lastValidTemp1 = temp1;
 
-#ifndef _SINGLETC_
 	// TEMP 2
 	temp2 = thermocouple2.readCelsius();
 	// Read error flags from thermocouple 2 and generate error code
@@ -770,11 +758,6 @@ void readCheckTemp()
 
 	temp2 = (temp2 <= 0) ? lastValidTemp2 : temp2;
 	lastValidTemp2 = temp2;
-#endif
-
-#ifdef _SINGLETC_
-	temp2 = temp1;
-#endif
 }
 
 // Function to implement slow PWM for SSR control
