@@ -69,7 +69,6 @@
 
 #include "press_controller_v1_1_0.h"
 
-// Libraries for PID and Thermocouples
 #include <SPI.h>
 #include <Wire.h>
 #include <avr/wdt.h>
@@ -108,10 +107,6 @@ bool tc2Status = TC_FAULT;					  /**< Thermocouple 2 status */
 uint8_t errorFlagsMAX[] = {0, 0, 0, 0, 0, 0}; /**< Error flags for MAX31855 thermocouple sensor */
 int16_t temp1;								  /**< Current temperature reading from thermocouple 1 */
 int16_t temp2;								  /**< Current temperature reading from thermocouple 2 */
-int16_t lastValidTemp1;						  /**< Last valid temperature reading from thermocouple 1 */
-int16_t lastValidTemp2;						  /**< Last valid temperature reading from thermocouple 2 */
-bool validTemp1 = false;					  /**< Flag indicating if the temperature reading from thermocouple 1 is valid */
-bool validTemp2 = false;					  /**< Flag indicating if the temperature reading from thermocouple 2 is valid */
 
 // Process Varaibles
 unsigned long activeTime = 0;
@@ -464,7 +459,7 @@ void setup()
 
 // Test if the pushbutton is pressed at boot time. If so then ensure entry to the system
 // menu by the issue of a boot button down event.
-#ifdef _BOOTSYS_ && _LCDGUI_
+#ifdef _BOOTSYS_ &&_LCDGUI_
 	uEvent = EV_BOOTDN;
 #endif
 
@@ -738,26 +733,24 @@ void logSD() // TODO
 void readCheckTemp()
 {
 	// TEMP 1
-	temp1 = thermocouple1.readCelsius();
+	double temp1Read = thermocouple1.readCelsius();
+	temp1 = (int16_t)temp1Read;
+
 	// Read error flags from thermocouple 1 and generate error code
 	uint8_t e1 = thermocouple1.readError();
 	errorFlagsMAX[0] = (e1 & MAX31855_FAULT_OPEN) ? 1 : 0;
 	errorFlagsMAX[1] = (e1 & MAX31855_FAULT_SHORT_GND) ? 1 : 0;
 	errorFlagsMAX[2] = (e1 & MAX31855_FAULT_SHORT_VCC) ? 1 : 0;
 
-	temp1 = (temp1 <= 0) ? lastValidTemp1 : temp1;
-	lastValidTemp1 = temp1;
-
 	// TEMP 2
-	temp2 = thermocouple2.readCelsius();
+	double temp2Read = thermocouple2.readCelsius();
+	temp2 = (int16_t)temp2Read;
+
 	// Read error flags from thermocouple 2 and generate error code
 	uint8_t e2 = thermocouple2.readError();
 	errorFlagsMAX[3] = (e2 & MAX31855_FAULT_OPEN) ? 1 : 0;
 	errorFlagsMAX[4] = (e2 & MAX31855_FAULT_SHORT_GND) ? 1 : 0;
 	errorFlagsMAX[5] = (e2 & MAX31855_FAULT_SHORT_VCC) ? 1 : 0;
-
-	temp2 = (temp2 <= 0) ? lastValidTemp2 : temp2;
-	lastValidTemp2 = temp2;
 }
 
 // Function to implement slow PWM for SSR control
@@ -1127,11 +1120,11 @@ void encoderEvent()
 
 		if (encNewPos < encLastPos)
 		{
-			uEvent = EV_ENCDN;
+			uEvent = EV_ENCUP;
 		}
 		else if (encNewPos > encLastPos)
 		{
-			uEvent = EV_ENCUP;
+			uEvent = EV_ENCDN;
 		}
 
 		encLastPos = encNewPos;

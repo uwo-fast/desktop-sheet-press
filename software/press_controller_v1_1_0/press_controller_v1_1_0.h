@@ -58,9 +58,9 @@
  * User Configuration                                                                               *
  ***************************************************************************************************/
 // Uncomment the below line to enable the serial command interface
-#define _SERIALCMD_ 1 /**< Enable serial command interface */
+ #define _SERIALCMD_ 1 /**< Enable serial command interface */
 // Uncomment the below line to enable the LCD GUI interface
-//#define _LCDGUI_ 1 /**< Enable the LCD GUI interface */
+// #define _LCDGUI_ 1 /**< Enable the LCD GUI interface */
 // Uncomment the below line to enable development mode for use without GUI
 // #define _DEVELOPMENT_  1              /**< Allows printing of to serial for development*/
 // Uncomment the below line to enable boot to system menu for testing, currently only for manual eeprom reset
