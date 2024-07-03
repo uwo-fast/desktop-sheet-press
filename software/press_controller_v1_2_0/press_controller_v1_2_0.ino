@@ -67,7 +67,7 @@
  */
 /***********************************************************************************************/
 
-#include "press_controller_v1_1_0.h"
+#include "press_controller_v1_2_0.h"
 
 #include <SPI.h>
 #include <Wire.h>
@@ -112,6 +112,8 @@ int16_t temp2;								  /**< Current temperature reading from thermocouple 2 */
 bool sdGood = false;						  /**< SD card status */
 String currentFileName = "";				  /**< Current file name for data logging */
 File dataFile;								  /**< Data file object for logging */
+static unsigned long lastFlushTime = 0;
+const unsigned long flushInterval = 5000; // Flush every 5 seconds
 
 // Process Varaibles
 unsigned long activeTime = 0;
@@ -127,6 +129,9 @@ unsigned long cycleStart1 = 0;
 unsigned long cycleStart2 = 0;
 
 unsigned long lastThermalRunawayCheck = 0; // Tracks the last thermal runaway check time
+
+bool relay1ManualOff = false;
+bool relay2ManualOff = false;
 
 // PID Process Parameters
 double Setpoint, Input1, Output1, Input2, Output2;
@@ -517,7 +522,7 @@ void setup()
 	 *       may inadvertently preserve the unique ID, leading to incorrect data validation.
 	 */
 	loadEeprom();
-	//resetEeprom(EE_FULL_RESET);	// manual
+	// resetEeprom(EE_FULL_RESET);	// manual
 #ifdef _LCDGUI_
 	menu_system.change_menu(machine_status_menu);
 	menu_system.update();
@@ -554,7 +559,7 @@ void loop()
 	checkSleep();
 #endif
 
-	//logSD();
+	logSD();
 
 #ifdef _SERIALCMD_
 	handleSerialCommands();
@@ -575,7 +580,7 @@ void loop()
 		case ACTIVE_PROCESS:
 			thermalRunawayCheck();
 
-			//openNewFileIfNeeded();
+			openNewFileIfNeeded();
 
 			// Only run PID and slowPWM if activeProcess is true
 			Setpoint = (double)pData.setTemp;
@@ -585,7 +590,17 @@ void loop()
 			myPID1.Compute();
 			Input2 = (double)temp2;
 			myPID2.Compute();
-			Output2 = Output1;
+
+			if (relay1ManualOff)
+			{
+				Output1 = 0; // Set Output1 to zero if relay1ManualOff is true
+			}
+
+			if (relay2ManualOff)
+			{
+				Output2 = 0; // Set Output2 to zero if relay2ManualOff is true
+			}
+
 			slowPWM(PIN_SSR1, cycleStart1, pData.controlPeriod, Output1);
 			slowPWM(PIN_SSR2, cycleStart2, pData.controlPeriod, Output2);
 
@@ -656,7 +671,7 @@ void loop()
 			digitalWrite(PIN_SSR1, LOW);
 			digitalWrite(PIN_SSR2, LOW);
 
-			//closeFileIfNeeded();
+			closeFileIfNeeded();
 			// Signal error condition, e.g., by blinking an LED or sending an error message
 			signalError(); // TODO
 
@@ -694,13 +709,16 @@ void openNewFileIfNeeded()
 {
 	if (currentFileName == "")
 	{
+		//Serial.println("Creating new file...");
 		currentFileName = createNewFile();
+		//Serial.println("New file created:");
+    //Serial.println(currentFileName);
 		if (currentFileName != "")
 		{
 			dataFile = SD.open(currentFileName.c_str(), FILE_WRITE);
 			if (!dataFile)
 			{
-				// Serial.println("Error opening file for writing.");
+				//Serial.println("Error opening file for writing.");
 				currentFileName = "";
 			}
 		}
@@ -718,6 +736,7 @@ void closeFileIfNeeded()
 
 String createNewFile()
 {
+	
 	char fileName[13]; // "data0000.txt" + null terminator
 	int fileNumber = 0;
 
@@ -729,6 +748,7 @@ String createNewFile()
 			File newFile = SD.open(fileName, FILE_WRITE);
 			if (newFile)
 			{
+				//newFile.print("MAX_flags,TRA1_Alarm,TRA2_Alarm,t1,t2,st,o1,o2,Preheat_t,Heat_t,Total_t,dt,Kp,Ki,Kd,State,Substate\n");
 				newFile.close();
 				return String(fileName);
 			}
@@ -744,6 +764,7 @@ String createNewFile()
 	// Serial.println("Error: Too many files.");
 	return "";
 }
+
 
 /* -------------------------------Thermal Runaway Check----------------------------------*/
 /**
@@ -805,61 +826,74 @@ void thermalRunawayCheck() // TODO
  *  \brief    Logs data to the SD card.
  *  \remarks  Logs data to the SD card.
  */
-void logSD()
-{
-	if (dataFile)
-	{ // Check if the file is open
-		if (millis() - lastSerialPrint > pData.serialPrintInterval)
-		{
-			dataFile.print("MAX flags: ");
+void logSD() {
+  if (dataFile) { // Check if the file is open
+    if (millis() - lastSerialPrint > pData.serialPrintInterval) {
 
-			int errorFlagsMAXSize = sizeof(errorFlagsMAX) / sizeof(errorFlagsMAX[0]);
-			for (int i = 0; i < errorFlagsMAXSize; i++)
-			{
-				dataFile.print(errorFlagsMAX[i]);
-			}
-			dataFile.print(F(", TRA1 Alarm: "));
-			dataFile.print(tempRunAwayAlarm1 ? "WARNING" : "SAFE");
-			dataFile.print(", TRA2 Alarm: ");
-			dataFile.print(tempRunAwayAlarm2 ? "WARNING" : "SAFE");
-			dataFile.print(F(", t1: "));
-			dataFile.print(temp1);
-			dataFile.print(F("C, t2: "));
-			dataFile.print(temp2);
-			dataFile.print("C, st: ");
-			dataFile.print(pData.setTemp);
-			dataFile.print(F("C, o1: "));
-			dataFile.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0"
-																		 : "");
-			dataFile.print((int)Output1);
-			dataFile.print(", o2: ");
-			dataFile.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0"
-																		 : "");
-			dataFile.print((int)Output2);
-			dataFile.print(F(", Preheat t: "));
-			dataFile.print((float)preheatingTime / MILLI_UNIT / 60, 2);
-			dataFile.print(F("m, Heat t: "));
-			dataFile.print((float)heatingTime / MILLI_UNIT / 60, 2);
-			dataFile.print(F("m, Total t: "));
-			dataFile.print(((float)(preheatingTime + heatingTime) / MILLI_UNIT / 60), 2);
-			dataFile.print(F("m, dt: "));
-			dataFile.print((float)pData.heatingDuration / MILLI_UNIT / 60);
-			dataFile.print(F("m, Kp: "));
-			dataFile.print((float)pData.kp / MILLI_UNIT);
-			dataFile.print(F(", Ki: "));
-			dataFile.print((float)pData.ki / MILLI_UNIT);
-			dataFile.print(F(", Kd: "));
-			dataFile.print((float)pData.kd / MILLI_UNIT);
-			dataFile.print(F(", State: "));
-			dataFile.print(currentProcessState.toString());
-			dataFile.print(F(", Substate: "));
-			dataFile.print(currentActiveProcessSubstate.toString());
-			dataFile.println();
+      int errorFlagsMAXSize = sizeof(errorFlagsMAX) / sizeof(errorFlagsMAX[0]);
+      for (int i = 0; i < errorFlagsMAXSize; i++) {
+        dataFile.print(errorFlagsMAX[i]);
+      }
+      dataFile.print(',');
 
-			dataFile.flush(); // Ensure data is written to the file
-		}
+      dataFile.print(tempRunAwayAlarm1 ? "WARNING" : "SAFE");
+      dataFile.print(',');
+
+      dataFile.print(tempRunAwayAlarm2 ? "WARNING" : "SAFE");
+      dataFile.print(',');
+
+      dataFile.print(temp1);
+      dataFile.print(',');
+
+      dataFile.print(temp2);
+      dataFile.print(',');
+
+      dataFile.print(pData.setTemp);
+      dataFile.print(',');
+
+      dataFile.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0" : "");
+      dataFile.print((int)Output1);
+      dataFile.print(',');
+
+      dataFile.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0" : "");
+      dataFile.print((int)Output2);
+      dataFile.print(',');
+
+      dataFile.print((float)preheatingTime / MILLI_UNIT / 60, 2);
+      dataFile.print(',');
+
+      dataFile.print((float)heatingTime / MILLI_UNIT / 60, 2);
+      dataFile.print(',');
+
+      dataFile.print(((float)(preheatingTime + heatingTime) / MILLI_UNIT / 60), 2);
+      dataFile.print(',');
+
+      dataFile.print((float)pData.heatingDuration / MILLI_UNIT / 60);
+      dataFile.print(',');
+
+      dataFile.print((float)pData.kp / MILLI_UNIT);
+      dataFile.print(',');
+
+      dataFile.print((float)pData.ki / MILLI_UNIT);
+      dataFile.print(',');
+
+      dataFile.print((float)pData.kd / MILLI_UNIT);
+      dataFile.print(',');
+
+      dataFile.print(currentProcessState.toString());
+      dataFile.print(',');
+
+      dataFile.print(currentActiveProcessSubstate.toString());
+      dataFile.println();
+
+      if (millis() - lastFlushTime > flushInterval) {
+        dataFile.flush(); // Flush the data to the SD card every flushInterval
+        lastFlushTime = millis();
+      }
 	}
+  }
 }
+
 
 /* -------------------------------Read and Check Temperature----------------------------------*/
 /**
@@ -1000,6 +1034,22 @@ void handleSerialCommands()
 				currentProcessState.setState(INACTIVE_PROCESS);
 				currentActiveProcessSubstate.setSubstate(UNKNOWN);
 			}
+			else if (received == "relay1=off")
+			{
+				relay1ManualOff = true;
+			}
+			else if (received == "relay1=on")
+			{
+				relay1ManualOff = false;
+			}
+			else if (received == "relay2=off")
+			{
+				relay2ManualOff = true;
+			}
+			else if (received == "relay2=on")
+			{
+				relay2ManualOff = false;
+			}
 
 			received = ""; // clear received data
 		}
@@ -1029,13 +1079,27 @@ void printSerialData()
 		Serial.print("C, st: ");
 		Serial.print(pData.setTemp);
 		Serial.print(F("C, o1: "));
-		Serial.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0"
-																   : "");
-		Serial.print((int)Output1);
+		if (relay1ManualOff)
+		{
+			Serial.print("off");
+		}
+		else
+		{
+			Serial.print((int)Output1 < 10 ? "00" : (int)Output1 < 100 ? "0"
+																	   : "");
+			Serial.print((int)Output1);
+		}
 		Serial.print(", o2: ");
-		Serial.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0"
-																   : "");
-		Serial.print((int)Output2);
+		if (relay2ManualOff)
+		{
+			Serial.print("off");
+		}
+		else
+		{
+			Serial.print((int)Output2 < 10 ? "00" : (int)Output2 < 100 ? "0"
+																	   : "");
+			Serial.print((int)Output2);
+		}
 		Serial.print(F(", Preheat t: "));
 		// \todo instead of floats, use a function to convert to string and shift float point
 		Serial.print((float)preheatingTime / MILLI_UNIT / 60, 2);
