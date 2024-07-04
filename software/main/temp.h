@@ -1,0 +1,2 @@
+void readCheckTemp();
+void thermalRunawayCheck();
