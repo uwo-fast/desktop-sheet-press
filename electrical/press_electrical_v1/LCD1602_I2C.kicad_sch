@@ -2945,7 +2945,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "012d4094-24f3-48cc-98bf-7b5f963b362f")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR033"
 			(at 200.66 83.82 0)
 			(effects
 				(font
@@ -2993,9 +2993,9 @@
 			(uuid "4dcb147b-de7b-4521-bdb8-a5bd3458228b")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR039")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -3065,9 +3065,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR028")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -3083,7 +3083,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "11dc833b-0681-4c4f-9f50-d9a2e1b4cf08")
-		(property "Reference" "#PWR027"
+		(property "Reference" "#PWR023"
 			(at 104.14 96.52 0)
 			(effects
 				(font
@@ -3131,9 +3131,9 @@
 			(uuid "34d62fd0-0054-4342-b168-b640d3f7862a")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR027")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -3201,7 +3201,7 @@
 			(uuid "50fedd98-fe73-4ee2-9d81-8c1b87a758a1")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R14")
 					(unit 1)
@@ -3271,7 +3271,7 @@
 			(uuid "9c975773-f0c0-4bf7-bea3-6605633d0959")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R13")
 					(unit 1)
@@ -3289,7 +3289,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "273d36b4-c3f1-47e8-8e6e-1787099cc49b")
-		(property "Reference" "#PWR025"
+		(property "Reference" "#PWR021"
 			(at 95.25 96.52 0)
 			(effects
 				(font
@@ -3337,9 +3337,9 @@
 			(uuid "ce0d4da2-cb58-48d7-8b8a-4193870467fd")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR025")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -3355,7 +3355,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2fd118d0-3ce2-4b80-8015-8b3a784a8107")
-		(property "Reference" "#PWR032"
+		(property "Reference" "#PWR028"
 			(at 132.08 90.17 0)
 			(effects
 				(font
@@ -3403,9 +3403,9 @@
 			(uuid "36d1cd47-613a-4c0f-aaae-6350ba7082ac")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR032")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -3421,7 +3421,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "309dbe41-ab66-44e8-b01d-04e46340f231")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR037"
 			(at 214.63 105.41 0)
 			(effects
 				(font
@@ -3469,9 +3469,9 @@
 			(uuid "b38f768d-0b38-4d17-909e-8d1e452b9c77")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR043")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -3541,9 +3541,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR038")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -3608,7 +3608,7 @@
 			(uuid "0242a44b-ad3d-48ca-b2fb-0228cab1c9d4")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "JP4")
 					(unit 1)
@@ -3626,7 +3626,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3abef4f8-6422-486d-a0c8-3dd26fff3203")
-		(property "Reference" "#PWR029"
+		(property "Reference" "#PWR025"
 			(at 113.03 96.52 0)
 			(effects
 				(font
@@ -3674,9 +3674,9 @@
 			(uuid "37748f2b-b460-4356-86c4-0e6395250e1b")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR029")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -3692,7 +3692,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "42395054-0e82-4ce0-829d-d37679f735f5")
-		(property "Reference" "#PWR023"
+		(property "Reference" "#PWR019"
 			(at 81.28 97.79 0)
 			(effects
 				(font
@@ -3740,9 +3740,9 @@
 			(uuid "f1e465ea-9986-4ce5-9623-fd266b6f1303")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR023")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -3812,9 +3812,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR030")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -3881,7 +3881,7 @@
 			(uuid "d26353ce-13aa-4596-9467-1012fb80b176")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "D1")
 					(unit 1)
@@ -3899,7 +3899,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4efa5a10-dcbf-408c-82aa-44a8efdc9025")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR031"
 			(at 182.88 83.82 0)
 			(effects
 				(font
@@ -3947,9 +3947,9 @@
 			(uuid "5aaaba08-56ae-4c30-b9b4-80908e0a6306")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR037")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -4019,9 +4019,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR024")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -4092,7 +4092,7 @@
 			(uuid "fff25197-cd08-43b6-b648-66a67c036049")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "RV1")
 					(unit 1)
@@ -4162,7 +4162,7 @@
 			(uuid "7ad764ca-b7cf-4580-8573-6e1e9496384f")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R11")
 					(unit 1)
@@ -4180,7 +4180,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "86c61c5f-b73b-4db1-9391-5a03ec5feec1")
-		(property "Reference" "U7"
+		(property "Reference" "U3"
 			(at 151.8159 90.17 0)
 			(effects
 				(font
@@ -4274,9 +4274,9 @@
 			(uuid "2c503ab0-261f-4951-b5b7-266c5827383b")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "U7")
+					(reference "U3")
 					(unit 1)
 				)
 			)
@@ -4344,7 +4344,7 @@
 			(uuid "023d439d-60a9-46a5-af26-911ce78c290b")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R9")
 					(unit 1)
@@ -4414,7 +4414,7 @@
 			(uuid "244a9157-d46f-4388-84ca-cbce39f91487")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R15")
 					(unit 1)
@@ -4484,7 +4484,7 @@
 			(uuid "d411a0e0-8fc4-4bbb-a9f7-24fecea2673e")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R10")
 					(unit 1)
@@ -4502,7 +4502,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a3ba0ae7-24c2-40a8-bbd2-790dcd03d226")
-		(property "Reference" "#PWR021"
+		(property "Reference" "#PWR017"
 			(at 69.85 105.41 0)
 			(effects
 				(font
@@ -4550,9 +4550,9 @@
 			(uuid "ef9cdbd8-d448-42ba-abb1-426d5fad680c")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR021")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -4620,7 +4620,7 @@
 			(uuid "31e8d668-c6ab-4a30-9464-acd694863247")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "JP3")
 					(unit 1)
@@ -4692,9 +4692,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR022")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -4710,7 +4710,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b370b326-3679-4ce3-963c-2866fdcc22f2")
-		(property "Reference" "#PWR042"
+		(property "Reference" "#PWR036"
 			(at 210.82 113.03 0)
 			(effects
 				(font
@@ -4758,9 +4758,9 @@
 			(uuid "ad1200ab-78a7-4b83-b7ad-ad9b7e7aae9b")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR042")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -4828,7 +4828,7 @@
 			(uuid "9aa91d75-a8e0-4c69-a871-51aea13a2963")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "JP1")
 					(unit 1)
@@ -4898,7 +4898,7 @@
 			(uuid "ebf08e0f-b46e-4541-b7a7-4b14a28361df")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "JP2")
 					(unit 1)
@@ -4967,7 +4967,7 @@
 			(uuid "f3bba339-1eec-4d8d-b985-f4459571493f")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "C1")
 					(unit 1)
@@ -5039,9 +5039,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR041")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -5109,7 +5109,7 @@
 			(uuid "1f2844e6-7ffe-424e-aa6b-38fbaea6f121")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "R12")
 					(unit 1)
@@ -5186,7 +5186,7 @@
 			(uuid "517f52b9-a955-476b-a1bd-99c1f0dd7ed7")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "Q1")
 					(unit 1)
@@ -5299,7 +5299,7 @@
 			(uuid "a7609d35-b120-4492-8905-f09ea248f475")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
 					(reference "DS1")
 					(unit 1)
@@ -5317,7 +5317,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e8b1cd7a-b1e3-4fb3-8f36-6cb902436a5b")
-		(property "Reference" "#PWR031"
+		(property "Reference" "#PWR027"
 			(at 120.65 90.17 0)
 			(effects
 				(font
@@ -5365,9 +5365,9 @@
 			(uuid "22d56a80-f8b4-44f7-b226-0740c4a82635")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR031")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -5437,9 +5437,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR026")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -5509,9 +5509,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR040")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -5527,7 +5527,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ed9e5057-1fd7-464c-ac82-87aa23ef7ae2")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR029"
 			(at 149.86 93.98 0)
 			(effects
 				(font
@@ -5575,9 +5575,9 @@
 			(uuid "8baa0451-230c-4dab-b0b4-466126bd7111")
 		)
 		(instances
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR035")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -5647,9 +5647,9 @@
 					(unit 1)
 				)
 			)
-			(project "press_electrical_prudentia_v1_0"
+			(project "press_electrical_v1"
 				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/101f5093-dee2-40f9-8caf-e4738424bc6b"
-					(reference "#PWR036")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)

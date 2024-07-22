@@ -231,7 +231,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "press_electrical_prudentia_v1_0.kicad_pro",
+    "filename": "press_electrical_v1.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -380,7 +380,7 @@
     ],
     [
       "101f5093-dee2-40f9-8caf-e4738424bc6b",
-      "LCD"
+      "LCD Screen"
     ],
     [
       "2d295786-5829-4af6-ac6c-8eb8d4f1283a",
@@ -392,7 +392,7 @@
     ],
     [
       "bf2aec0f-8932-40b0-b635-7bd58f68cd06",
-      "MAX31856"
+      "MAX31855"
     ],
     [
       "0dde0be6-144a-4129-93db-ee3a07dc7426",

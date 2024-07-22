@@ -3375,6 +3375,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY04")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -3474,6 +3480,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "X1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -3537,6 +3549,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#SUPPLY6")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY08")
 					(unit 1)
 				)
 			)
@@ -3606,6 +3624,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -3672,6 +3696,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY03")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -3735,6 +3765,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#P+3")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#P+06")
 					(unit 1)
 				)
 			)
@@ -3844,6 +3880,12 @@
 					(unit 2)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
+					(unit 2)
+				)
+			)
 		)
 	)
 	(symbol
@@ -3950,6 +3992,12 @@
 					(unit 4)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
+					(unit 4)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4013,6 +4061,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#+3V1")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#+3V020")
 					(unit 1)
 				)
 			)
@@ -4122,6 +4176,12 @@
 					(unit 6)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
+					(unit 6)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4185,6 +4245,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#+3V4")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#+3V019")
 					(unit 1)
 				)
 			)
@@ -4254,6 +4320,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY06")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4320,6 +4392,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#+3V018")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4383,6 +4461,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#SUPPLY3")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY02")
 					(unit 1)
 				)
 			)
@@ -4474,6 +4558,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "JP7")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4537,6 +4627,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#SUPPLY1")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY07")
 					(unit 1)
 				)
 			)
@@ -4646,6 +4742,12 @@
 					(unit 3)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
+					(unit 3)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4706,6 +4808,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "U$1")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "U$10")
 					(unit 1)
 				)
 			)
@@ -4778,6 +4886,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "C17")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4841,6 +4955,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#P+2")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#P+07")
 					(unit 1)
 				)
 			)
@@ -4922,6 +5042,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC9")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -4982,6 +5108,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "U$2")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "U$9")
 					(unit 1)
 				)
 			)
@@ -5051,6 +5183,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#P+08")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5114,6 +5252,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#P+1")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#P+05")
 					(unit 1)
 				)
 			)
@@ -5184,6 +5328,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#+3V021")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5247,6 +5397,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#SUPPLY5")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#SUPPLY05")
 					(unit 1)
 				)
 			)
@@ -5316,6 +5472,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "R1")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -5425,6 +5587,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5531,6 +5699,12 @@
 					(unit 5)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
+					(unit 5)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5597,6 +5771,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "C2")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "C18")
 					(unit 1)
 				)
 			)
@@ -5669,6 +5849,12 @@
 					(unit 1)
 				)
 			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "ACT1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5732,6 +5918,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "#+3V3")
+					(unit 1)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "#+3V017")
 					(unit 1)
 				)
 			)
@@ -5838,6 +6030,12 @@
 			(project "microsd"
 				(path "/77c4329b-fea9-43d9-bc16-0a7aad8ab64f"
 					(reference "IC1")
+					(unit 7)
+				)
+			)
+			(project "press_electrical_v1"
+				(path "/f3244e01-0a2b-4935-845d-015155f95ee4/0dde0be6-144a-4129-93db-ee3a07dc7426"
+					(reference "IC8")
 					(unit 7)
 				)
 			)
