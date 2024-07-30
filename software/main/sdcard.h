@@ -1,11 +1,12 @@
 #ifndef SDCARD_H
 #define SDCARD_H
 
+#include <SD.h>
 #include "temp.h"
 #include "control.h"
-#include "state.h"
-#include "system_health.h"
+#include "timing.h"
 
-void logData(TempData tempData, ControlData controlData, StateMachineInfo stateInfo, SystemHealthInfo systemHealthInfo);
+bool createNewLogFile();
+void logData(const TempData &tempData, const ControlData &controlData, const Timing &timing, const char *stateName);
 
-#endif // SDCARD_H
+#endif
