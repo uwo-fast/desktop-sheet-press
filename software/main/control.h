@@ -1,20 +1,23 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "PID_v3.h"
-#include "mainStates.h"
+#include <PID_v1.h>
+#include "config.h"
 #include "temp.h"
 
 struct ControlData
 {
-    float outputs[NUM_SENSORS];
+    double outputs[NUM_SENSORS];
 };
 
 extern ControlData controlData;
 
 extern PID *pidControllers[NUM_SENSORS];
 
-void initializePIDs(ProgramData &pData);
-ControlData controlLogic(const TempData &tempData, State *currentState);
+extern double input[NUM_SENSORS], output[NUM_SENSORS], setpoint[NUM_SENSORS];
+
+void setPIDTuning(int n, double Kp, double Ki, double Kd);
+void setPIDPoint(int n, double inputs);
+ControlData controlLogic(const TempData &tempData, const char *stateName);
 
 #endif

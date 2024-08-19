@@ -1,7 +1,4 @@
 #include "eepromutil.h"
-#include "mainStates.h"
-#include "progdata.h"
-#include "config.h"
 
 /**
  * The functions below are vitally important for
@@ -16,7 +13,7 @@
  * initialization only resets the program data, while a full initialization also resets
  * historical data and other program-related values.
  *
- * The function sets default values for all program data, including the heating duration,
+ * The function sets default values for all program data, including the active duration,
  * file count, setpoints, PID coefficients, control parameters, and gap thresholds. It also
  * initializes historical data, such as machine usage statistics, if a full reset is requested.
  *
@@ -26,7 +23,7 @@
 void initializeDefaultProgramData(boolean full)
 {
     // Set default values for all non full data related to the program
-    pData.heatingDuration = DEF_HEATING_DURATION;
+    pData.activeDuration = DEF_HEATING_DURATION;
     pData.fileCount = 0;
 
     // Set default values for all data related to each sensor

@@ -81,7 +81,7 @@ uint16_t MAX31855::getChipID(int32_t rawValue)
  * @param rawValue Raw data value.
  * @return Temperature in Celsius.
  */
-float MAX31855::getTemperature(int32_t rawValue)
+double MAX31855::getTemperature(int32_t rawValue)
 {
   if (rawValue == MAX31855_FORCE_READ_DATA)
     rawValue = readRawData();
@@ -91,7 +91,7 @@ float MAX31855::getTemperature(int32_t rawValue)
 
   rawValue = rawValue >> 18;
 
-  return (float)rawValue * MAX31855_THERMOCOUPLE_RESOLUTION;
+  return (double)rawValue * MAX31855_THERMOCOUPLE_RESOLUTION;
 }
 
 /**
@@ -99,7 +99,7 @@ float MAX31855::getTemperature(int32_t rawValue)
  * @param rawValue Raw data value.
  * @return Cold junction temperature in Celsius.
  */
-float MAX31855::getColdJunctionTemperature(int32_t rawValue)
+double MAX31855::getColdJunctionTemperature(int32_t rawValue)
 {
   if (rawValue == MAX31855_FORCE_READ_DATA)
     rawValue = readRawData();
@@ -110,7 +110,7 @@ float MAX31855::getColdJunctionTemperature(int32_t rawValue)
   rawValue = rawValue & 0x0000FFFF;
   rawValue = rawValue >> 4;
 
-  return (float)rawValue * MAX31855_COLD_JUNCTION_RESOLUTION;
+  return (double)rawValue * MAX31855_COLD_JUNCTION_RESOLUTION;
 }
 
 /**

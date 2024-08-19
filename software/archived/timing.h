@@ -1,7 +1,7 @@
 #ifndef TIMING_H
 #define TIMING_H
 
-#include "mainStates.h"
+#include "StateMachine.h"
 
 struct CountTimers
 {

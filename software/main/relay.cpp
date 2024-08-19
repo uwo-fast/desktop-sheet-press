@@ -2,12 +2,36 @@
 #include <Arduino.h>
 
 // Function to control relays using slow PWM
-void slowPWM(int SSRn, unsigned long &cycleStart, int output)
+unsigned long slowPWM(int SSR, unsigned long &cycleStart, double output)
 {
+    int SSRn;
+    switch (SSR)
+    {
+    case 0:
+        SSRn=PIN_SSR1;
+        break;
+    case 1:
+        SSRn=PIN_SSR2;
+        break;
+    default:
+        while(1)
+        {
+            delay(500);
+            Serial.println("Invalid SSR number");
+        }
+        break;
+    }
     // Get current time in milliseconds
     unsigned long currentMillis = millis();
 
-    int dutyCycle = output / 255;
+    double dutyCycle = output / 255.0;
+    
+
+    // If the cycle is complete, reset the cycle start time
+    if (currentMillis - cycleStart > RELAY_PWM_PERIOD)
+    {
+        cycleStart = currentMillis;
+    }
 
     // If within the ON part of the cycle, turn the SSR on
     if (currentMillis - cycleStart < RELAY_PWM_PERIOD * dutyCycle)
@@ -19,19 +43,16 @@ void slowPWM(int SSRn, unsigned long &cycleStart, int output)
     {
         digitalWrite(SSRn, LOW);
     }
-    // If the cycle is complete, reset the cycle start time
-    else
-    {
-        cycleStart = currentMillis;
-    }
+    return cycleStart;
 }
 
 // Wrapper function to write control data to relays
-void writeRelays(const ControlData &controlData)
+void writeRelays(const double outputs[])
 {
-    static unsigned long cycleStart1 = 0;
-    static unsigned long cycleStart2 = 0;
+    static unsigned long cycleStarts[NUM_RELAYS] = {0};
 
-    slowPWM(PIN_SSR1, cycleStart1, controlData.outputs[0]);
-    slowPWM(PIN_SSR2, cycleStart2, controlData.outputs[1]);
+    for (int i = 0; i < NUM_RELAYS; i++)
+    {
+        cycleStarts[i] = slowPWM(i, cycleStarts[i], outputs[i]);
+    }
 }

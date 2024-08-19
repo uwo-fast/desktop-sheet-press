@@ -1,8 +1,10 @@
 #include "temp.h"
 
-MAX31855soft thermocouples[NUM_SENSORS] = {
-    MAX31855soft(PIN_TC_CS1, PIN_TC_DO, PIN_TC_CLK),
-    MAX31855soft(PIN_TC_CS2, PIN_TC_DO, PIN_TC_CLK)};
+Adafruit_MAX31855 thermocouples[NUM_SENSORS] = {
+    Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO),
+    Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO)};
+
+TempData tempData;
 
 void initTCs()
 {
@@ -17,10 +19,10 @@ TempData readTemps()
     TempData tempData;
     for (int i = 0; i < NUM_SENSORS; i++)
     {
-        float tempRead = thermocouples[i].getTemperature();
-        tempData.temperatures[i] = tempRead;
-        uint8_t error = thermocouples[i].detectThermocouple();
-        tempData.errorFlags[i] = error;
+        double tempRead = thermocouples[i].readCelsius();
+        tempData.temperatures[i] = (float)tempRead;
+        uint8_t error = thermocouples[i].readError();
+        tempData.errorFlags[i] = (error != 0);
     }
     return tempData;
 }

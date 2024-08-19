@@ -70,8 +70,8 @@ public:
   void begin(void);
   uint8_t detectThermocouple(int32_t rawValue = MAX31855_FORCE_READ_DATA);
   uint16_t getChipID(int32_t rawValue = MAX31855_FORCE_READ_DATA);
-  float getTemperature(int32_t rawValue = MAX31855_FORCE_READ_DATA);
-  float getColdJunctionTemperature(int32_t rawValue = MAX31855_FORCE_READ_DATA);
+  double getTemperature(int32_t rawValue = MAX31855_FORCE_READ_DATA);
+  double getColdJunctionTemperature(int32_t rawValue = MAX31855_FORCE_READ_DATA);
   virtual int32_t readRawData(void);
 
 protected:

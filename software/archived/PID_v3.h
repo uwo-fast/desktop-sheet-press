@@ -46,8 +46,8 @@ public:
    * @param pOn Proportional mode (Measurement or Error).
    * @param ControllerDirection Direction of the controller.
    */
-  PID(float *Input, float *Output, float *Setpoint, float Kp, float Ki,
-      float Kd, P_On pOn, Direction ControllerDirection);
+  PID(double *Input, double *Output, double *Setpoint, double Kp, double Ki,
+      double Kd, P_On pOn, Direction ControllerDirection);
 
   /**
    * @brief Constructor for PID controller with default Proportional mode.
@@ -60,8 +60,8 @@ public:
    * @param Kd Derivative gain.
    * @param ControllerDirection Direction of the controller.
    */
-  PID(float *Input, float *Output, float *Setpoint, float Kp, float Ki,
-      float Kd, Direction ControllerDirection);
+  PID(double *Input, double *Output, double *Setpoint, double Kp, double Ki,
+      double Kd, Direction ControllerDirection);
 
   /**
    * @brief Set the mode of the PID controller (Manual or Automatic).
@@ -83,7 +83,7 @@ public:
    * @param Min Minimum output value.
    * @param Max Maximum output value.
    */
-  void SetOutputLimits(float Min, float Max);
+  void SetOutputLimits(double Min, double Max);
 
   /**
    * @brief Set the tuning parameters of the PID controller.
@@ -92,7 +92,7 @@ public:
    * @param Ki Integral gain.
    * @param Kd Derivative gain.
    */
-  void SetTunings(float Kp, float Ki, float Kd);
+  void SetTunings(double Kp, double Ki, double Kd);
 
   /**
    * @brief Set the tuning parameters of the PID controller with proportional
@@ -103,7 +103,7 @@ public:
    * @param Kd Derivative gain.
    * @param pOn Proportional mode (Measurement or Error).
    */
-  void SetTunings(float Kp, float Ki, float Kd, P_On pOn);
+  void SetTunings(double Kp, double Ki, double Kd, P_On pOn);
 
   /**
    * @brief Set the direction of the PID controller.
@@ -124,21 +124,21 @@ public:
    *
    * @return Proportional gain.
    */
-  float GetKp() const;
+  double GetKp() const;
 
   /**
    * @brief Get the integral gain.
    *
    * @return Integral gain.
    */
-  float GetKi() const;
+  double GetKi() const;
 
   /**
    * @brief Get the derivative gain.
    *
    * @return Derivative gain.
    */
-  float GetKd() const;
+  double GetKd() const;
 
   /**
    * @brief Get the current mode of the PID controller.
@@ -159,21 +159,21 @@ public:
    *
    * @return Last proportional term.
    */
-  float GetLastP() const;
+  double GetLastP() const;
 
   /**
    * @brief Get the last integral term used in computation.
    *
    * @return Last integral term.
    */
-  float GetLastI() const;
+  double GetLastI() const;
 
   /**
    * @brief Get the last derivative term used in computation.
    *
    * @return Last derivative term.
    */
-  float GetLastD() const;
+  double GetLastD() const;
 
 private:
   /**
@@ -181,30 +181,30 @@ private:
    */
   void Initialize();
 
-  float dispKp; ///< Proportional tuning parameter for display.
-  float dispKi; ///< Integral tuning parameter for display.
-  float dispKd; ///< Derivative tuning parameter for display.
+  double dispKp; ///< Proportional tuning parameter for display.
+  double dispKi; ///< Integral tuning parameter for display.
+  double dispKd; ///< Derivative tuning parameter for display.
 
-  float kp; ///< Proportional tuning parameter.
-  float ki; ///< Integral tuning parameter.
-  float kd; ///< Derivative tuning parameter.
+  double kp; ///< Proportional tuning parameter.
+  double ki; ///< Integral tuning parameter.
+  double kd; ///< Derivative tuning parameter.
 
   Direction controllerDirection; ///< Direction of the controller.
   P_On pOn;                      ///< Proportional mode.
 
-  float *myInput;    ///< Pointer to the input variable.
-  float *myOutput;   ///< Pointer to the output variable.
-  float *mySetpoint; ///< Pointer to the setpoint variable.
+  double *myInput;    ///< Pointer to the input variable.
+  double *myOutput;   ///< Pointer to the output variable.
+  double *mySetpoint; ///< Pointer to the setpoint variable.
 
   unsigned long lastTime; ///< Last time the PID computation was performed.
-  float outputSum;        ///< Sum of the output.
-  float lastInput;        ///< Last input value.
-  float lastP;            ///< Last proportional term.
-  float lastD;            ///< Last derivative term.
+  double outputSum;        ///< Sum of the output.
+  double lastInput;        ///< Last input value.
+  double lastP;            ///< Last proportional term.
+  double lastD;            ///< Last derivative term.
 
   unsigned long SampleTime; ///< Sample time in milliseconds.
-  float outMin;             ///< Minimum output value.
-  float outMax;             ///< Maximum output value.
+  double outMin;             ///< Minimum output value.
+  double outMax;             ///< Maximum output value.
   bool inAuto;              ///< True if the controller is in automatic mode.
   bool pOnE;                ///< True if proportional on error mode is set.
 };
@@ -224,7 +224,7 @@ public:
    * @param dir Direction of the controller.
    * @param POn Proportional mode (default is Error).
    */
-  PID_v2(float Kp, float Ki, float Kd, Direction dir, P_On POn = P_On::Error)
+  PID_v2(double Kp, double Ki, double Kd, Direction dir, P_On POn = P_On::Error)
       : PID(&this->input, &this->output, &this->setpoint, Kp, Ki, Kd, POn,
             dir) {}
 
@@ -233,14 +233,14 @@ public:
    *
    * @param v Setpoint value.
    */
-  void Setpoint(float v) { this->setpoint = v; }
+  void Setpoint(double v) { this->setpoint = v; }
 
   /**
    * @brief Get the current setpoint value.
    *
    * @return Setpoint value.
    */
-  float GetSetpoint() const { return this->setpoint; }
+  double GetSetpoint() const { return this->setpoint; }
 
   /**
    * @brief Start the PID controller with initial values.
@@ -249,7 +249,7 @@ public:
    * @param currentOutput Initial output value.
    * @param setpoint_ Initial setpoint value.
    */
-  void Start(float input_, float currentOutput, float setpoint_)
+  void Start(double input_, double currentOutput, double setpoint_)
   {
     this->input = input_;
     this->output = currentOutput;
@@ -263,7 +263,7 @@ public:
    * @param input_ Input value.
    * @return Computed output value.
    */
-  float Run(float input_)
+  double Run(double input_)
   {
     this->input = input_;
     this->Compute();
@@ -271,9 +271,9 @@ public:
   }
 
 private:
-  float input;    ///< Current input value.
-  float output;   ///< Current output value.
-  float setpoint; ///< Current setpoint value.
+  double input;    ///< Current input value.
+  double output;   ///< Current output value.
+  double setpoint; ///< Current setpoint value.
 };
 
 #ifndef PID_v3_SKIP_COMPAT_WITH_v1

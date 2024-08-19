@@ -2,7 +2,6 @@
 #define DIAL_H
 
 #include <ClickEncoder.h>
-#include <TimerOne.h>
 
 void timerIsr();
 void processEncoderEvents();

@@ -36,33 +36,37 @@
 // Timing Intervals
 #define CONTROL_INTERVAL 100 // 10 Hz (100 ms)
 #define GUI_INTERVAL 40      // ~25 Hz (40 ms)
-#define LOG_INTERVAL 1000    // 1 Hz (1000 ms)
+#define LOG_INTERVAL 1000    // 5 Hz (5000 ms)
 
-// EEPROM Update Interval
+// EEPROM Settings
 #define EEPROM_UPDATE_T 10000
+#define EEA_ID 0
+#define EEA_PDATA (EEA_ID + 4)
+#define EE_UNIQUEID 0x18fae9c8
+#define EE_FULL_RESET true
+#define EE_PARTIAL_RESET false
 
-// Thermal runaway settings
-#define THRM_RUNAWAY_DELTA 30
-#define THRM_RUNAWAY_CYCLES 20
+#define RELAY_PWM_PERIOD 1000 // 1 Hz (1000 ms)
 
-#define RELAY_PWM_PERIOD 1 * 1000 // 1 Hz (1000 ms)
+#define MAX_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 
 // Default Heating Process Settings
 #define DEF_SET_TEMP 25
-#define DEF_HEATING_DURATION 300000
+#define DEF_HEATING_DURATION 3000000 // 50 minutes
 
 // Preheat to Heat Settings !!!!!!!!
 #define DEF_PRE_TO_HEAT_TEMP_OFFSET 5
 #define DEF_PRE_TO_HEAT_HOLD_TIME 10 * 1000
+#define TERM_TEMP 40
 
 // PID Default Settings
 #define DEF_KP 50
 #define DEF_KI 1
 #define DEF_KD 0.2
-#define DEF_CP 2
-#define DEF_CI 2
-#define DEF_CD 2
-#define DEF_GAP_THRESHOLD 20
+#define DEF_CP 1
+#define DEF_CI 1
+#define DEF_CD 1
+#define DEF_GAP_THRESHOLD 10
 
 // Limits !!!!!!
 /*

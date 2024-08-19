@@ -2,11 +2,11 @@
 #define TEMP_H
 
 #include "config.h"
-#include "MAX31855soft.h"
+#include <Adafruit_MAX31855.h>
 
 struct TempData
 {
-    float temperatures[NUM_SENSORS];
+    double temperatures[NUM_SENSORS];
     uint8_t errorFlags[NUM_SENSORS];
 };
 

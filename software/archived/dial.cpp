@@ -10,8 +10,6 @@ void timerIsr()
     encoder->service();
 }
 
-
-
 void processEncoderEvents()
 {
     encNewPos += encoder->getValue();

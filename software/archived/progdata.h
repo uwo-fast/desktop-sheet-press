@@ -3,21 +3,7 @@
 
 #include "config.h"
 
-struct ProgramData
-{
-   unsigned long heatingDuration;
-   float setpoint[NUM_SENSORS];
-   float Kp[NUM_SENSORS];
-   float Ki[NUM_SENSORS];
-   float Kd[NUM_SENSORS];
-   int Cp[NUM_SENSORS];
-   int Ci[NUM_SENSORS];
-   int Cd[NUM_SENSORS];
-   float gapThreshold[NUM_SENSORS];
-   int fileCount;
-};
 
-extern ProgramData pData;
 
 #endif // PROGDATA_H
 

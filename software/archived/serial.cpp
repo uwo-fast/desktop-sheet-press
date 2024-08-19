@@ -1,6 +1,6 @@
 #include "serial.h"
 #include <Arduino.h>
-#include "progdata.h"
+#include "main.h"
 #include "eepromutil.h"
 
 void handleSerialCommands()
@@ -50,13 +50,13 @@ void handleSerialCommands()
                     pidControllers[i]->SetTunings(pData.Kp[i], pData.Ki[i], pData.Kd[i]);
                 }
             }
-            else if (strcmp(received, "preheat") == 0)
+            else if (strcmp(received, "prep") == 0)
             {
-                stateCommand = PREHEATING;
+                stateCommand = PREPARING;
             }
-            else if (strcmp(received, "heat") == 0)
+            else if (strcmp(received, "active") == 0)
             {
-                stateCommand = HEATING;
+                stateCommand = ACTIVE;
             }
             else if (strcmp(received, "standby") == 0)
             {
@@ -103,6 +103,6 @@ void printData(const TempData &tempData, const ControlData &controlData, const T
     Serial.print(F(", Elapsed Time:"));
     Serial.print(timing.ct.elapsed / 1000); // Print elapsed time in seconds
     Serial.print(F("s, Remaining Heating Time:"));
-    Serial.print(timing.ct.durationRemaining / 1000); // Print remaining heating time in seconds
+    Serial.print(timing.ct.durationRemaining / 1000); // Print remaining active time in seconds
     Serial.println(F("s"));
 }

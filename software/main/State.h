@@ -38,7 +38,7 @@ public:
   void (*stateLogic)();
   LinkedList<struct Transition *> *transitions;
   int index;
-  String name; // Add name attribute
+  String name; 
 };
 
 #endif

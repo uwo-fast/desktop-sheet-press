@@ -1,24 +1,24 @@
 #include "control.h"
+#include "config.h"
 
-float input[NUM_SENSORS], output[NUM_SENSORS];
+ControlData controlData;
+
+double input[NUM_SENSORS], output[NUM_SENSORS], setpoint[NUM_SENSORS];
 PID *pidControllers[NUM_SENSORS];
 
-void initializePIDs(ProgramData &pData)
+void setPIDTuning(int n, double Kp, double Ki, double Kd)
 {
-    for (int i = 0; i < NUM_SENSORS; i++)
-    {
-        pidControllers[i] = new PID(&input[i], &output[i], &pData.setpoint[i], pData.Kp[i], pData.Ki[i], pData.Kd[i], DIRECT);
-        pidControllers[i]->SetMode(AUTOMATIC);
-        pidControllers[i]->SetSampleTime(CONTROL_INTERVAL);
-        pidControllers[i]->SetOutputLimits(0, 255);
-    }
+        pidControllers[n]->SetTunings(Kp, Ki, Kd);
 }
 
-ControlData controlLogic(const TempData &tempData, State *currentState)
+void setPIDPoint(int n, double newSetpoint)
 {
-    ControlData controlData;
+        setpoint[n] = newSetpoint;
+}
 
-    if (currentState == preheatingState || heatingState)
+ControlData controlLogic(const TempData &tempData, const char *stateName)
+{
+    if (strcmp(stateName, "preheating") == 0 || strcmp(stateName, "heating") == 0)
     {
         for (int i = 0; i < NUM_SENSORS; i++)
         {

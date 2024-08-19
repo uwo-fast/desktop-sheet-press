@@ -1,13 +1,16 @@
 #include "timing.h"
+#include "main.h"
+
+Timing timing = {0};
 
 void updateTiming(State *currentState)
 {
     unsigned long currentMillis = millis();
-    if (currentState == preheatingState || currentState == heatingState)
+    if (currentState == prepState || currentState == activeState)
     {
         timing.ct.elapsed = currentMillis - timing.pit.preStart;
     }
-    if (currentState == heatingState)
+    if (currentState == activeState)
     {
         if (timing.lut.master > 0)
         {

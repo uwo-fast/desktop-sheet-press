@@ -2,8 +2,7 @@
 #define RELAY_H
 
 #include "config.h"
-#include "control.h"
 
-void writeRelays(const ControlData &controlData);
+void writeRelays(const double outputs[]);
 
 #endif
