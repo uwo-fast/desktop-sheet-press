@@ -1,11 +1,11 @@
-
 #include "config.h"
 
-#include "control.h"
-#include "temp.h"
-#include "relay.h"
-// #include "monitoring.h"
 #include "StateMachine.h"
+
+#include "temp.h"
+#include "monitoring.h"
+#include "control.h"
+#include "relay.h"
 
 #include "gui.h"
 
@@ -33,6 +33,7 @@ struct ProgramData
   double gapThreshold[NUM_SENSORS];
   int fileCount;
   bool sdActive;
+  int traStatus;
 };
 
 ProgramData pData;
@@ -96,6 +97,8 @@ MachineState currMState = STANDBY;
 #define SET_TERMINATING() SET_STATE(TERMINATING)
 #define SET_ERROR() SET_STATE(ERROR)
 
+ThermalRunawayMonitor monitor;
+
 void setup()
 {
   Serial.begin(115200); // Initialize serial communication
@@ -140,6 +143,7 @@ void setup()
   errorState->addTransition(&toStandby, standbyState);
 
   initTCs();
+  monitor.initialize();
 
   for (int i = 0; i < NUM_SENSORS; i++)
   {
@@ -204,7 +208,7 @@ void mainProgram()
     timing.lut.control = millis();
     tempData = readTemps();
     tempData = processTempData(tempData);
-    // checkThermalRunaway(tempData);
+    pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, tempData.temperatures);
     controlData = controlLogic(tempData, machine.getStateName());
     writeRelays(controlData.outputs);
   }
@@ -345,7 +349,9 @@ bool toStandby()
 
 bool toError()
 {
-  return currMState == ERROR;
+  // Transition to Error if the current state is manually set to Error or,
+  // if a thermal runaway is detected
+  return currMState == ERROR || pData.traStatus > 0;
 }
 
 #ifdef SDCARD
@@ -603,14 +609,21 @@ void handleSerialCommands()
  */
 void printData(const char *stateName)
 {
-  Serial.print(F("State:"));
   Serial.print(stateName);
-  Serial.print(F(" T1:"));
+  Serial.print(F(", T1:"));
   Serial.print(tempData.temperatures[0], 2);
   Serial.print(F(", T2:"));
   Serial.print(tempData.temperatures[1], 2);
   Serial.print(F(", ST:"));
   Serial.print(pData.setpoint[0], 0); // Assuming both setpoints are the same
+  if (pData.traStatus == -1)
+  {
+    Serial.print(F("*"));
+  }
+  else if (pData.traStatus == -2)
+  {
+    Serial.print(F("**"));
+  }
   Serial.print(F(", O1:"));
   Serial.print(controlData.outputs[0], 0);
   Serial.print(F(", O2:"));
@@ -672,6 +685,7 @@ void initializeDefaultProgramData(boolean full)
     pData.Cd[i] = DEF_CD;
     pData.gapThreshold[i] = DEF_GAP_THRESHOLD;
     pData.sdActive = false;
+    pData.traStatus = 0;
   }
 
   // If full reset, reset all values including the historical ones

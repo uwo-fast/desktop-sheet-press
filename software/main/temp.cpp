@@ -19,8 +19,7 @@ TempData readTemps()
     TempData tempData;
     for (int i = 0; i < NUM_SENSORS; i++)
     {
-        double tempRead = thermocouples[i].readCelsius();
-        tempData.temperatures[i] = (float)tempRead;
+        tempData.temperatures[i] = thermocouples[i].readCelsius();
         uint8_t error = thermocouples[i].readError();
         tempData.errorFlags[i] = (error != 0);
     }

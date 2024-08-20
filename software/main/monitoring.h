@@ -5,24 +5,25 @@
 #include "config.h"
 
 // Thresholds
-#define THRM_RUNAWAY_DELTA 5.0  // Example threshold in degrees
-#define THRM_RUNAWAY_CYCLES 3   // Number of cycles to consider for thermal runaway
-#define DEFAULT_HISTORY_SIZE 10 // Default number of temperature readings to store
+#define THRM_RUNAWAY_DELTA 20.0  
+#define THRM_RUNAWAY_TIME 30000 // 30 seconds
+#define HISTORY_SIZE (THRM_RUNAWAY_TIME / CONTROL_INTERVAL)
 
 class ThermalRunawayMonitor {
 public:
-    ThermalRunawayMonitor(int historySize = DEFAULT_HISTORY_SIZE);
+    ThermalRunawayMonitor(int historySize = HISTORY_SIZE);
 
     void initialize();
-    bool checkThermalRunaway(const float setpoints[NUM_SENSORS], const float temps[NUM_SENSORS]);
-    void addTemperatureReading(int sensorIndex, float temperature, unsigned long timestamp);
+    int updateThermalRunaway(const double setpoints[NUM_SENSORS], const double temps[NUM_SENSORS]);
+    void addTemperatureReading(int sensorIndex, double temperature);
 
 private:
-    int runawayCycles[NUM_SENSORS];
-    float temperatureHistory[NUM_SENSORS][DEFAULT_HISTORY_SIZE];
-    unsigned long timeHistory[NUM_SENSORS][DEFAULT_HISTORY_SIZE];
+    unsigned long runawayCycles[NUM_SENSORS];
+    double temperatureHistory[NUM_SENSORS][HISTORY_SIZE];
     int historySize;
-    int historyIndex[NUM_SENSORS];
+    int headIndex[NUM_SENSORS];  // Tracks the start of the circular buffer for each sensor
+
+    double getTemperatureAt(int sensorIndex, int offset);
 };
 
 #endif // MONITORING_H
