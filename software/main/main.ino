@@ -20,9 +20,41 @@ typedef File32 file_t;
 file_t file;
 #endif // SDCARD
 
+#define SECOND 1000
+#define MINUTE 60000
+
+template <typename T>
+void setArrayValue(T *array, int index, T value, T minVal, T maxVal, bool &isInvalid, bool clampToLimits)
+{
+  if (index >= 0 && index < NUM_SENSORS)
+  {
+    if (value < minVal)
+    {
+      isInvalid = true;
+      array[index] = clampToLimits ? minVal : array[index]; // Clamp to lower limit or reject
+    }
+    else if (value > maxVal)
+    {
+      isInvalid = true;
+      array[index] = clampToLimits ? maxVal : array[index]; // Clamp to upper limit or reject
+    }
+    else
+    {
+      array[index] = value;
+    }
+  }
+  else
+  {
+    isInvalid = true; // Index out of range
+  }
+}
+
 struct ProgramData
 {
   unsigned long setDuration;
+  unsigned long remainingDuration;
+  float setDurationMinutes;
+  float remainingDurationMinutes;
   double setpoint[NUM_SENSORS];
   double Kp[NUM_SENSORS];
   double Ki[NUM_SENSORS];
@@ -34,12 +66,96 @@ struct ProgramData
   int fileCount;
   bool sdActive;
   int traStatus;
+  bool isInvalid = false;
+
+  // Getters
+  unsigned long getSetDuration() const { return setDuration; }
+  unsigned long getRemainingDuration() const { return remainingDuration; }
+  float getSetDurationMinutes() const { return setDuration / MINUTE; }
+  double getSetpoint(int index) const { return setpoint[index]; }
+  double getKp(int index) const { return Kp[index]; }
+  double getKi(int index) const { return Ki[index]; }
+  double getKd(int index) const { return Kd[index]; }
+  double getCp(int index) const { return Cp[index]; }
+  double getCi(int index) const { return Ci[index]; }
+  double getCd(int index) const { return Cd[index]; }
+  double getGapThreshold(int index) const { return gapThreshold[index]; }
+  int getFileCount() const { return fileCount; }
+  bool isSdActive() const { return sdActive; }
+  int getTraStatus() const { return traStatus; }
+  bool getIsInvalid() const { return isInvalid; }
+
+  // Setters for array elements using the template with clamping option
+  void setSetpoint(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(setpoint, index, value, static_cast<double>(MIN_TEMP), static_cast<double>(MAX_TEMP), isInvalid, clampToLimits);
+  }
+
+  void setKp(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(Kp, index, value, static_cast<double>(MIN_KP), static_cast<double>(MAX_KP), isInvalid, clampToLimits);
+  }
+
+  void setKi(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(Ki, index, value, static_cast<double>(MIN_KI), static_cast<double>(MAX_KI), isInvalid, clampToLimits);
+  }
+
+  void setKd(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(Kd, index, value, static_cast<double>(MIN_KD), static_cast<double>(MAX_KD), isInvalid, clampToLimits);
+  }
+
+  void setCp(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(Cp, index, value, static_cast<double>(MIN_CP), static_cast<double>(MAX_CP), isInvalid, clampToLimits);
+  }
+
+  void setCi(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(Ci, index, value, static_cast<double>(MIN_CI), static_cast<double>(MAX_CI), isInvalid, clampToLimits);
+  }
+
+  void setCd(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(Cd, index, value, static_cast<double>(MIN_CD), static_cast<double>(MAX_CD), isInvalid, clampToLimits);
+  }
+
+  void setGapThreshold(int index, double value, bool clampToLimits = false)
+  {
+    setArrayValue(gapThreshold, index, value, static_cast<double>(MIN_GAP_THRESHOLD), static_cast<double>(MAX_GAP_THRESHOLD), isInvalid, clampToLimits);
+  }
+
+  void setSetDuration(unsigned long value, bool clampToLimits = false)
+  {
+    if (value < MIN_SET_DURATION)
+    {
+      isInvalid = true;
+      setDuration = clampToLimits ? MIN_SET_DURATION : setDuration; // Clamp to lower limit or reject
+    }
+    else if (value > MAX_SET_DURATION)
+    {
+      isInvalid = true;
+      setDuration = clampToLimits ? MAX_SET_DURATION : setDuration; // Clamp to upper limit or reject
+    }
+    else
+    {
+      setDuration = value; // Valid value within range
+    }
+    setDurationMinutes = setDuration / MINUTE;
+  }
+
+  void setFileCount(int value)
+  {
+    fileCount = value;
+  }
+
+  void setSdActive(bool value) { sdActive = value; }
+
+  void setTraStatus(int value) { traStatus = value; }
 };
 
 ProgramData pData;
-
-#define SECOND 1000
-#define MINUTE 60000
 
 struct CountTimers
 {
@@ -99,6 +215,27 @@ MachineState currMState = STANDBY;
 
 ThermalRunawayMonitor monitor;
 
+LiquidLine main11(0, 0, "T:", tempData.temperatures[0], ",", tempData.temperatures[1]);
+LiquidLine main12(9, 0, " S:", pData.setpoint[0]);
+LiquidLine main21(0, 1, "O:", controlData.outputs[0], ",", controlData.outputs[1]);
+LiquidLine main22(9, 1, " R:", pData.remainingDurationMinutes);
+LiquidScreen screenMain(main11, main12, main21, main22);
+
+LiquidLine standby1(1, 0, "Standby");
+LiquidScreen screenStandby(standby1);
+
+LiquidLine prep1(1, 0, "Prep");
+LiquidScreen screenPrep(prep1);
+
+LiquidLine active1(1, 0, "Active");
+LiquidScreen screenActive(active1);
+
+LiquidLine term1(1, 0, "Term");
+LiquidScreen screenTerm(term1);
+
+LiquidLine error1(1, 0, "Error");
+LiquidScreen screenError(error1);
+
 void setup()
 {
   Serial.begin(115200); // Initialize serial communication
@@ -109,10 +246,10 @@ void setup()
   if (!sd.begin(SD_CS))
   {
     Serial.println(F("SD initialization failed!"));
-    Serial.println(F("Is the card inserted correctly?"));
-    Serial.println(F("Is the card formatted as FAT16/FAT32?"));
-    Serial.println(F("Is the CS pin correct?"));
-    Serial.println(F("Is the wiring correct?"));
+    Serial.println(F("Card inserted correctly?"));
+    Serial.println(F("Card formatted as FAT16/FAT32?"));
+    Serial.println(F("CS pin correct?"));
+    Serial.println(F("Wiring correct?"));
     pData.sdActive = false;
   }
   else
@@ -157,7 +294,11 @@ void setup()
   pinMode(PIN_SSR2, OUTPUT);
 
   initializeEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, 4);
-  initializeLcdGui();
+  initializeLcdGui(screenMain, screenStandby, screenPrep, screenActive, screenTerm, screenError);
+  main11.set_decimalPlaces(0);
+  main12.set_decimalPlaces(0);
+  main21.set_decimalPlaces(0);
+  main22.set_decimalPlaces(0);
 
   Serial.println(F("System initialized"));
 }
@@ -167,28 +308,19 @@ void loop()
   machine.run();
 }
 
-void updateTiming()
+void updateTiming(State *currentState)
 {
-  State *currentState = machine.getCurrentState();
-  unsigned long currentMillis = millis();
+  unsigned long lutMasterOld = timing.lut.master;
+  timing.lut.master = millis();
 
-  // Preparing state timing update(s)
-  if (currentState == prepState)
+  timing.ct.elapsed = timing.lut.master - timing.pit.preStart;
+  if (timing.lut.master > 0 && currentState == activeState)
   {
-    timing.ct.elapsed = currentMillis - timing.pit.preStart;
+    unsigned long elapsedSinceLastUpdate = timing.lut.master - lutMasterOld;
+    timing.ct.durationRemaining = (timing.ct.durationRemaining > elapsedSinceLastUpdate) ? (timing.ct.durationRemaining - elapsedSinceLastUpdate) : 0;
   }
-
-  // Active state timing update(s)
-  if (currentState == activeState)
-  {
-    timing.ct.elapsed = currentMillis - timing.pit.preStart;
-    if (timing.lut.master > 0)
-    {
-      unsigned long elapsedSinceLastUpdate = currentMillis - timing.lut.master;
-      timing.ct.durationRemaining = (timing.ct.durationRemaining > elapsedSinceLastUpdate) ? (timing.ct.durationRemaining - elapsedSinceLastUpdate) : 0;
-    }
-    timing.lut.master = currentMillis;
-  }
+  pData.remainingDuration = timing.ct.durationRemaining;
+  pData.remainingDurationMinutes = pData.remainingDuration / MINUTE;
 }
 
 void mainProgram()
@@ -197,7 +329,10 @@ void mainProgram()
 
   State *currentState = machine.getCurrentState();
 
-  updateTiming();
+  if (currentState == prepState || currentState == activeState)
+  {
+    updateTiming(currentState);
+  }
 
 #ifdef SERIALCMD
   handleSerialCommands();
@@ -209,7 +344,14 @@ void mainProgram()
     tempData = readTemps();
     tempData = processTempData(tempData);
     pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, tempData.temperatures);
-    controlData = controlLogic(tempData, machine.getStateName());
+    if (currentState == prepState || currentState == activeState)
+    {
+      controlData = controlLogic(tempData);
+    }
+    else
+    {
+      noOutputs(controlData);
+    }
     writeRelays(controlData.outputs);
   }
 
@@ -241,6 +383,8 @@ void standby()
   if (machine.executeOnce)
   {
     SET_STANDBY();
+    timing = {0};
+    pData.remainingDuration = pData.remainingDurationMinutes = 0;
     Serial.println(F("Entering standby state..."));
   }
 
@@ -254,7 +398,7 @@ void preparing()
   {
     SET_PREPARING();
 #ifdef SDCARD
-    Serial.println(F("Beginning processing, preparing..."));
+    Serial.println(F("Process beginning, machine preparing..."));
     if (pData.sdActive)
     {
       Serial.println(F("Creating log file..."));
@@ -415,17 +559,17 @@ void logData(const char *stateName)
     file.print(",");
     file.print(tempData.temperatures[1], 0);
     file.print(",");
-    file.print(pData.setpoint[0], 0); // Assuming both setpoints are the same
+    file.print(pData.getSetpoint(0), 0);
     file.print(",");
     file.print(controlData.outputs[0], 0);
     file.print(",");
     file.print(controlData.outputs[1], 0);
     file.print(",");
-    file.print(pData.Kp[0], 2);
+    file.print(pData.getKp(0), 2);
     file.print(",");
-    file.print(pData.Ki[0], 2);
+    file.print(pData.getKi(0), 2);
     file.print(",");
-    file.print(pData.Kd[0], 2);
+    file.print(pData.getKd(0), 2);
     file.print(",");
     file.print(timing.ct.elapsed / MINUTE); // Print elapsed time in seconds
     file.print(",");
@@ -439,15 +583,6 @@ void logData(const char *stateName)
   }
 }
 #endif // SDCARD
-
-void setpointSetter(int n, double newSetpoint)
-{
-  for (int i = 0; i < n; i++)
-  {
-    pData.setpoint[i] = newSetpoint;
-    setPIDPoint(i, pData.setpoint[i]);
-  }
-}
 
 void setDurationSetter(unsigned long newSetDuration)
 {
@@ -516,7 +651,11 @@ void handleSerialCommands()
       if (strncmp(received, "st=", 3) == 0)
       {
         double newSetpoint = atof(received + 3);
-        setpointSetter(NUM_SENSORS, newSetpoint);
+        for (int i = 0; i < NUM_SENSORS; i++)
+        {
+          pData.setSetpoint(i, newSetpoint);
+          setPIDPoint(i, pData.setpoint[i]);
+        }
       }
       else if (strncmp(received, "dt=", 3) == 0)
       {
@@ -526,12 +665,12 @@ void handleSerialCommands()
       else if (strncmp(received, "dt+", 3) == 0)
       {
         unsigned long durationDelta = atof(received + 3);
-        setDurationSetter(pData.setDuration / MINUTE + durationDelta);
+        setDurationSetter(pData.getSetDuration() / MINUTE + durationDelta);
       }
       else if (strncmp(received, "dt-", 3) == 0)
       {
         unsigned long durationDelta = atof(received + 3);
-        setDurationSetter(pData.setDuration / MINUTE - durationDelta);
+        setDurationSetter(pData.getSetDuration() / MINUTE - durationDelta);
       }
       else if (strncmp(received, "rt=", 3) == 0)
       {
@@ -541,17 +680,29 @@ void handleSerialCommands()
       else if (strncmp(received, "kp=", 3) == 0)
       {
         double newKp = atof(received + 3);
-        setPIDTuning(NUM_RELAYS, newKp, pData.Ki[0], pData.Kd[0]);
+        for (int i = 0; i < NUM_SENSORS; i++)
+        {
+          pData.setKp(i, newKp);
+          setPIDTuning(i, newKp, pData.getKi(i), pData.getKd(i));
+        }
       }
       else if (strncmp(received, "ki=", 3) == 0)
       {
         double newKi = atof(received + 3);
-        setPIDTuning(NUM_RELAYS, pData.Kp[0], newKi, pData.Kd[0]);
+        for (int i = 0; i < NUM_SENSORS; i++)
+        {
+          pData.setKi(i, newKi);
+          setPIDTuning(i, pData.getKp(i), newKi, pData.getKd(i));
+        }
       }
       else if (strncmp(received, "kd=", 3) == 0)
       {
         double newKd = atof(received + 3);
-        setPIDTuning(NUM_RELAYS, pData.Kp[0], pData.Ki[0], newKd);
+        for (int i = 0; i < NUM_SENSORS; i++)
+        {
+          pData.setKd(i, newKd);
+          setPIDTuning(i, pData.getKp(i), pData.getKi(i), newKd);
+        }
       }
       else if (strcmp(received, "state=prep") == 0)
       {
@@ -615,8 +766,8 @@ void printData(const char *stateName)
   Serial.print(F(", T2:"));
   Serial.print(tempData.temperatures[1], 2);
   Serial.print(F(", ST:"));
-  Serial.print(pData.setpoint[0], 0); // Assuming both setpoints are the same
-  if (pData.traStatus == -1)
+  Serial.print(pData.getSetpoint(0), 0);
+  if (pData.getTraStatus() == -1)
   {
     Serial.print(F("*"));
   }
@@ -633,14 +784,14 @@ void printData(const char *stateName)
   Serial.print(F("m, Remaining:"));
   Serial.print((double)timing.ct.durationRemaining / MINUTE, 2);
   Serial.print(F("/"));
-  Serial.print((double)pData.setDuration / MINUTE, 2);
+  Serial.print((double)pData.getSetDuration() / MINUTE, 2);
   Serial.print(F("m"));
   Serial.print(F(", Kp:"));
-  Serial.print(pData.Kp[0], 2);
+  Serial.print(pData.getKp(0), 2);
   Serial.print(F(", Ki:"));
-  Serial.print(pData.Ki[0], 2);
+  Serial.print(pData.getKi(0), 2);
   Serial.print(F(", Kd:"));
-  Serial.print(pData.Kd[0], 2);
+  Serial.print(pData.getKd(0), 2);
   Serial.println(".");
 }
 #endif // SERIALCMD
@@ -676,16 +827,16 @@ void initializeDefaultProgramData(boolean full)
   // Set default values for all data related to each sensor
   for (int i = 0; i < NUM_SENSORS; i++)
   {
-    pData.setpoint[i] = DEF_SET_TEMP;
-    pData.Kp[i] = DEF_KP;
-    pData.Ki[i] = DEF_KI;
-    pData.Kd[i] = DEF_KD;
-    pData.Cp[i] = DEF_CP;
-    pData.Ci[i] = DEF_CI;
-    pData.Cd[i] = DEF_CD;
-    pData.gapThreshold[i] = DEF_GAP_THRESHOLD;
-    pData.sdActive = false;
-    pData.traStatus = 0;
+    pData.setSetpoint(i, DEF_SETPOINT, true);
+    pData.setKp(i, DEF_KP, true);
+    pData.setKi(i, DEF_KI, true);
+    pData.setKd(i, DEF_KD, true);
+    pData.setCp(i, DEF_CP, true);
+    pData.setCi(i, DEF_CI, true);
+    pData.setCd(i, DEF_CD, true);
+    pData.setGapThreshold(i, DEF_GAP_THRESHOLD, true);
+    pData.setSdActive(false);
+    pData.setTraStatus(TRA_NONE);
   }
 
   // If full reset, reset all values including the historical ones

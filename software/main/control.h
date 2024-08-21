@@ -18,6 +18,6 @@ extern double input[NUM_SENSORS], output[NUM_SENSORS], setpoint[NUM_SENSORS];
 
 void setPIDTuning(int n, double Kp, double Ki, double Kd);
 void setPIDPoint(int n, double inputs);
-ControlData controlLogic(const TempData &tempData, const char *stateName);
-
+ControlData controlLogic(const TempData &tempData);
+ControlData noOutputs(ControlData &controlData);
 #endif

@@ -35,8 +35,8 @@
 
 // Timing Intervals
 #define CONTROL_INTERVAL 100 // 10 Hz (100 ms)
-#define GUI_INTERVAL 40      // ~25 Hz (40 ms)
-#define LOG_INTERVAL 1000    // 5 Hz (5000 ms)
+#define GUI_INTERVAL 200     // 5 Hz (200 ms)
+#define LOG_INTERVAL 2000    // 0.5 Hz (2000 ms)
 
 // EEPROM Settings
 #define EEPROM_UPDATE_T 10000
@@ -51,7 +51,7 @@
 #define MAX_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 
 // Default Heating Process Settings
-#define DEF_SET_TEMP 25
+#define DEF_SETPOINT 25
 #define DEF_HEATING_DURATION 3000000 // 50 minutes
 
 // Preheat to Heat Settings !!!!!!!!
@@ -68,22 +68,9 @@
 #define DEF_CD 1
 #define DEF_GAP_THRESHOLD 10
 
-// Limits !!!!!!
-/*
+// Limits for pData
 #define MIN_TEMP 0
 #define MAX_TEMP 480
-#define MIN_CONTROL_PERIOD 500
-#define MAX_CONTROL_PERIOD 5000
-#define MIN_PROCESS_INTERVAL 5
-#define MAX_PROCESS_INTERVAL 100
-#define MIN_HEATING_DURATION (1.0 * 60 * 1000)
-#define MAX_HEATING_DURATION (120.0 * 60 * 1000)
-#define MIN_PRE_TO_HEAT_TEMP_OFFSET 0
-#define MAX_PRE_TO_HEAT_TEMP_OFFSET 25
-#define MIN_PRE_TO_HEAT_HOLD_TIME 1000
-#define MAX_PRE_TO_HEAT_HOLD_TIME 60000
-#define MIN_SERIAL_PRINT_INTERVAL 100
-#define MAX_SERIAL_PRINT_INTERVAL 5000
 #define MIN_KP 0
 #define MAX_KP 2000
 #define MIN_KI 0
@@ -98,6 +85,7 @@
 #define MAX_CD 5
 #define MIN_GAP_THRESHOLD 5
 #define MAX_GAP_THRESHOLD 50
-*/
+#define MIN_SET_DURATION 1000
+#define MAX_SET_DURATION 10800000 // 3 hours
 
 #endif // CONFIG_H

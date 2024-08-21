@@ -16,23 +16,22 @@ void setPIDPoint(int n, double newSetpoint)
         setpoint[n] = newSetpoint;
 }
 
-ControlData controlLogic(const TempData &tempData, const char *stateName)
+ControlData controlLogic(const TempData &tempData)
 {
-    if (strcmp(stateName, "preheating") == 0 || strcmp(stateName, "heating") == 0)
+    for (int i = 0; i < NUM_SENSORS; i++)
     {
-        for (int i = 0; i < NUM_SENSORS; i++)
-        {
-            input[i] = tempData.temperatures[i];
-            pidControllers[i]->Compute();
-            controlData.outputs[i] = output[i];
-        }
+        input[i] = tempData.temperatures[i];
+        pidControllers[i]->Compute();
+        controlData.outputs[i] = output[i];
     }
-    else
+    return controlData;
+}
+
+ControlData noOutputs(ControlData &controlData)
+{
+    for (int i = 0; i < NUM_SENSORS; i++)
     {
-        for (int i = 0; i < NUM_SENSORS; i++)
-        {
-            controlData.outputs[i] = 0;
-        }
+        controlData.outputs[i] = 0;
     }
     return controlData;
 }

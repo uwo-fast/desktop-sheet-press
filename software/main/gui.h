@@ -9,7 +9,7 @@
 // use TimerB2 as a drop in replacement for Timer1
 #define Timer1 TimerB2 
 
-void initializeLcdGui();
+void initializeLcdGui(LiquidScreen main, LiquidScreen standby, LiquidScreen prep, LiquidScreen active, LiquidScreen term, LiquidScreen error);
 void updateLcdGui();
 
 void initializeEncoder(int pinA, int pinB, int pinC, int steps);

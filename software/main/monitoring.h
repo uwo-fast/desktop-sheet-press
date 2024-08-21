@@ -9,6 +9,13 @@
 #define THRM_RUNAWAY_TIME 30000 // 30 seconds
 #define HISTORY_SIZE (THRM_RUNAWAY_TIME / CONTROL_INTERVAL)
 
+enum traFlags
+{ 
+    TRA_NONE = 0,
+    TRA_STARTED = -1,
+    TRA_IMPENDING = -2
+};
+
 class ThermalRunawayMonitor {
 public:
     ThermalRunawayMonitor(int historySize = HISTORY_SIZE);

@@ -2,27 +2,23 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// ----- WELCOME SCREEN -----
-// a line of one string literal
-LiquidLine lineHello(1, 0, "LiquidMenu ", LIQUIDMENU_VERSION);
-LiquidLine lineRight(1, 1, "Hello Menu I2C");
-
-// create a screen from the above lines
-LiquidScreen screenMain(lineHello, lineRight);
-// --------------------------
-
 // ----- MENU -----
 // create a menu from the screens
 LiquidMenu menu(lcd);
 // ----------------
 
-void initializeLcdGui()
+void initializeLcdGui(LiquidScreen main, LiquidScreen standby, LiquidScreen prep, LiquidScreen active, LiquidScreen term, LiquidScreen error)
 {
     lcd.init();
     lcd.backlight();
     lcd.clear();
     menu.init();
-    menu.add_screen(screenMain);
+    menu.add_screen(main);
+    menu.add_screen(standby);
+    menu.add_screen(prep);
+    menu.add_screen(active);
+    menu.add_screen(term);
+    menu.add_screen(error);
 }
 
 void updateLcdGui()
@@ -67,17 +63,8 @@ void processEncoderEvents()
 #ifdef REVERSE_ENCODER
         direction = -direction;
 #endif
-
         uEvent = (direction == 1) ? EV_ENCDN : EV_ENCUP;
-
-        if (uEvent == EV_ENCDN)
-        {
-            // Serial.println("Encoder Down");
-        }
-        else if (uEvent == EV_ENCUP)
-        {
-            // Serial.println("Encoder Up");
-        }
+        int16_t incr = encNewPos - encLastPos;
 
         encLastPos = encNewPos;
     }

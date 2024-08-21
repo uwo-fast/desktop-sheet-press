@@ -51,14 +51,14 @@ int ThermalRunawayMonitor::updateThermalRunaway(const double setpoints[NUM_SENSO
             runawayCycles[i]++;
             if (runawayCycles[i] >= historySize / 2 )
             {
-                return -2; // Return -2 if runaway is impending (past half the history size)
+                return TRA_IMPENDING; // Return -2 if runaway is impending (past half the history size)
             }
-            return -1; // Return -1 if is runaway is started
+            return TRA_STARTED; // Return -1 if is runaway is started
         }
         else
         {
             runawayCycles[i] = 0; // Reset cycle count if within the threshold
-            return 0;            // No alarm triggered
+            return TRA_NONE;            // No alarm triggered
         }
 
         // Check if the number of cycles has reached the history size (indicating runaway)
