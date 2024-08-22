@@ -9,7 +9,8 @@
 // use TimerB2 as a drop in replacement for Timer1
 #define Timer1 TimerB2 
 
-void initializeLcdGui(LiquidScreen main, LiquidScreen standby, LiquidScreen prep, LiquidScreen active, LiquidScreen term, LiquidScreen error);
+void initializeLCD();
+void initializeLcdGui();
 void updateLcdGui();
 
 void initializeEncoder(int pinA, int pinB, int pinC, int steps);
@@ -26,5 +27,14 @@ enum UserEvent
   EV_ENCDN
 };
 
+enum funcID
+{
+  FUNC_INCRT,
+  FUNC_DECRT,
+  FUNC_USE,
+  FUNC_TOGG
+};
+
+extern LiquidScreen screenMain, screenStandby, screenPrep, screenActive, screenTerm, screenError;
 
 #endif // GUI_H

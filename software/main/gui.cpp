@@ -2,34 +2,65 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
+ClickEncoder *encoder;
+UserEvent uEvent = EV_NONE;
+int16_t encLastPos = 0;
+int16_t encNewPos = 0;
+
 // ----- MENU -----
 // create a menu from the screens
 LiquidMenu menu(lcd);
 // ----------------
 
-void initializeLcdGui(LiquidScreen main, LiquidScreen standby, LiquidScreen prep, LiquidScreen active, LiquidScreen term, LiquidScreen error)
+void initializeLCD()
 {
     lcd.init();
     lcd.backlight();
     lcd.clear();
-    menu.init();
-    menu.add_screen(main);
-    menu.add_screen(standby);
-    menu.add_screen(prep);
-    menu.add_screen(active);
-    menu.add_screen(term);
-    menu.add_screen(error);
+}
+
+void initializeLcdGui()
+{
+    menu.add_screen(screenMain);
+    menu.add_screen(screenStandby);
+    menu.add_screen(screenPrep);
+    menu.add_screen(screenActive);
+    menu.add_screen(screenTerm);
+    menu.add_screen(screenError);
+    menu.switch_focus(true);
 }
 
 void updateLcdGui()
 {
+    switch (uEvent)
+    {
+    case EV_BTN_CLICKED:
+        if (menu.get_currentScreen() == &screenMain)
+        {
+            menu.change_screen(&screenStandby);
+        }
+        else
+        {
+        }
+        break;
+    case EV_BTN_2CLICKED:
+        break;
+    case EV_BTN_HELD:
+        break;
+    case EV_BTN_RELEASED:
+        break;
+    case EV_ENCUP:
+        menu.switch_focus(false);
+        break;
+    case EV_ENCDN:
+        menu.switch_focus(true);
+        break;
+    default:
+        break;
+    }
+    uEvent = EV_NONE;
     menu.update();
 }
-
-ClickEncoder *encoder;
-UserEvent uEvent = EV_NONE;
-int16_t encLastPos = 0;
-int16_t encNewPos = 0;
 
 void timerIsr()
 {
@@ -45,7 +76,7 @@ void timerIsr()
 void initializeEncoder(int pinA, int pinB, int pinC, int steps)
 {
     // param 5 set to false to keep pins at active high
-    encoder = new ClickEncoder(pinA, pinB, pinC, steps, false); // Enable pullup resistors
+    encoder = new ClickEncoder(pinA, pinB, pinC, steps, true); // Enable pullup resistors
     Timer1.initialize();
     Timer1.attachInterrupt(timerIsr);
     Timer1.setPeriod(1000); // 1ms or 1000us
@@ -76,7 +107,6 @@ void processEncoderEvents()
         {
         case ClickEncoder::Clicked:
             uEvent = EV_BTN_CLICKED;
-            Serial.println("Button Clicked");
             break;
         case ClickEncoder::DoubleClicked:
             uEvent = EV_BTN_2CLICKED;

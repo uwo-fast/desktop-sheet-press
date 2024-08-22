@@ -215,10 +215,15 @@ MachineState currMState = STANDBY;
 
 ThermalRunawayMonitor monitor;
 
-LiquidLine main11(0, 0, "T:", tempData.temperatures[0], ",", tempData.temperatures[1]);
-LiquidLine main12(9, 0, " S:", pData.setpoint[0]);
-LiquidLine main21(0, 1, "O:", controlData.outputs[0], ",", controlData.outputs[1]);
-LiquidLine main22(9, 1, " R:", pData.remainingDurationMinutes);
+// Blank function, it is attached to the lines so that they become focusable.
+void foofunc() {
+	return;
+}
+
+LiquidLine main11(1, 0, "T:", tempData.temperatures[0], ",", tempData.temperatures[1]);
+LiquidLine main12(10, 0, " S:", pData.setpoint[0]);
+LiquidLine main21(1, 1, "O:", controlData.outputs[0], ",", controlData.outputs[1]);
+LiquidLine main22(10, 1, " R:", pData.remainingDurationMinutes);
 LiquidScreen screenMain(main11, main12, main21, main22);
 
 LiquidLine standby1(1, 0, "Standby");
@@ -238,7 +243,7 @@ LiquidScreen screenError(error1);
 
 void setup()
 {
-  Serial.begin(115200); // Initialize serial communication
+  Serial.begin(115200);
 
   loadEeprom();
 
@@ -294,11 +299,16 @@ void setup()
   pinMode(PIN_SSR2, OUTPUT);
 
   initializeEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, 4);
-  initializeLcdGui(screenMain, screenStandby, screenPrep, screenActive, screenTerm, screenError);
+  initializeLCD();
   main11.set_decimalPlaces(0);
+  main11.set_focusPosition(Position::LEFT);
   main12.set_decimalPlaces(0);
   main21.set_decimalPlaces(0);
+  main21.set_focusPosition(Position::LEFT);
   main22.set_decimalPlaces(0);
+  main11.attach_function(1, foofunc);
+  main21.attach_function(1, foofunc);
+  initializeLcdGui();
 
   Serial.println(F("System initialized"));
 }
@@ -355,11 +365,10 @@ void mainProgram()
     writeRelays(controlData.outputs);
   }
 
-  processEncoderEvents();
-
   if (millis() - timing.lut.gui >= GUI_INTERVAL)
   {
     timing.lut.gui = millis();
+    processEncoderEvents();
     updateLcdGui();
   }
 
