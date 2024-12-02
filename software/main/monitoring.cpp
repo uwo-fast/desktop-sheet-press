@@ -8,7 +8,7 @@ ThermalRunawayMonitor::ThermalRunawayMonitor(int historySize)
 
 void ThermalRunawayMonitor::initialize()
 {
-    for (int i = 0; i < NUM_SENSORS; ++i)
+    for (int i = 0; i < NUM_CTRL; ++i)
     {
         runawayCycles[i] = 0;
         headIndex[i] = 0;
@@ -21,7 +21,7 @@ void ThermalRunawayMonitor::initialize()
 
 void ThermalRunawayMonitor::addTemperatureReading(int sensorIndex, double temperature)
 {
-    if (sensorIndex >= 0 && sensorIndex < NUM_SENSORS)
+    if (sensorIndex >= 0 && sensorIndex < NUM_CTRL)
     {
         // Insert the new temperature at the head of the circular buffer
         temperatureHistory[sensorIndex][headIndex[sensorIndex]] = temperature;
@@ -38,9 +38,9 @@ double ThermalRunawayMonitor::getTemperatureAt(int sensorIndex, int offset)
     return temperatureHistory[sensorIndex][index];
 }
 
-int ThermalRunawayMonitor::updateThermalRunaway(const double setpoints[NUM_SENSORS], const double temps[NUM_SENSORS])
+int ThermalRunawayMonitor::updateThermalRunaway(const double setpoints[NUM_CTRL], const double temps[NUM_CTRL])
 {
-    for (int i = 0; i < NUM_SENSORS; i++)
+    for (int i = 0; i < NUM_CTRL; i++)
     {
         // Add new temperature reading
         addTemperatureReading(i, temps[i]);

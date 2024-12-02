@@ -2,14 +2,15 @@
 
 #include "StateMachine.h"
 
-#include "temp.h"
 #include "monitoring.h"
-#include "control.h"
 #include "relay.h"
 
 #include "gui.h"
 
 #include <EEPROM.h>
+
+#include <Adafruit_MAX31855.h>
+#include <PID_v1.h>
 
 #ifdef SDCARD
 #include <SdFat.h>
@@ -26,7 +27,7 @@ file_t file;
 template <typename T>
 void setArrayValue(T *array, int index, T value, T minVal, T maxVal, bool &isInvalid, bool clampToLimits)
 {
-  if (index >= 0 && index < NUM_SENSORS)
+  if (index >= 0 && index < NUM_CTRL)
   {
     if (value < minVal)
     {
@@ -51,23 +52,29 @@ void setArrayValue(T *array, int index, T value, T minVal, T maxVal, bool &isInv
 
 struct ProgramData
 {
-  unsigned long setDuration;
-  unsigned long remainingDuration;
-  float setDurationMinutes;
-  float remainingDurationMinutes;
-  double setpoint[NUM_SENSORS];
-  double Kp[NUM_SENSORS];
-  double Ki[NUM_SENSORS];
-  double Kd[NUM_SENSORS];
-  double Cp[NUM_SENSORS];
-  double Ci[NUM_SENSORS];
-  double Cd[NUM_SENSORS];
-  double gapThreshold[NUM_SENSORS];
-  int fileCount;
-  bool sdActive;
-  int traStatus;
-  bool isInvalid = false;
-  int16_t incr;
+  double temp[NUM_CTRL];       // Temp is the current temperature read by the TCs
+  uint8_t tempError[NUM_CTRL]; // TempError is the error flag for the TCs
+  double output[NUM_CTRL];     // Output is the control signal for the PID controllers
+
+  unsigned long setDuration;       // Set duration in milliseconds for active state
+  unsigned long remainingDuration; // Remaining duration in milliseconds for active state
+  float setDurationMinutes;        // Set duration in minutes for active state
+  float remainingDurationMinutes;  // Remaining duration in minutes for active state
+  double setpoint[NUM_CTRL];       // Setpoint is the target temperature for the PID controllers
+  double Kp[NUM_CTRL];             // Kp is the proportional gain the PID controllers
+  double Ki[NUM_CTRL];             // Ki is the integral gain the PID controllers
+  double Kd[NUM_CTRL];             // Kd is the derivative gain the PID controllers
+  double Cp[NUM_CTRL];             // Cp would be for adaptive tuning
+  double Ci[NUM_CTRL];             // Ci would be for adaptive tuning
+  double Cd[NUM_CTRL];             // Cd would be for adaptive tuning
+  double gapThreshold[NUM_CTRL];   // Gap threshold would be for adaptive tuning
+  int fileCount;                   // Number of log files created, used for naming
+  bool sdActive;                   // Indicates that the SD card is active
+  int traStatus;                   // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
+  bool isInvalid = false;          // Indicates that the last operation was invalid
+  int16_t incr;                    // Increment value for encoder, used for setting values in GUI
+                                   // for setpoint, Kp, Ki, Kd and other parameters dependent on NUM_CTRL this leads
+                                   // to them being set to the same value for all control loops in the current implementation
 
   // Getters
   unsigned long getSetDuration() const { return setDuration; }
@@ -158,52 +165,14 @@ struct ProgramData
 
 ProgramData pData;
 
-// Increment functions with intermediate variable using setters
-void incrementSetpoint()
-{
-  for (int i = 0; i < NUM_SENSORS; i++)
-  {
-    double newValue = pData.getSetpoint(i) + pData.incr;
-    pData.setSetpoint(i, newValue);
-    setPIDPoint(i, pData.getSetpoint(i));
-  } 
-}
+// Initialize the thermocouples
+Adafruit_MAX31855 thermocouples[NUM_CTRL] = {
+    Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO),
+    Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO)};
 
-void incrementDuration()
-{
-  unsigned long newValue = pData.getSetDuration() + (pData.incr * MINUTE);
-  pData.setSetDuration(newValue);
-}
-
-void incrementKp()
-{
-  for (int i = 0; i < NUM_SENSORS; i++)
-  {
-    double newValue = pData.getKp(i) + pData.incr;
-    pData.setKp(i, newValue);
-    setPIDTuning(i, pData.getKp(i), pData.getKi(i), pData.getKd(i));
-  }
-}
-
-void incrementKi()
-{
-  for (int i = 0; i < NUM_SENSORS; i++)
-  {
-    double newValue = pData.getKi(i) + pData.incr;
-    pData.setKi(i, newValue);
-    setPIDTuning(i, pData.getKp(i), pData.getKi(i), pData.getKd(i));
-  }
-}
-
-void incrementKd()
-{
-  for (int i = 0; i < NUM_SENSORS; i++)
-  {
-    double newValue = pData.getKd(i) + pData.incr;
-    pData.setKd(i, newValue);
-    setPIDTuning(i, pData.getKp(i), pData.getKi(i), pData.getKd(i));
-  }
-}
+// PID
+PID pidControllers[NUM_CTRL] = {PID(&pData.temp[0], &pData.output[0], &pData.setpoint[0], pData.Kp[0], pData.Ki[0], pData.Kd[0], DIRECT),
+                                PID(&pData.temp[1], &pData.output[1], &pData.setpoint[1], pData.Kp[1], pData.Ki[1], pData.Kd[1], DIRECT)};
 
 struct CountTimers
 {
@@ -266,10 +235,10 @@ ThermalRunawayMonitor monitor;
 // Blank function, it is attached to the lines so that they become focusable.
 void startProcess()
 {
- if (machine.getCurrentState() == standbyState)
- {
-   SET_PREPARING();
- }
+  if (machine.getCurrentState() == standbyState)
+  {
+    SET_PREPARING();
+  }
 }
 
 void skipSubProcess()
@@ -289,11 +258,57 @@ void returnToStandby()
   SET_STANDBY();
 }
 
+// Increment functions with intermediate variable using setters for encoder
+void incrementSetpoint()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    double newValue = pData.getSetpoint(i) + pData.incr;
+    pData.setSetpoint(i, newValue);
+  }
+}
+
+void incrementDuration()
+{
+  unsigned long newValue = pData.getSetDuration() + (pData.incr * MINUTE);
+  pData.setSetDuration(newValue);
+}
+
+void incrementKp()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    double newValue = pData.getKp(i) + pData.incr;
+    pData.setKp(i, newValue);
+    pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
+  }
+}
+
+void incrementKi()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    double newValue = pData.getKi(i) + pData.incr;
+    pData.setKi(i, newValue);
+    pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
+  }
+}
+
+void incrementKd()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    double newValue = pData.getKd(i) + pData.incr;
+    pData.setKd(i, newValue);
+    pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
+  }
+}
+
 char currStateName[8] = "standby";
 
-LiquidLine tempsLine(1, 0, "T:", tempData.temperatures[0], ",", tempData.temperatures[1]);
+LiquidLine tempsLine(1, 0, "T:", pData.temp[0], ",", pData.temp[1]);
 LiquidLine setpointLine(10, 0, " S:", pData.setpoint[0]);
-LiquidLine outputsLine(1, 1, "O:", controlData.outputs[0], ",", controlData.outputs[1]);
+LiquidLine outputsLine(1, 1, "O:", pData.output[0], ",", pData.output[1]);
 LiquidLine remDurationLine(10, 1, " R:", pData.remainingDurationMinutes);
 LiquidScreen screenMain(tempsLine, setpointLine, outputsLine, remDurationLine);
 
@@ -310,6 +325,8 @@ LiquidScreen screenOptions(backLine);
 LiquidLine error1(0, 0, "Error, see log.");
 LiquidLine error2(0, 1, "Reset Device...");
 LiquidScreen screenError(error1, error2);
+
+const int relayPins[NUM_CTRL] = { PIN_SSR1, PIN_SSR2 };
 
 void setup()
 {
@@ -354,19 +371,21 @@ void setup()
   activeState->addTransition(&toStandby, standbyState);
   errorState->addTransition(&toStandby, standbyState);
 
-  initTCs();
-  monitor.initialize();
-
-  for (int i = 0; i < NUM_SENSORS; i++)
+  for (int i = 0; i < NUM_CTRL; i++)
   {
-    pidControllers[i] = new PID(&input[i], &output[i], &pData.setpoint[i], pData.Kp[i], pData.Ki[i], pData.Kd[i], DIRECT);
-    pidControllers[i]->SetMode(AUTOMATIC);
-    pidControllers[i]->SetSampleTime(CONTROL_INTERVAL);
-    pidControllers[i]->SetOutputLimits(0, 255);
+    // Initialize thermocouples
+    thermocouples[i].begin();
+
+    // Initialize PID controllers
+    pidControllers[i].SetMode(AUTOMATIC);
+    pidControllers[i].SetSampleTime(CONTROL_INTERVAL);
+    pidControllers[i].SetOutputLimits(0, 255);
   }
 
   pinMode(PIN_SSR1, OUTPUT);
   pinMode(PIN_SSR2, OUTPUT);
+
+  monitor.initialize();
 
   initializeEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, ENCSTEPS);
   initializeLCD();
@@ -391,7 +410,7 @@ void setup()
   setKiLine.attach_function(FUNC_USE, toggleToggler);
 
   setKdLine.attach_function(FUNC_INCRT, incrementKd);
-  setKdLine.attach_function(FUNC_USE, toggleToggler); 
+  setKdLine.attach_function(FUNC_USE, toggleToggler);
 
   // Set decimal places for main screen
   tempsLine.set_decimalPlaces(0);
@@ -464,23 +483,27 @@ void mainProgram()
   handleSerialCommands();
 #endif
 
+  // Update control every CONTROL_INTERVAL milliseconds
   if (millis() - timing.lut.control >= CONTROL_INTERVAL)
   {
     timing.lut.control = millis();
-    tempData = readTemps();
-    tempData = processTempData(tempData);
-    pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, tempData.temperatures);
+    readTemps();
+    pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, pData.temp);
     if (currentState == prepState || currentState == activeState)
     {
-      controlData = controlLogic(tempData);
+      writeRelays(pData.output, relayPins);
     }
     else
     {
-      noOutputs(controlData);
+      for (int i = 0; i < NUM_CTRL; i++)
+      {
+        pData.output[i] = 0;
+      }
+      writeRelays(pData.output, relayPins);
     }
-    writeRelays(controlData.outputs);
   }
 
+  // Update GUI every GUI_INTERVAL milliseconds
   if (millis() - timing.lut.gui >= GUI_INTERVAL)
   {
     timing.lut.gui = millis();
@@ -491,6 +514,7 @@ void mainProgram()
     updateLcdGui();
   }
 
+  // Log data every LOG_INTERVAL milliseconds
   if (millis() - timing.lut.log >= LOG_INTERVAL)
   {
     timing.lut.log = millis();
@@ -601,8 +625,8 @@ bool toHeating()
   // if the criteria is met to exit preeating and enter heating, that is when
   // both temperatures have reached or exceeded their respective setpoints
   return currMState == ACTIVE ||
-         (machine.getCurrentState() == prepState && tempData.temperatures[0] >= pData.setpoint[0] &&
-          tempData.temperatures[1] >= pData.setpoint[1]);
+         (machine.getCurrentState() == prepState && pData.temp[0] >= pData.setpoint[0] &&
+          pData.temp[1] >= pData.setpoint[1]);
 }
 
 bool toTerminating()
@@ -618,7 +642,7 @@ bool toStandby()
   // Transition to Standby if the current state is manually set to Standby or,
   // if both temperatures have cooled are below the termination threshold
   return currMState == STANDBY ||
-         (machine.getCurrentState() == termState && tempData.temperatures[0] <= TERM_TEMP && tempData.temperatures[1] <= TERM_TEMP);
+         (machine.getCurrentState() == termState && pData.temp[0] <= TERM_TEMP && pData.temp[1] <= TERM_TEMP);
 }
 
 bool toError()
@@ -626,6 +650,47 @@ bool toError()
   // Transition to Error if the current state is manually set to Error or,
   // if a thermal runaway is detected
   return currMState == ERROR || pData.traStatus > 0;
+}
+
+double lastValidTemp[NUM_CTRL] = {0};
+uint8_t consecutiveErrors[NUM_CTRL] = {0};
+uint8_t consecutiveErrorLimit = 10;
+
+// Temperature functions
+void readTemps()
+{
+  double newTemp[NUM_CTRL] = {0};
+  // Read temperatures from the thermocouples
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    newTemp[i] = thermocouples[i].readCelsius();
+    pData.tempError[i] = thermocouples[i].readError();
+  }
+  // Process the temperature data
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    if (newTemp[i] == 0 || pData.tempError[i])
+    {
+      consecutiveErrors[i]++;
+      if (consecutiveErrors[i] >= consecutiveErrorLimit)
+      {
+        // Set temperature to 0 if error limit is reached
+        pData.temp[i] = 0;
+      }
+      else
+      {
+        // Replace with last valid temperature if current reading is zero or an error
+        pData.temp[i] = lastValidTemp[i];
+      }
+    }
+    else
+    {
+      // Update last valid temperature
+      lastValidTemp[i] = newTemp[i];
+      pData.temp[i] = newTemp[i];
+      consecutiveErrors[i] = 0; // Reset error count on valid reading
+    }
+  }
 }
 
 #ifdef SDCARD
@@ -685,15 +750,15 @@ void logData(const char *stateName)
 
   if (open)
   {
-    file.print(tempData.temperatures[0], 0);
+    file.print(pData.temp[0], 0);
     file.print(",");
-    file.print(tempData.temperatures[1], 0);
+    file.print(pData.temp[1], 0);
     file.print(",");
     file.print(pData.getSetpoint(0), 0);
     file.print(",");
-    file.print(controlData.outputs[0], 0);
+    file.print(pData.output[0], 0);
     file.print(",");
-    file.print(controlData.outputs[1], 0);
+    file.print(pData.output[1], 0);
     file.print(",");
     file.print(pData.getKp(0), 2);
     file.print(",");
@@ -781,10 +846,9 @@ void handleSerialCommands()
       if (strncmp(received, "st=", 3) == 0)
       {
         double newSetpoint = atof(received + 3);
-        for (int i = 0; i < NUM_SENSORS; i++)
+        for (int i = 0; i < NUM_CTRL; i++)
         {
           pData.setSetpoint(i, newSetpoint);
-          setPIDPoint(i, pData.setpoint[i]);
         }
       }
       else if (strncmp(received, "dt=", 3) == 0)
@@ -810,28 +874,28 @@ void handleSerialCommands()
       else if (strncmp(received, "kp=", 3) == 0)
       {
         double newKp = atof(received + 3);
-        for (int i = 0; i < NUM_SENSORS; i++)
+        for (int i = 0; i < NUM_CTRL; i++)
         {
           pData.setKp(i, newKp);
-          setPIDTuning(i, newKp, pData.getKi(i), pData.getKd(i));
+          pidControllers[i].SetTunings(newKp, pData.getKi(i), pData.getKd(i));
         }
       }
       else if (strncmp(received, "ki=", 3) == 0)
       {
         double newKi = atof(received + 3);
-        for (int i = 0; i < NUM_SENSORS; i++)
+        for (int i = 0; i < NUM_CTRL; i++)
         {
           pData.setKi(i, newKi);
-          setPIDTuning(i, pData.getKp(i), newKi, pData.getKd(i));
+          pidControllers[i].SetTunings(pData.getKp(i), newKi, pData.getKd(i));
         }
       }
       else if (strncmp(received, "kd=", 3) == 0)
       {
         double newKd = atof(received + 3);
-        for (int i = 0; i < NUM_SENSORS; i++)
+        for (int i = 0; i < NUM_CTRL; i++)
         {
           pData.setKd(i, newKd);
-          setPIDTuning(i, pData.getKp(i), pData.getKi(i), newKd);
+          pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), newKd);
         }
       }
       else if (strcmp(received, "prep") == 0)
@@ -880,9 +944,9 @@ void printData(const char *stateName)
 {
   Serial.print(stateName);
   Serial.print(F(", T1:"));
-  Serial.print(tempData.temperatures[0], 2);
+  Serial.print(pData.temp[0], 2);
   Serial.print(F(", T2:"));
-  Serial.print(tempData.temperatures[1], 2);
+  Serial.print(pData.temp[1], 2);
   Serial.print(F(", ST:"));
   Serial.print(pData.getSetpoint(0), 0);
   if (pData.getTraStatus() == -1)
@@ -894,9 +958,9 @@ void printData(const char *stateName)
     Serial.print(F("**"));
   }
   Serial.print(F(", O1:"));
-  Serial.print(controlData.outputs[0], 0);
+  Serial.print(pData.output[0], 0);
   Serial.print(F(", O2:"));
-  Serial.print(controlData.outputs[1], 0);
+  Serial.print(pData.output[1], 0);
   Serial.print(F(", Elapsed:"));
   Serial.print((double)timing.ct.elapsed / MINUTE, 2);
   Serial.print(F("m, Remaining:"));
@@ -942,7 +1006,7 @@ void initializeDefaultProgramData(boolean full)
   pData.setDuration = DEF_HEATING_DURATION;
   pData.fileCount = 0;
 
-  for (int i = 0; i < NUM_SENSORS; i++)
+  for (int i = 0; i < NUM_CTRL; i++)
   {
     pData.setSetpoint(i, DEF_SETPOINT, true);
     pData.setKp(i, DEF_KP, true);

@@ -21,14 +21,14 @@ public:
     ThermalRunawayMonitor(int historySize = HISTORY_SIZE);
 
     void initialize();
-    int updateThermalRunaway(const double setpoints[NUM_SENSORS], const double temps[NUM_SENSORS]);
+    int updateThermalRunaway(const double setpoints[NUM_CTRL], const double temps[NUM_CTRL]);
     void addTemperatureReading(int sensorIndex, double temperature);
 
 private:
-    unsigned long runawayCycles[NUM_SENSORS];
-    double temperatureHistory[NUM_SENSORS][HISTORY_SIZE];
+    unsigned long runawayCycles[NUM_CTRL];
+    double temperatureHistory[NUM_CTRL][HISTORY_SIZE];
     int historySize;
-    int headIndex[NUM_SENSORS];  // Tracks the start of the circular buffer for each sensor
+    int headIndex[NUM_CTRL];  // Tracks the start of the circular buffer for each sensor
 
     double getTemperatureAt(int sensorIndex, int offset);
 };

@@ -4,21 +4,20 @@
 #define SERIALCMD 1
 #define SDCARD 1
 
-// Number of Sensors and Relays, needs more work
-// to allow for more cohesive definition of these
-// values connected with the hardware
-#define NUM_SENSORS 2
-#define NUM_RELAYS 2
+// ------------------------------
+// Number of control loops
+#define NUM_CTRL 2
 
 // Thermocouple Pins
 #define PIN_TC_DO 4
 #define PIN_TC_CLK 5
-#define PIN_TC_CS1 6
-#define PIN_TC_CS2 7
+#define PIN_TC_CS1 6 // CS1 is for the first thermocouple
+#define PIN_TC_CS2 7 // CS2 is for the second thermocouple
 
 // Relay Pins
-#define PIN_SSR1 8
-#define PIN_SSR2 9
+#define PIN_SSR1 8 // SSR1 is for the first relay
+#define PIN_SSR2 9 // SSR2 is for the second relay
+// ------------------------------
 
 // SD Card Pins
 #define SD_CS 10
@@ -45,8 +44,6 @@
 #define EE_UNIQUEID 0x18fae9c8
 #define EE_FULL_RESET true
 #define EE_PARTIAL_RESET false
-
-#define RELAY_PWM_PERIOD 1000 // 1 Hz (1000 ms)
 
 #define MAX_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 
