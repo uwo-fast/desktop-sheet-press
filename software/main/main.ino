@@ -1,16 +1,18 @@
 #include "config.h"
 
-#include "StateMachine.h"
-
 #include "monitoring.h"
 #include "relay.h"
 
-#include "gui.h"
+#include "states.h"
 
 #include <EEPROM.h>
 
 #include <Adafruit_MAX31855.h>
 #include <PID_v1.h>
+
+#ifdef GUI
+#include "gui.h"
+#endif
 
 #ifdef SDCARD
 #include <SdFat.h>
@@ -64,9 +66,9 @@ struct ProgramData
   double Kp[NUM_CTRL];             // Kp is the proportional gain the PID controllers
   double Ki[NUM_CTRL];             // Ki is the integral gain the PID controllers
   double Kd[NUM_CTRL];             // Kd is the derivative gain the PID controllers
-  int fileCount;                   // Number of log files created, used for naming
+  int16_t fileCount;               // Number of log files created, used for naming
   bool sdActive;                   // Indicates that the SD card is active
-  int traStatus;                   // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
+  int8_t traStatus;                // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
   bool isInvalid = false;          // Indicates that the last operation was invalid
   int16_t incr;                    // Increment value for encoder, used for setting values in GUI
                                    // for setpoint, Kp, Ki, Kd and other parameters dependent on NUM_CTRL this leads
@@ -101,7 +103,7 @@ struct ProgramData
   {
     return Kd[index];
   }
-  int getFileCount() const
+  int16_t getFileCount() const
   {
     return fileCount;
   }
@@ -109,7 +111,7 @@ struct ProgramData
   {
     return sdActive;
   }
-  int getTraStatus() const
+  int8_t getTraStatus() const
   {
     return traStatus;
   }
@@ -158,7 +160,7 @@ struct ProgramData
     setDurationMinutes = setDuration / MINUTE;
   }
 
-  void setFileCount(int value)
+  void setFileCount(int16_t value)
   {
     fileCount = value;
   }
@@ -168,7 +170,7 @@ struct ProgramData
     sdActive = value;
   }
 
-  void setTraStatus(int value)
+  void setTraStatus(int8_t value)
   {
     traStatus = value;
   }
@@ -183,6 +185,9 @@ Adafruit_MAX31855 thermocouples[NUM_CTRL] = {
 // PID
 PID pidControllers[NUM_CTRL] = {PID(&pData.temp[0], &pData.output[0], &pData.setpoint[0], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT),
                                 PID(&pData.temp[1], &pData.output[1], &pData.setpoint[1], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT)};
+
+// Relay pins
+const int relayPins[NUM_CTRL] = {PIN_SSR1, PIN_SSR2};
 
 struct CountTimers
 {
@@ -213,24 +218,35 @@ struct Timing
 
 Timing timing = {0};
 
-StateMachine machine = StateMachine();
+const char standbyStr[] PROGMEM = "standby";
+const char preparingStr[] PROGMEM = "preparing";
+const char activeStr[] PROGMEM = "active";
+const char terminatingStr[] PROGMEM = "terminating";
+const char errorStr[] PROGMEM = "error";
 
-State *standbyState = machine.addState(&standby, "standby");
-State *prepState = machine.addState(&preparing, "preheat");
-State *activeState = machine.addState(&active, "heating");
-State *termState = machine.addState(&terminating, "cooling");
-State *errorState = machine.addState(&error, "error");
+const char *const MachineStateNames[MACHINE_STATE_COUNT] PROGMEM = {
+    standbyStr,
+    preparingStr,
+    activeStr,
+    terminatingStr,
+    errorStr};
 
-enum MachineState
+const char *getMachineStateName(MachineState state)
 {
-  STANDBY,
-  PREPARING,
-  ACTIVE,
-  TERMINATING,
-  ERROR,
-};
+  static char buffer[16]; // Adjust size as needed
+  if (state >= 0 && state < MACHINE_STATE_COUNT)
+  {
+    strcpy_P(buffer, (char *)pgm_read_word(&(MachineStateNames[state])));
+    return buffer;
+  }
+  else
+  {
+    return "unknown";
+  }
+}
 
 MachineState currMState = STANDBY;
+MachineState prevMState = MACHINE_STATE_COUNT; // Initialize to an invalid state
 
 #define SET_STATE(state) (currMState = (state))
 
@@ -238,14 +254,15 @@ MachineState currMState = STANDBY;
 #define SET_PREPARING() SET_STATE(PREPARING)
 #define SET_ACTIVE() SET_STATE(ACTIVE)
 #define SET_TERMINATING() SET_STATE(TERMINATING)
-#define SET_ERROR() SET_STATE(ERROR)
+#define SET_ERROR() SET_STATE(ERROR_STATE)
 
 ThermalRunawayMonitor monitor;
 
-// Blank function, it is attached to the lines so that they become focusable.
+#ifdef GUI
+// Functions to wrap the state transitions for GUI
 void startProcess()
 {
-  if (machine.getCurrentState() == standbyState)
+  if (currMState == STANDBY)
   {
     SET_PREPARING();
   }
@@ -253,11 +270,11 @@ void startProcess()
 
 void skipSubProcess()
 {
-  if (machine.getCurrentState() == prepState)
+  if (currMState == PREPARING)
   {
     SET_ACTIVE();
   }
-  else if (machine.getCurrentState() == activeState)
+  else if (currMState == ACTIVE)
   {
     SET_TERMINATING();
   }
@@ -314,7 +331,7 @@ void incrementKd()
   }
 }
 
-char currStateName[8] = "standby";
+char currStateName[16] = "standby";
 
 LiquidLine tempsLine(1, 0, "T:", pData.temp[0], ",", pData.temp[1]);
 LiquidLine setpointLine(10, 0, " S:", pData.setpoint[0]);
@@ -335,8 +352,7 @@ LiquidScreen screenOptions(backLine);
 LiquidLine error1(0, 0, "Error, see log.");
 LiquidLine error2(0, 1, "Reset Device...");
 LiquidScreen screenError(error1, error2);
-
-const int relayPins[NUM_CTRL] = {PIN_SSR1, PIN_SSR2};
+#endif
 
 void setup()
 {
@@ -361,26 +377,6 @@ void setup()
   }
 #endif // SDCARD
 
-  // Add transitions
-  standbyState->addTransition(&toPreheating, prepState);
-  standbyState->addTransition(&toError, errorState);
-
-  prepState->addTransition(&toHeating, activeState);
-  prepState->addTransition(&toError, errorState);
-
-  activeState->addTransition(&toTerminating, termState);
-  activeState->addTransition(&toError, errorState);
-
-  termState->addTransition(&toStandby, standbyState);
-  termState->addTransition(&toError, errorState);
-
-  errorState->addTransition(&toStandby, standbyState);
-
-  // Add transition to standby from any state on button hold
-  prepState->addTransition(&toStandby, standbyState);
-  activeState->addTransition(&toStandby, standbyState);
-  errorState->addTransition(&toStandby, standbyState);
-
   for (int i = 0; i < NUM_CTRL; i++)
   {
     // Initialize thermocouples
@@ -388,16 +384,17 @@ void setup()
 
     // Initialize PID controllers
     pidControllers[i].SetMode(AUTOMATIC);
-    // pidControllers[i].SetSampleTime(CONTROL_INTERVAL);
     pidControllers[i].SetOutputLimits(0, 255);
+    pidControllers[i].SetSampleTime(CONTROL_INTERVAL);
     pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
   }
 
-  pinMode(PIN_SSR1, OUTPUT);
-  pinMode(PIN_SSR2, OUTPUT);
+  pinMode(relayPins[0], OUTPUT);
+  pinMode(relayPins[1], OUTPUT);
 
   monitor.initialize();
 
+#ifdef GUI
   initializeEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, ENCSTEPS);
   initializeLCD();
 
@@ -455,26 +452,18 @@ void setup()
   screenOptions.set_displayLineCount(2);
 
   initializeLcdGui();
+#endif
 
   Serial.println(F("System initialized"));
 }
 
-void loop()
-{
-  machine.run();
-  for (int i = 0; i < NUM_CTRL; i++)
-  {
-    pidControllers[i].Compute();
-  }
-}
-
-void updateTiming(State *currentState)
+void updateTiming()
 {
   unsigned long lutMasterOld = timing.lut.master;
   timing.lut.master = millis();
 
   timing.ct.elapsed = timing.lut.master - timing.pit.preStart;
-  if (timing.lut.master > 0 && currentState == activeState)
+  if (timing.lut.master > 0 && currMState == ACTIVE)
   {
     unsigned long elapsedSinceLastUpdate = timing.lut.master - lutMasterOld;
     timing.ct.durationRemaining = (timing.ct.durationRemaining > elapsedSinceLastUpdate) ? (timing.ct.durationRemaining - elapsedSinceLastUpdate) : 0;
@@ -483,15 +472,68 @@ void updateTiming(State *currentState)
   pData.remainingDurationMinutes = pData.remainingDuration / MINUTE;
 }
 
-void mainProgram()
+void loop()
 {
+
+  if (currMState != prevMState)
+  {
+    // State has changed, execute "on entry" actions for the new state
+    switch (currMState)
+    {
+    case STANDBY:
+      enterStandbyState();
+      break;
+
+    case PREPARING:
+      enterPreparingState();
+      break;
+
+    case ACTIVE:
+      enterActiveState();
+      break;
+
+    case TERMINATING:
+      enterTerminatingState();
+      break;
+
+    case ERROR_STATE:
+      enterErrorState();
+      break;
+
+    default:
+      Serial.println(F("Unknown state encountered!"));
+      break;
+    }
+
+    prevMState = currMState;
+  }
+
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    // This is actually quite important, and caused me a lot of headache.
+    // Safeguard against NaN (Not a Number) outputs from PID controllers,
+    // which can occur if the temperature sensor provides invalid readings.
+    // This occurs every once in a while with the MAX31855 thermocouple amplifier.
+    // If the PID output is NaN, perform a bumpless reset by:
+    // 1. Switching the PID controller to MANUAL mode to halt automatic control.
+    // 2. Resetting the output to 0 to ensure no erroneous signals are sent to actuators.
+    // 3. Switching back to AUTOMATIC mode to reinitialize the PID controller's internal state.
+    // This prevents the NaN value from persisting and propagating through subsequent control cycles.
+    if (isnan(pData.output[i]))
+    {
+      pidControllers[i].SetMode(MANUAL);
+      pData.output[i] = 0;
+      pidControllers[i].SetMode(AUTOMATIC); // Bumpless reset of the PID internal values to match Output.
+    }
+
+    pidControllers[i].Compute();
+  }
+
   updateEeprom();
 
-  State *currentState = machine.getCurrentState();
-
-  if (currentState == prepState || currentState == activeState)
+  if (currMState == PREPARING || currMState == ACTIVE)
   {
-    updateTiming(currentState);
+    updateTiming();
   }
 
 #ifdef SERIALCMD
@@ -504,7 +546,7 @@ void mainProgram()
     timing.lut.control = millis();
     readTemps();
     pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, pData.temp);
-    if (currentState == prepState || currentState == activeState)
+    if (currMState == PREPARING || currMState == ACTIVE)
     {
       for (int i = 0; i < NUM_CTRL; i++)
       {
@@ -516,156 +558,89 @@ void mainProgram()
     {
       for (int i = 0; i < NUM_CTRL; i++)
       {
-        pData.output[i] = 0;
         pidControllers[i].SetMode(MANUAL);
+        pData.output[i] = 0;
       }
       writeRelays(pData.output, relayPins);
     }
   }
 
+#ifdef GUI
   // Update GUI every GUI_INTERVAL milliseconds
   if (millis() - timing.lut.gui >= GUI_INTERVAL)
   {
     timing.lut.gui = millis();
-    strncpy(currStateName, machine.getStateName(), sizeof(currStateName) - 1);
+    strncpy(currStateName, getMachineStateName(currMState), sizeof(currStateName) - 1);
     currStateName[sizeof(currStateName) - 1] = '\0'; // null-termination
 
     pData.incr = processEncoderEvents();
     updateLcdGui();
   }
+#endif
 
   // Log data every LOG_INTERVAL milliseconds
   if (millis() - timing.lut.log >= LOG_INTERVAL)
   {
     timing.lut.log = millis();
 #ifdef SERIALCMD
-    printData(machine.getStateName());
+    printData();
 #endif // SERIALCMD
-    if (pData.sdActive && (currentState == prepState || currentState == activeState))
+    if (pData.sdActive && (currMState == PREPARING || currMState == ACTIVE))
     {
 #ifdef SDCARD
-      logData(machine.getStateName());
+      logData();
 #endif
     }
   }
 }
 
-// State functions
-void standby()
+// State entry functions
+void enterStandbyState()
 {
-  // State entry logic
-  if (machine.executeOnce)
-  {
-    SET_STANDBY();
-    timing = {0};
-    pData.remainingDuration = pData.remainingDurationMinutes = 0;
-    Serial.println(F("Entering standby state..."));
-  }
-
-  // Main program logic
-  mainProgram();
+  SET_STANDBY();
+  timing = {0};
+  pData.remainingDuration = pData.remainingDurationMinutes = 0;
+  Serial.println(F("Entering standby state..."));
 }
 
-void preparing()
+void enterPreparingState()
 {
-  if (machine.executeOnce)
-  {
-    SET_PREPARING();
+  SET_PREPARING();
 #ifdef SDCARD
-    Serial.println(F("Process beginning, machine preparing..."));
-    if (pData.sdActive)
+  Serial.println(F("Process beginning, machine preparing..."));
+  if (pData.sdActive)
+  {
+    Serial.println(F("Creating log file..."));
+    pData.fileCount++;
+    if (!openFile())
     {
-      Serial.println(F("Creating log file..."));
-      pData.fileCount++;
-      if (!openFile())
-      {
-        Serial.println(F("Failed to create new log file!"));
-      }
+      Serial.println(F("Failed to create new log file!"));
     }
+  }
 #endif
-    timing.pit.preStart = millis();
-    timing.ct.durationRemaining = pData.setDuration;
-    Serial.println(F("Timing set."));
-  }
-
-  // Main program logic
-  mainProgram();
+  timing.pit.preStart = millis();
+  timing.ct.durationRemaining = pData.setDuration;
+  Serial.println(F("Timing set."));
 }
 
-void active()
+void enterActiveState()
 {
-  // State entry logic
-  if (machine.executeOnce)
-  {
-    SET_ACTIVE();
-    Serial.println(F("Entering active process phase..."));
-    timing.pit.heatStart = millis();
-    Serial.println(F("Timing set, duration begun."));
-  }
-
-  // Main program logic
-  mainProgram();
+  SET_ACTIVE();
+  Serial.println(F("Entering active process phase..."));
+  timing.pit.heatStart = millis();
+  Serial.println(F("Timing set, duration begun."));
 }
 
-void terminating()
+void enterTerminatingState()
 {
-  // State entry logic
-  if (machine.executeOnce)
-  {
-    currMState = TERMINATING;
-    Serial.println(F("Terminating..."));
-  }
-
-  // Main program logic
-  mainProgram();
+  SET_TERMINATING();
+  Serial.println(F("Terminating..."));
 }
 
-void error()
+void enterErrorState()
 {
-  // State entry logic
-  if (machine.executeOnce)
-  {
-    SET_ERROR();
-    Serial.println(F("Error state reached."));
-  }
-
-  // Main program logic
-  mainProgram();
-}
-
-// Transition functions
-bool toPreheating()
-{
-  return currMState == PREPARING;
-}
-
-bool toHeating()
-{
-  // Transition to Heating if the current state is manually set to ACTIVE or,
-  // if the criteria is met to exit preeating and enter heating, that is when
-  // both temperatures have reached or exceeded their respective setpoints
-  return currMState == ACTIVE || (machine.getCurrentState() == prepState && pData.temp[0] >= pData.setpoint[0] && pData.temp[1] >= pData.setpoint[1]);
-}
-
-bool toTerminating()
-{
-  // Transition to Terminating if the current state is manually set to TERMINATING
-  // or, if the heating duration has elapsed (durationRemaining reaches 0)
-  return currMState == TERMINATING || (machine.getCurrentState() == activeState && timing.ct.durationRemaining == 0);
-}
-
-bool toStandby()
-{
-  // Transition to Standby if the current state is manually set to Standby or,
-  // if both temperatures have cooled are below the termination threshold
-  return currMState == STANDBY || (machine.getCurrentState() == termState && pData.temp[0] <= TERM_TEMP && pData.temp[1] <= TERM_TEMP);
-}
-
-bool toError()
-{
-  // Transition to Error if the current state is manually set to Error or,
-  // if a thermal runaway is detected
-  return currMState == ERROR || pData.traStatus > 0;
+  SET_ERROR();
+  Serial.println(F("Error state reached."));
 }
 
 double lastValidTemp[NUM_CTRL] = {0};
@@ -756,9 +731,8 @@ bool openFile()
  * PID parameters, and elapsed/remaining time to the file. The file is then closed.
  * If the file cannot be opened, an error is printed to the Serial monitor.
  *
- * @param stateName The name of the current state (not used in this implementation).
  */
-void logData(const char *stateName)
+void logData()
 {
   char fileName[20];
   sprintf(fileName, "log%d.txt", pData.fileCount);
@@ -803,7 +777,7 @@ void setDurationSetter(unsigned long newSetDuration)
   {
     newSetDuration = MAX_DURATION;
   }
-  if (machine.getCurrentState() == prepState || machine.getCurrentState() == activeState)
+  if (currMState == PREPARING || currMState == ACTIVE)
   {
     unsigned long deltaDuration = newSetDuration - oldSetDuration;
     if (timing.ct.durationRemaining + deltaDuration >= 0)
@@ -822,7 +796,7 @@ void remainingDurationSetter(unsigned long newRemainingDuration)
 {
   unsigned long oldRemainingDuration = timing.ct.durationRemaining;
   newRemainingDuration *= MINUTE; // convert from minutes input to internal milliseconds
-  if (machine.getCurrentState() == activeState)
+  if (currMState == ACTIVE)
   {
     if (newRemainingDuration >= 0)
     {
@@ -954,11 +928,10 @@ void handleSerialCommands()
  * This function outputs the current state, temperatures, setpoint, control outputs,
  * elapsed time, remaining time, and PID parameters to the serial monitor.
  *
- * @param stateName The name of the current state to be printed.
  */
-void printData(const char *stateName)
+void printData()
 {
-  Serial.print(stateName);
+  Serial.print(getMachineStateName(currMState));
   Serial.print(F(", T1:"));
   Serial.print(pData.temp[0], 2);
   Serial.print(F(", T2:"));
@@ -974,9 +947,9 @@ void printData(const char *stateName)
     Serial.print(F("**"));
   }
   Serial.print(F(", O1:"));
-  Serial.print(pData.output[0], 0);
+  Serial.print(pData.output[0]);
   Serial.print(F(", O2:"));
-  Serial.print(pData.output[1], 0);
+  Serial.print(pData.output[1]);
   Serial.print(F(", Elapsed:"));
   Serial.print((double)timing.ct.elapsed / MINUTE, 2);
   Serial.print(F("m, Remaining:"));
@@ -985,11 +958,11 @@ void printData(const char *stateName)
   Serial.print((double)pData.getSetDuration() / MINUTE, 2);
   Serial.print(F("m"));
   Serial.print(F(", Kp:"));
-  Serial.print(pData.getKp(0), 2);
+  Serial.print(pData.getKp(0), 3);
   Serial.print(F(", Ki:"));
-  Serial.print(pData.getKi(0), 2);
+  Serial.print(pData.getKi(0), 3);
   Serial.print(F(", Kd:"));
-  Serial.print(pData.getKd(0), 2);
+  Serial.print(pData.getKd(0), 3);
   Serial.println(".");
 }
 #endif // SERIALCMD

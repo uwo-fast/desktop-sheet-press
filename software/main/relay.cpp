@@ -2,12 +2,12 @@
 #include <Arduino.h>
 
 // Function to control relays using slow PWM
-unsigned long slowPWM(int SSRn, unsigned long &cycleStart, double output)
+unsigned long slowPWM(int SSRn, unsigned long &cycleStart, double value)
 {
     // Get current time in milliseconds
     unsigned long currentMillis = millis();
 
-    double dutyCycle = output / 255.0;
+    double dutyCycle = value / 255.0;
     
     // If the cycle is complete, reset the cycle start time
     if (currentMillis - cycleStart > RELAY_PWM_PERIOD)

@@ -1,84 +1,51 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "config/hardware_config.h" // This file contains hardware-specific configurations such as pin assignments
+#include "config/limits_config.h"   // This file contains the limits for the various parameters used in the program
+#include "config/timing_config.h"   // This file contains the timing intervals for the control loop and other processes
+#include "config/eeprom_config.h"   // This file contains the EEPROM settings for the program
+
+// ------------------------------
+// Feature Enable/Disable
+// ------------------------------
+
+// Comment/uncomment the following to enable the corresponding feature
+
+// This is for the serial command line interface
 #define SERIALCMD 1
+
+// This is for the SD card logging
 #define SDCARD 1
 
-// ------------------------------
-// Number of control loops
-#define NUM_CTRL 2
+// This is for the LCD + encoder GUI
+#define GUI 1
 
-// Thermocouple Pins
-#define PIN_TC_DO 4
-#define PIN_TC_CLK 5
-#define PIN_TC_CS1 6 // CS1 is for the first thermocouple
-#define PIN_TC_CS2 7 // CS2 is for the second thermocouple
-
-// Relay Pins
-#define PIN_SSR1 8 // SSR1 is for the first relay
-#define PIN_SSR2 9 // SSR2 is for the second relay
-// ------------------------------
-
-// SD Card Pins
-#define SD_CS 10
-#define SD_MOSI 11
-#define SD_MISO 12
-#define SD_SCK 13
-
-// Rotary Encoder Pins
-#define PIN_ENC_SW 17
-#define PIN_ENC_CLK 2
-#define PIN_ENC_DT 3
-#define ENCSTEPS 4
 #define REVERSE_ENCODER 1 // uncomment if your encoder is reversed
 
-// Timing Intervals
-#define CONTROL_INTERVAL 100 // 10 Hz (100 ms) ; same as default PID sample time
-#define GUI_INTERVAL 200     // 5 Hz (200 ms)
-#define LOG_INTERVAL 2000    // 0.5 Hz (2000 ms)
-
-// EEPROM Settings
-#define EEPROM_UPDATE_T 10000
-#define EEA_ID 0
-#define EEA_PDATA (EEA_ID + 4)
-#define EE_UNIQUEID 0x18fae9c8
-#define EE_FULL_RESET true
-#define EE_PARTIAL_RESET false
-
-#define MAX_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
+// ------------------------------
+// Default Settings
+// ------------------------------
 
 // Default Heating Process Settings
 #define DEF_SETPOINT 250
 #define DEF_HEATING_DURATION 3000000 // 50 minutes
 
-// Preheat to Heat Settings !!!!!!!!
-#define DEF_PRE_TO_HEAT_TEMP_OFFSET 5
-#define DEF_PRE_TO_HEAT_HOLD_TIME 10 * 1000
-#define TERM_TEMP 40
-
 // PID Default Settings
-#define DEF_KP 1
+#define DEF_KP 5
 #define DEF_KI 0.01
 #define DEF_KD 0.001
 
-// Limits for pData
-#define MIN_TEMP 0
-#define MAX_TEMP 480
-#define MIN_KP 0
-#define MAX_KP 2000
-#define MIN_KI 0
-#define MAX_KI 500
-#define MIN_KD 0
-#define MAX_KD 100
-#define MIN_CP 1
-#define MAX_CP 5
-#define MIN_CI 1
-#define MAX_CI 5
-#define MIN_CD 1
-#define MAX_CD 5
-#define MIN_GAP_THRESHOLD 5
-#define MAX_GAP_THRESHOLD 50
-#define MIN_SET_DURATION 1000
-#define MAX_SET_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
+// ------------------------------
+// Miscalleanous
+// ------------------------------
+
+// Number of Control Loops
+#define NUM_CTRL 2
+
+// Preheat to Heat Settings
+#define DEF_PRE_TO_HEAT_TEMP_OFFSET 5
+#define DEF_PRE_TO_HEAT_HOLD_TIME 10 * 1000
+#define TERM_TEMP 40
 
 #endif // CONFIG_H
