@@ -33,7 +33,7 @@
 #define REVERSE_ENCODER 1 // uncomment if your encoder is reversed
 
 // Timing Intervals
-#define CONTROL_INTERVAL 100 // 10 Hz (100 ms)
+#define CONTROL_INTERVAL 100 // 10 Hz (100 ms) ; same as default PID sample time
 #define GUI_INTERVAL 200     // 5 Hz (200 ms)
 #define LOG_INTERVAL 2000    // 0.5 Hz (2000 ms)
 
@@ -48,7 +48,7 @@
 #define MAX_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 
 // Default Heating Process Settings
-#define DEF_SETPOINT 25
+#define DEF_SETPOINT 250
 #define DEF_HEATING_DURATION 3000000 // 50 minutes
 
 // Preheat to Heat Settings !!!!!!!!
@@ -57,13 +57,9 @@
 #define TERM_TEMP 40
 
 // PID Default Settings
-#define DEF_KP 50
-#define DEF_KI 1
-#define DEF_KD 0.2
-#define DEF_CP 1
-#define DEF_CI 1
-#define DEF_CD 1
-#define DEF_GAP_THRESHOLD 10
+#define DEF_KP 1
+#define DEF_KI 0.01
+#define DEF_KD 0.001
 
 // Limits for pData
 #define MIN_TEMP 0
@@ -83,6 +79,6 @@
 #define MIN_GAP_THRESHOLD 5
 #define MAX_GAP_THRESHOLD 50
 #define MIN_SET_DURATION 1000
-#define MAX_SET_DURATION 10800000 // 3 hours
+#define MAX_SET_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 
 #endif // CONFIG_H

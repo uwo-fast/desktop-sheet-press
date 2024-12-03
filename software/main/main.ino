@@ -64,10 +64,6 @@ struct ProgramData
   double Kp[NUM_CTRL];             // Kp is the proportional gain the PID controllers
   double Ki[NUM_CTRL];             // Ki is the integral gain the PID controllers
   double Kd[NUM_CTRL];             // Kd is the derivative gain the PID controllers
-  double Cp[NUM_CTRL];             // Cp would be for adaptive tuning
-  double Ci[NUM_CTRL];             // Ci would be for adaptive tuning
-  double Cd[NUM_CTRL];             // Cd would be for adaptive tuning
-  double gapThreshold[NUM_CTRL];   // Gap threshold would be for adaptive tuning
   int fileCount;                   // Number of log files created, used for naming
   bool sdActive;                   // Indicates that the SD card is active
   int traStatus;                   // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
@@ -77,21 +73,50 @@ struct ProgramData
                                    // to them being set to the same value for all control loops in the current implementation
 
   // Getters
-  unsigned long getSetDuration() const { return setDuration; }
-  unsigned long getRemainingDuration() const { return remainingDuration; }
-  float getSetDurationMinutes() const { return setDuration / MINUTE; }
-  double getSetpoint(int index) const { return setpoint[index]; }
-  double getKp(int index) const { return Kp[index]; }
-  double getKi(int index) const { return Ki[index]; }
-  double getKd(int index) const { return Kd[index]; }
-  double getCp(int index) const { return Cp[index]; }
-  double getCi(int index) const { return Ci[index]; }
-  double getCd(int index) const { return Cd[index]; }
-  double getGapThreshold(int index) const { return gapThreshold[index]; }
-  int getFileCount() const { return fileCount; }
-  bool isSdActive() const { return sdActive; }
-  int getTraStatus() const { return traStatus; }
-  bool getIsInvalid() const { return isInvalid; }
+  unsigned long getSetDuration() const
+  {
+    return setDuration;
+  }
+  unsigned long getRemainingDuration() const
+  {
+    return remainingDuration;
+  }
+  float getSetDurationMinutes() const
+  {
+    return setDuration / MINUTE;
+  }
+  double getSetpoint(int index) const
+  {
+    return setpoint[index];
+  }
+  double getKp(int index) const
+  {
+    return Kp[index];
+  }
+  double getKi(int index) const
+  {
+    return Ki[index];
+  }
+  double getKd(int index) const
+  {
+    return Kd[index];
+  }
+  int getFileCount() const
+  {
+    return fileCount;
+  }
+  bool isSdActive() const
+  {
+    return sdActive;
+  }
+  int getTraStatus() const
+  {
+    return traStatus;
+  }
+  bool getIsInvalid() const
+  {
+    return isInvalid;
+  }
 
   // Setters for array elements using the template with clamping option
   void setSetpoint(int index, double value, bool clampToLimits = false)
@@ -112,26 +137,6 @@ struct ProgramData
   void setKd(int index, double value, bool clampToLimits = false)
   {
     setArrayValue(Kd, index, value, static_cast<double>(MIN_KD), static_cast<double>(MAX_KD), isInvalid, clampToLimits);
-  }
-
-  void setCp(int index, double value, bool clampToLimits = false)
-  {
-    setArrayValue(Cp, index, value, static_cast<double>(MIN_CP), static_cast<double>(MAX_CP), isInvalid, clampToLimits);
-  }
-
-  void setCi(int index, double value, bool clampToLimits = false)
-  {
-    setArrayValue(Ci, index, value, static_cast<double>(MIN_CI), static_cast<double>(MAX_CI), isInvalid, clampToLimits);
-  }
-
-  void setCd(int index, double value, bool clampToLimits = false)
-  {
-    setArrayValue(Cd, index, value, static_cast<double>(MIN_CD), static_cast<double>(MAX_CD), isInvalid, clampToLimits);
-  }
-
-  void setGapThreshold(int index, double value, bool clampToLimits = false)
-  {
-    setArrayValue(gapThreshold, index, value, static_cast<double>(MIN_GAP_THRESHOLD), static_cast<double>(MAX_GAP_THRESHOLD), isInvalid, clampToLimits);
   }
 
   void setSetDuration(unsigned long value, bool clampToLimits = false)
@@ -158,21 +163,26 @@ struct ProgramData
     fileCount = value;
   }
 
-  void setSdActive(bool value) { sdActive = value; }
+  void setSdActive(bool value)
+  {
+    sdActive = value;
+  }
 
-  void setTraStatus(int value) { traStatus = value; }
+  void setTraStatus(int value)
+  {
+    traStatus = value;
+  }
 };
 
 ProgramData pData;
-
 // Initialize the thermocouples
 Adafruit_MAX31855 thermocouples[NUM_CTRL] = {
     Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO),
     Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO)};
 
 // PID
-PID pidControllers[NUM_CTRL] = {PID(&pData.temp[0], &pData.output[0], &pData.setpoint[0], pData.Kp[0], pData.Ki[0], pData.Kd[0], DIRECT),
-                                PID(&pData.temp[1], &pData.output[1], &pData.setpoint[1], pData.Kp[1], pData.Ki[1], pData.Kd[1], DIRECT)};
+PID pidControllers[NUM_CTRL] = {PID(&pData.temp[0], &pData.output[0], &pData.setpoint[0], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT),
+                                PID(&pData.temp[1], &pData.output[1], &pData.setpoint[1], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT)};
 
 struct CountTimers
 {
@@ -326,7 +336,7 @@ LiquidLine error1(0, 0, "Error, see log.");
 LiquidLine error2(0, 1, "Reset Device...");
 LiquidScreen screenError(error1, error2);
 
-const int relayPins[NUM_CTRL] = { PIN_SSR1, PIN_SSR2 };
+const int relayPins[NUM_CTRL] = {PIN_SSR1, PIN_SSR2};
 
 void setup()
 {
@@ -378,8 +388,9 @@ void setup()
 
     // Initialize PID controllers
     pidControllers[i].SetMode(AUTOMATIC);
-    pidControllers[i].SetSampleTime(CONTROL_INTERVAL);
+    // pidControllers[i].SetSampleTime(CONTROL_INTERVAL);
     pidControllers[i].SetOutputLimits(0, 255);
+    pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
   }
 
   pinMode(PIN_SSR1, OUTPUT);
@@ -451,6 +462,10 @@ void setup()
 void loop()
 {
   machine.run();
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    pidControllers[i].Compute();
+  }
 }
 
 void updateTiming(State *currentState)
@@ -491,6 +506,10 @@ void mainProgram()
     pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, pData.temp);
     if (currentState == prepState || currentState == activeState)
     {
+      for (int i = 0; i < NUM_CTRL; i++)
+      {
+        pidControllers[i].SetMode(AUTOMATIC);
+      }
       writeRelays(pData.output, relayPins);
     }
     else
@@ -498,6 +517,7 @@ void mainProgram()
       for (int i = 0; i < NUM_CTRL; i++)
       {
         pData.output[i] = 0;
+        pidControllers[i].SetMode(MANUAL);
       }
       writeRelays(pData.output, relayPins);
     }
@@ -624,25 +644,21 @@ bool toHeating()
   // Transition to Heating if the current state is manually set to ACTIVE or,
   // if the criteria is met to exit preeating and enter heating, that is when
   // both temperatures have reached or exceeded their respective setpoints
-  return currMState == ACTIVE ||
-         (machine.getCurrentState() == prepState && pData.temp[0] >= pData.setpoint[0] &&
-          pData.temp[1] >= pData.setpoint[1]);
+  return currMState == ACTIVE || (machine.getCurrentState() == prepState && pData.temp[0] >= pData.setpoint[0] && pData.temp[1] >= pData.setpoint[1]);
 }
 
 bool toTerminating()
 {
   // Transition to Terminating if the current state is manually set to TERMINATING
   // or, if the heating duration has elapsed (durationRemaining reaches 0)
-  return currMState == TERMINATING ||
-         (machine.getCurrentState() == activeState && timing.ct.durationRemaining == 0);
+  return currMState == TERMINATING || (machine.getCurrentState() == activeState && timing.ct.durationRemaining == 0);
 }
 
 bool toStandby()
 {
   // Transition to Standby if the current state is manually set to Standby or,
   // if both temperatures have cooled are below the termination threshold
-  return currMState == STANDBY ||
-         (machine.getCurrentState() == termState && pData.temp[0] <= TERM_TEMP && pData.temp[1] <= TERM_TEMP);
+  return currMState == STANDBY || (machine.getCurrentState() == termState && pData.temp[0] <= TERM_TEMP && pData.temp[1] <= TERM_TEMP);
 }
 
 bool toError()
@@ -1012,10 +1028,6 @@ void initializeDefaultProgramData(boolean full)
     pData.setKp(i, DEF_KP, true);
     pData.setKi(i, DEF_KI, true);
     pData.setKd(i, DEF_KD, true);
-    pData.setCp(i, DEF_CP, true);
-    pData.setCi(i, DEF_CI, true);
-    pData.setCd(i, DEF_CD, true);
-    pData.setGapThreshold(i, DEF_GAP_THRESHOLD, true);
     pData.setSdActive(false);
     pData.setTraStatus(TRA_NONE);
   }
