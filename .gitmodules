@@ -1,6 +1,0 @@
-[submodule "electrical/temperature-controller"]
-	path = electrical/temperature-controller
-	url = https://github.com/uwo-fast/temperature-controller.git
-[submodule "software/embedded-system-base"]
-	path = software/embedded-system-base
-	url = https://github.com/uwo-fast/embedded-system-base.git
