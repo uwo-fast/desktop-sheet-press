@@ -8,7 +8,7 @@ enum MachineState
     PREPARING,
     ACTIVE,
     TERMINATING,
-    ERROR_STATE, 
+    ERROR_STATE,
     MACHINE_STATE_COUNT
 };
 

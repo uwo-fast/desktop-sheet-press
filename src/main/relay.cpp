@@ -8,7 +8,7 @@ unsigned long slowPWM(int SSRn, unsigned long &cycleStart, double value)
     unsigned long currentMillis = millis();
 
     double dutyCycle = value / 255.0;
-    
+
     // If the cycle is complete, reset the cycle start time
     if (currentMillis - cycleStart > RELAY_PWM_PERIOD)
     {
