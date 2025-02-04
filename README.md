@@ -1,8 +1,10 @@
-# Open Source Scientidic Sheet Press: General Overview
+# Open Source Scientific Sheet Press: General Overview
+
+This repository contains the design assets for the publication [Open-source cold and hot scientific sheet press for investigating polymer-based material properties](https://doi.org/10.1016/j.ohx.2024.e00566), which details the development of an adaptable, open-source platform for polymer sheet pressing.".
 
 ## Description
 
-The Open Source Scientific Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles. This repository contains the main resources for the design of the physical press and it's manufacturing. Information and files regarding the electronics to run the device can be found at 
+The Open Source Scientific Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles. This repository contains the main resources for the design of the physical press and it's manufacturing.
 
 ### About the FAST Research Group
 
