@@ -6,14 +6,6 @@ This repository contains the design assets for the publication [Open-source cold
 
 The Open Source Scientific Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles. This repository contains the main resources for the design of the physical press and it's manufacturing.
 
-### About the FAST Research Group
-
-The Free Appropriate Sustainable Technology (FAST) research group, led by Professor Joshua Pearce, is based at Western University and focuses on driving sustainability innovations. The group works on a myriad of projects ranging from solar photovoltaic technology to alternative food to open-source hardware to distributed recycling and additive manufacturing (DRAM).
-
-This Open Source Sheet Press project is an initiative led by the FAST group, aligning with our broader goals of sustainable development and open-source technology. We are focused on developing solutions that not only contribute to recycling and sustainable manufacturing but also push the boundaries of what's possible through continuous research and innovation.
-
-For more information on the FAST group, please visit [FAST on Appropedia](https://www.appropedia.org/FAST).
-
 ## Key Features
 
 1. **Adaptability**: Engineered to work with a diverse range of plastic materials.
@@ -40,3 +32,11 @@ For more information on the FAST group, please visit [FAST on Appropedia](https:
 This repository will include multiple iterations and variations of the sheet press, acting as a living document for continuous development and enhancements.
 
 For detailed documentation, consult the respective folders and files within this repository.
+
+## About the FAST Research Group
+
+The Free Appropriate Sustainable Technology (FAST) research group, led by Professor Joshua Pearce, is based at Western University and focuses on driving sustainability innovations. The group works on a myriad of projects ranging from solar photovoltaic technology to alternative food to open-source hardware to distributed recycling and additive manufacturing (DRAM).
+
+This Open Source Sheet Press project is an initiative led by the FAST group, aligning with our broader goals of sustainable development and open-source technology. We are focused on developing solutions that not only contribute to recycling and sustainable manufacturing but also push the boundaries of what's possible through continuous research and innovation.
+
+For more information on the FAST group, please visit [FAST on Appropedia](https://www.appropedia.org/FAST).
