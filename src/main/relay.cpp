@@ -29,7 +29,7 @@ unsigned long slowPWM(int SSRn, unsigned long &cycleStart, double value)
 }
 
 // Wrapper function to write control data to relays
-void writeRelays(const double values[], int pins[])
+void writeRelays(const double values[], const int pins[])
 {
     static unsigned long cycleStarts[NUM_RELAY] = {0};
 
