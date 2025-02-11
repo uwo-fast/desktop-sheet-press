@@ -1,5 +1,9 @@
-#ifndef HARDWARE_CONFIG_H
-#define HARDWARE_CONFIG_H
+#ifndef HARDWARE_DEF_H
+#define HARDWARE_DEF_H
+
+// ------------------------------
+// Hardware Definition
+// ------------------------------
 
 // Thermocouple Pins
 #define PIN_TC_DO 4
@@ -10,7 +14,6 @@
 // Relay Pins
 #define PIN_SSR1 8 // SSR1 is for the first relay
 #define PIN_SSR2 9 // SSR2 is for the second relay
-// ------------------------------
 
 // SD Card Pins
 #define SD_CS 10
@@ -22,6 +25,8 @@
 #define PIN_ENC_SW 17
 #define PIN_ENC_CLK 2
 #define PIN_ENC_DT 3
-#define ENCSTEPS 4
+#define ENC_PULLUP false
+#define ENC_STEPS 4
+#define ENC_INTERRUP_MS 1000
 
-#endif // HARDWARE_CONFIG_H
+#endif // HARDWARE_DEF_H

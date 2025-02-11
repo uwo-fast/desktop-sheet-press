@@ -58,22 +58,21 @@ struct ProgramData
   uint8_t tempError[NUM_CTRL]; // TempError is the error flag for the TCs
   double output[NUM_CTRL];     // Output is the control signal for the PID controllers
 
-  unsigned long setDuration;       // Set duration in milliseconds for active state
-  unsigned long remainingDuration; // Remaining duration in milliseconds for active state
-  float setDurationMinutes;        // Set duration in minutes for active state
-  float remainingDurationMinutes;  // Remaining duration in minutes for active state
-  double setpoint[NUM_CTRL];       // Setpoint is the target temperature for the PID controllers
-  double Kp[NUM_CTRL];             // Kp is the proportional gain the PID controllers
-  double Ki[NUM_CTRL];             // Ki is the integral gain the PID controllers
-  double Kd[NUM_CTRL];             // Kd is the derivative gain the PID controllers
-  int16_t fileCount;               // Number of log files created, used for naming
-  bool sdActive;                   // Indicates that the SD card is active
-  int8_t traStatus;                // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
-  bool isInvalid = false;          // Indicates that the last operation was invalid
-  int16_t incr;                    // Increment value for encoder, used for setting values in GUI
-                                   // for setpoint, Kp, Ki, Kd and other parameters dependent on NUM_CTRL this leads
-                                   // to them being set to the same value for all control loops in the current implementation
-
+  unsigned long setDuration;             // Set duration in milliseconds for active state
+  unsigned long remainingDurationMillis; // Remaining duration in milliseconds for active state
+  float setDurationMinutes;              // Set duration in minutes for active state
+  float remainingDurationMinutes;        // Remaining duration in minutes for active state
+  double setpoint[NUM_CTRL];             // Setpoint is the target temperature for the PID controllers
+  double Kp[NUM_CTRL];                   // Kp is the proportional gain the PID controllers
+  double Ki[NUM_CTRL];                   // Ki is the integral gain the PID controllers
+  double Kd[NUM_CTRL];                   // Kd is the derivative gain the PID controllers
+  int16_t fileCount;                     // Number of log files created, used for naming
+  bool sdActive;                         // Indicates that the SD card is active
+  int8_t traStatus;                      // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
+  bool isInvalid = false;                // Indicates that the last operation was invalid
+  int16_t incr;                          // Increment value for encoder, used for setting values in GUI
+                                         // for setpoint, Kp, Ki, Kd and other parameters dependent on NUM_CTRL this leads
+                                         // to them being set to the same value for all control loops in the current implementation
   // Getters
   unsigned long getSetDuration() const
   {
@@ -81,7 +80,7 @@ struct ProgramData
   }
   unsigned long getRemainingDuration() const
   {
-    return remainingDuration;
+    return remainingDurationMillis;
   }
   float getSetDurationMinutes() const
   {
@@ -211,9 +210,9 @@ struct LastUpdateTime
 
 struct Timing
 {
-  CountTimers ct;
-  PointInTime pit;
-  LastUpdateTime lut;
+  CountTimers ct;     // Counters
+  PointInTime pit;    // Point in time
+  LastUpdateTime lut; // Last update time
 };
 
 Timing timing = {0};
@@ -223,13 +222,15 @@ const char preparingStr[] PROGMEM = "preparing";
 const char activeStr[] PROGMEM = "active";
 const char terminatingStr[] PROGMEM = "terminating";
 const char errorStr[] PROGMEM = "error";
+const char sudoStr[] PROGMEM = "sudo";
 
 const char *const MachineStateNames[MACHINE_STATE_COUNT] PROGMEM = {
     standbyStr,
     preparingStr,
     activeStr,
     terminatingStr,
-    errorStr};
+    errorStr,
+    sudoStr};
 
 const char *getMachineStateName(MachineState state)
 {
@@ -248,14 +249,6 @@ const char *getMachineStateName(MachineState state)
 MachineState currMState = STANDBY;
 MachineState prevMState = MACHINE_STATE_COUNT; // Initialize to an invalid state
 
-#define SET_STATE(state) (currMState = (state))
-
-#define SET_STANDBY() SET_STATE(STANDBY)
-#define SET_PREPARING() SET_STATE(PREPARING)
-#define SET_ACTIVE() SET_STATE(ACTIVE)
-#define SET_TERMINATING() SET_STATE(TERMINATING)
-#define SET_ERROR() SET_STATE(ERROR_STATE)
-
 ThermalRunawayMonitor monitor;
 
 #ifdef GUI
@@ -268,7 +261,7 @@ void startProcess()
   }
 }
 
-void skipSubProcess()
+void skipProcessPhase()
 {
   if (currMState == PREPARING)
   {
@@ -395,14 +388,14 @@ void setup()
   monitor.initialize();
 
 #ifdef GUI
-  initializeEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, ENCSTEPS);
+  initializeEncoder(PIN_ENC_DT, PIN_ENC_CLK, PIN_ENC_SW, ENC_STEPS);
   initializeLCD();
 
   // Attach functions to lines for options
   backLine.attach_function(FUNC_USE, goToMainScreen);
 
   currStateLine.attach_function(FUNC_USE, startProcess);
-  currStateLine.attach_function(FUNC_SKIP, skipSubProcess);
+  currStateLine.attach_function(FUNC_SKIP, skipProcessPhase);
   currStateLine.attach_function(FUNC_BACK, returnToStandby);
 
   setTempLine.attach_function(FUNC_INCRT, incrementSetpoint);
@@ -459,83 +452,67 @@ void setup()
 
 void updateTiming()
 {
-  unsigned long lutMasterOld = timing.lut.master;
+  // Save the previous master time for elapsed time calculation
+  unsigned long lutMasterPrev = timing.lut.master;
+
+  // Update the master time
   timing.lut.master = millis();
 
+  // Calculate the elapsed time since the last update
+  unsigned long elapsedSinceLastUpdate = timing.lut.master - lutMasterPrev;
+
+  // Update the elapsed time (since beginning of the process)
   timing.ct.elapsed = timing.lut.master - timing.pit.preStart;
+
+  // Only update the remaining duration if the process has reached the active state
   if (timing.lut.master > 0 && currMState == ACTIVE)
   {
-    unsigned long elapsedSinceLastUpdate = timing.lut.master - lutMasterOld;
     timing.ct.durationRemaining = (timing.ct.durationRemaining > elapsedSinceLastUpdate) ? (timing.ct.durationRemaining - elapsedSinceLastUpdate) : 0;
   }
-  pData.remainingDuration = timing.ct.durationRemaining;
-  pData.remainingDurationMinutes = pData.remainingDuration / MINUTE;
+
+  // Update the program data struct with the remaining duration both in milliseconds and minutes
+  pData.remainingDurationMillis = timing.ct.durationRemaining;
+  pData.remainingDurationMinutes = pData.remainingDurationMillis / MINUTE;
 }
 
+// -------------------------------
+// ------ Main program loop ------
+// -------------------------------
 void loop()
 {
 
+  // If the state has changed, execute "on entry" actions for the new state
   if (currMState != prevMState)
   {
-    // State has changed, execute "on entry" actions for the new state
-    switch (currMState)
-    {
-    case STANDBY:
-      enterStandbyState();
-      break;
-
-    case PREPARING:
-      enterPreparingState();
-      break;
-
-    case ACTIVE:
-      enterActiveState();
-      break;
-
-    case TERMINATING:
-      enterTerminatingState();
-      break;
-
-    case ERROR_STATE:
-      enterErrorState();
-      break;
-
-    default:
-      Serial.println(F("Unknown state encountered!"));
-      break;
-    }
-
+    stateEntrySwitch(currMState);
     prevMState = currMState;
   }
 
   for (int i = 0; i < NUM_CTRL; i++)
   {
-    // This is actually quite important, and caused me a lot of headache.
-    // Safeguard against NaN (Not a Number) outputs from PID controllers,
-    // which can occur if the temperature sensor provides invalid readings.
-    // This occurs every once in a while with the MAX31855 thermocouple amplifier.
-    // If the PID output is NaN, perform a bumpless reset by:
-    // 1. Switching the PID controller to MANUAL mode to halt automatic control.
-    // 2. Resetting the output to 0 to ensure no erroneous signals are sent to actuators.
-    // 3. Switching back to AUTOMATIC mode to reinitialize the PID controller's internal state.
-    // This prevents the NaN value from persisting and propagating through subsequent control cycles.
+    // This is to stop nan from propogating in event of a TC error
+    // See 'Safeguard against NaN' in docs for more info
     if (isnan(pData.output[i]))
     {
       pidControllers[i].SetMode(MANUAL);
       pData.output[i] = 0;
-      pidControllers[i].SetMode(AUTOMATIC); // Bumpless reset of the PID internal values to match Output.
+      pidControllers[i].SetMode(AUTOMATIC);
     }
 
+    // Compute the PID output
     pidControllers[i].Compute();
   }
 
+  // Update the EEPROM data every EEPROM_UPDATE_T milliseconds
   updateEeprom();
 
+  // Update the timing if the machine is preparing or active
   if (currMState == PREPARING || currMState == ACTIVE)
   {
     updateTiming();
   }
 
+  // Handle serial commands if enabled
 #ifdef SERIALCMD
   handleSerialCommands();
 #endif
@@ -543,6 +520,7 @@ void loop()
   // Update control every CONTROL_INTERVAL milliseconds
   if (millis() - timing.lut.control >= CONTROL_INTERVAL)
   {
+    // Update the control timing
     timing.lut.control = millis();
     readTemps();
     pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, pData.temp);
@@ -594,12 +572,46 @@ void loop()
   }
 }
 
+void stateEntrySwitch(MachineState newState)
+{
+  switch (newState)
+  {
+  case STANDBY:
+    enterStandbyState();
+    break;
+
+  case PREPARING:
+    enterPreparingState();
+    break;
+
+  case ACTIVE:
+    enterActiveState();
+    break;
+
+  case TERMINATING:
+    enterTerminatingState();
+    break;
+
+  case ERROR_STATE:
+    enterErrorState();
+    break;
+
+  case SUDO:
+    enterSudoState();
+    break;
+
+  default:
+    Serial.println(F("Unknown state encountered!"));
+    break;
+  }
+}
+
 // State entry functions
 void enterStandbyState()
 {
   SET_STANDBY();
   timing = {0};
-  pData.remainingDuration = pData.remainingDurationMinutes = 0;
+  pData.remainingDurationMillis = pData.remainingDurationMinutes = 0;
   Serial.println(F("Entering standby state..."));
 }
 
@@ -641,6 +653,12 @@ void enterErrorState()
 {
   SET_ERROR();
   Serial.println(F("Error state reached."));
+}
+
+void enterSudoState()
+{
+  SET_SUDO();
+  Serial.println(F("Sudo state reached."));
 }
 
 double lastValidTemp[NUM_CTRL] = {0};
@@ -707,6 +725,12 @@ bool openFile()
   }
   else
   {
+    // Info header
+    file.print("Log interval: ");
+    file.print(LOG_INTERVAL);
+    file.println("ms");
+
+    // CSV Header
     file.println("Temp1,"
                  "Temp2,"
                  "Setpoint,"
@@ -888,6 +912,16 @@ void handleSerialCommands()
           pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), newKd);
         }
       }
+      else if ((strncmp(received, "o1=", 3) == 0) && (currMState == SUDO))
+      {
+        double newOutput = atof(received + 3);
+        pData.output[0] = newOutput;
+      }
+      else if ((strncmp(received, "o2=", 3) == 0) && (currMState == SUDO))
+      {
+        double newOutput = atof(received + 3);
+        pData.output[1] = newOutput;
+      }
       else if (strcmp(received, "prep") == 0)
       {
         SET_PREPARING();
@@ -903,6 +937,10 @@ void handleSerialCommands()
       else if (strcmp(received, "standby") == 0)
       {
         SET_STANDBY();
+      }
+      else if (strcmp(received, "sudo") == 0)
+      {
+        SET_SUDO();
       }
       else if (strcmp(received, "eeprom=reset") == 0)
       {

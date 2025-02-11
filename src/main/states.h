@@ -9,7 +9,17 @@ enum MachineState
     ACTIVE,
     TERMINATING,
     ERROR_STATE,
+    SUDO,
     MACHINE_STATE_COUNT
 };
+
+#define SET_STATE(state) (currMState = (state))
+
+#define SET_STANDBY() SET_STATE(STANDBY)
+#define SET_PREPARING() SET_STATE(PREPARING)
+#define SET_ACTIVE() SET_STATE(ACTIVE)
+#define SET_TERMINATING() SET_STATE(TERMINATING)
+#define SET_ERROR() SET_STATE(ERROR_STATE)
+#define SET_SUDO() SET_STATE(SUDO)
 
 #endif // STATES_H

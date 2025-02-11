@@ -1,9 +1,13 @@
-#ifndef LIMITS_CONFIG_H
-#define LIMITS_CONFIG_H
+#ifndef OPERATING_LIMITS_H
+#define OPERATING_LIMITS_H
+
+// ------------------------------
+// Operating Limits
+// ------------------------------
 
 #define MAX_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 #define MIN_TEMP 0
-#define MAX_TEMP 480
+#define MAX_TEMP 800
 #define MIN_KP 0
 #define MAX_KP 2000
 #define MIN_KI 0
@@ -21,4 +25,4 @@
 #define MIN_SET_DURATION 1000
 #define MAX_SET_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
 
-#endif // LIMITS_CONFIG_H
+#endif // OPERATING_LIMITS_H
