@@ -1,5 +1,4 @@
 #include "gui.h"
-#include "config.h"
 #include <Arduino.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -133,13 +132,13 @@ void timerIsr()
  * @params steps: number of steps per click
  * @return none
  */
-void initializeEncoder(int pinA, int pinB, int pinC, int steps)
+void initializeEncoder(int pinA, int pinB, int pinC, int steps, bool pullup, int encInterrupMs)
 {
     // param 5 set to false to keep pins at active high
-    encoder = new ClickEncoder(pinA, pinB, pinC, steps, ENC_PULLUP); // Enable pullup resistors
+    encoder = new ClickEncoder(pinA, pinB, pinC, steps, pullup); // Enable pullup resistors
     Timer1.initialize();
     Timer1.attachInterrupt(timerIsr);
-    Timer1.setPeriod(ENC_INTERRUP_MS);
+    Timer1.setPeriod(encInterrupMs);
     encLastPos = encNewPos = 0;
 }
 
@@ -148,7 +147,7 @@ void initializeEncoder(int pinA, int pinB, int pinC, int steps)
  * @params none
  * @returns int16_t: increment value
  */
-int16_t processEncoderEvents()
+int16_t processEncoderEvents(bool reverse)
 {
     encNewPos += encoder->getValue();
     int16_t incr;
@@ -157,9 +156,7 @@ int16_t processEncoderEvents()
     {
 
         int direction = (encNewPos < encLastPos) ? 1 : -1;
-#ifdef REVERSE_ENCODER
-        direction = -direction;
-#endif
+
         uEvent = (direction == 1) ? EV_ENCDN : EV_ENCUP;
         incr = encNewPos - encLastPos;
         encLastPos = encNewPos;

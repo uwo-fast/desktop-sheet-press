@@ -1,10 +1,10 @@
 #ifndef FURNACE_H
 #define FURNACE_H
 
-#include "furnace/hardware_def.h" // This file contains hardware-specific configurations such as pin assignments
-#include "furnace/operating_limits.h"   // This file contains the limits for the various parameters used in the program
-#include "furnace/timing_intervals.h"   // This file contains the timing intervals for the control loop and other processes
-#include "default/eeprom_settings.h"   // This file contains the EEPROM settings for the program
+#include "furnace/furnace_hardware_def.h"     // This file contains hardware-specific configurations such as pin assignments
+#include "furnace/furnace_operating_limits.h" // This file contains the limits for the various parameters used in the program
+#include "furnace/furnace_timing_intervals.h" // This file contains the timing intervals for the control loop and other processes
+#include "default/eeprom_settings.h"  // This file contains the EEPROM settings for the program
 
 // ------------------------------
 // Control Settings
@@ -16,7 +16,7 @@
 
 // PID Default Settings
 #define DEF_KP 0.50
-#define DEF_KI 0.01
+#define DEF_KI 0.02
 #define DEF_KD 0.00
 
 // Number of Control Loops

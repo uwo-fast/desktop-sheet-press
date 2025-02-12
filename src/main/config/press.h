@@ -1,10 +1,10 @@
-#ifndef FURNACE_H
-#define FURNACE_H
+#ifndef PRESS_H
+#define PRESS_H
 
-#include "press/hardware_def.h" // This file contains hardware-specific configurations such as pin assignments
-#include "press/operating_limits.h"   // This file contains the limits for the various parameters used in the program
-#include "default/timing_intervals.h"   // This file contains the timing intervals for the control loop and other processes
-#include "default/eeprom_settings.h"   // This file contains the EEPROM settings for the program
+#include "press/press_hardware_def.h"     // This file contains hardware-specific configurations such as pin assignments
+#include "press/press_operating_limits.h" // This file contains the limits for the various parameters used in the program
+#include "press/press_timing_intervals.h" // This file contains the timing intervals for the control loop and other processes
+#include "default/eeprom_settings.h"      // This file contains the EEPROM settings for the program
 
 // ------------------------------
 // Control Settings
@@ -27,4 +27,4 @@
 #define DEF_PRE_TO_HEAT_HOLD_TIME 10 * 1000
 #define TERM_TEMP 40
 
-#endif // FURNACE_H
+#endif // PRESS_H

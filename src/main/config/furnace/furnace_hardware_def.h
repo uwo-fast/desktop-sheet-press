@@ -27,6 +27,6 @@
 #define PIN_ENC_DT 3
 #define ENC_PULLUP false
 #define ENC_STEPS 4
-#define ENC_INTERRUP_MS 400
+#define ENC_INTERRUP_MS 200
 
 #endif // HARDWARE_DEF_H

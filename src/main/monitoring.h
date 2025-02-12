@@ -2,12 +2,13 @@
 #define MONITORING_H
 
 #include <Arduino.h>
-#include "config.h"
 
 // Thresholds
+#define NUM_CTRL 2
+#define CHECK_INTERVAL 1000 // 1 Hz (1000 ms)
 #define THRM_RUNAWAY_DELTA 20.0
 #define THRM_RUNAWAY_TIME 10000 // 10 seconds
-#define HISTORY_SIZE (THRM_RUNAWAY_TIME / CONTROL_INTERVAL)
+#define HISTORY_SIZE (THRM_RUNAWAY_TIME / CHECK_INTERVAL)
 
 enum traFlags
 {

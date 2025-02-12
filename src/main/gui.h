@@ -16,8 +16,8 @@ void toggleToggler();
 void goToMainScreen();
 void goToOptionsScreen();
 
-void initializeEncoder(int pinA, int pinB, int pinC, int steps);
-int16_t processEncoderEvents();
+void initializeEncoder(int pinA, int pinB, int pinC, int steps, bool pullup, int encInterrupMs);
+int16_t processEncoderEvents(bool reverse);
 
 enum UserEvent
 {

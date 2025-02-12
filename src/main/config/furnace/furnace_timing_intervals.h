@@ -6,7 +6,7 @@
 // ------------------------------
 
 #define CONTROL_INTERVAL 100 // 10 Hz (100 ms)
-#define PID_INTERVAL 60000   // 1 min (60000 ms)
+#define PID_INTERVAL 10000   // 10 sec (10000 ms)
 #define GUI_INTERVAL 200     // 5 Hz (200 ms)
 #define LOG_INTERVAL 2000    // 0.5 Hz (2000 ms)
 
