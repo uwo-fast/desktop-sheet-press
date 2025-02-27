@@ -13,3 +13,7 @@ Safeguard against NaN (Not a Number) outputs from PID controllers, which can occ
 3. Switching back to AUTOMATIC mode to reinitialize the PID controller's internal state.
 
 This prevents the NaN value from persisting and propagating through subsequent control cycles.
+
+### Generic Software Work
+
+Currently the software from this project is no longer under development and future development efforts are being continued at [uwo-fast/OpenTempControl](https://github.com/uwo-fast/OpenTempControl)
