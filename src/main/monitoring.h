@@ -8,6 +8,7 @@
 #define THRM_RUNAWAY_DELTA 20.0
 #define THRM_RUNAWAY_TIME 10000 // 10 seconds
 #define HISTORY_SIZE (THRM_RUNAWAY_TIME / CONTROL_INTERVAL)
+#define NUM_CTRL 2
 
 enum traFlags
 {

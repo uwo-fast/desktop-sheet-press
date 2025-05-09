@@ -1,7 +1,14 @@
 #include "relay.h"
 #include <Arduino.h>
 
-// Function to control relays using slow PWM
+/**
+ * @brief Controls a relay using slow PWM.
+ *
+ * This function uses a software PWM technique to control the relay's duty cycle.
+ * @param SSRn The pin number of the relay.
+ * @param cycleStart A reference to the cycle start time.
+ * @param value The desired duty cycle (0-255).
+ */
 unsigned long slowPWM(int SSRn, unsigned long &cycleStart, double value)
 {
     // Get current time in milliseconds
@@ -28,7 +35,14 @@ unsigned long slowPWM(int SSRn, unsigned long &cycleStart, double value)
     return cycleStart;
 }
 
-// Wrapper function to write control data to relays
+/**
+ * @brief Writes values to multiple relays using slow PWM.
+ *
+ * This function iterates through an array of values and corresponding pin numbers,
+ *
+ * @param values An array of duty cycle values (0-255) for each relay.
+ * @param pins An array of pin numbers corresponding to each relay.
+ */
 void writeRelays(const double values[], const int pins[])
 {
     static unsigned long cycleStarts[NUM_RELAY] = {0};
