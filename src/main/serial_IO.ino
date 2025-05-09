@@ -1,3 +1,4 @@
+
 #ifdef SERIALCMD
 /**
  * @brief Handles incoming serial commands.
@@ -136,8 +137,12 @@ void printData()
     Serial.print(getMachineStateName(currMState));
     Serial.print(F(", T1:"));
     Serial.print(pData.temp[0], 2);
+    Serial.print(F(", E1:"));
+    Serial.print(pData.tempError[0]);
     Serial.print(F(", T2:"));
     Serial.print(pData.temp[1], 2);
+    Serial.print(F(", E2:"));
+    Serial.print(pData.tempError[1]);
     Serial.print(F(", ST:"));
     Serial.print(pData.getSetpoint(0), 0);
     if (pData.getTraStatus() == -1)

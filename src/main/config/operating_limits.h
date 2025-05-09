@@ -10,7 +10,7 @@
 #define MAX_TEMP 400
 
 // Output limit
-#define MAX_OUTPUT 255 * 0.8 // Maximum output for PID; this is set to 80% of the maximum ON time
+#define MAX_OUTPUT 255 * 0.75 // Maximum output for PID; this is set to 80% of the maximum ON time
 // change this when you wish to limit the output to a certain range this may be required for certain
 // heating elements that are prone to overheating (channel strip heaters, etc.)
 
@@ -32,6 +32,5 @@
 
 #define MIN_SET_DURATION 1000
 #define MAX_SET_DURATION 300 * 60 * 1000 // 300 minutes or 5 hours
-#define MAX_CONSEQUTIVE_TEMP_ERRORS 10
 
 #endif // OPERATING_LIMITS_H
