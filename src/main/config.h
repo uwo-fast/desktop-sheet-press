@@ -6,8 +6,8 @@
 // ------------------------------
 
 // #include "config/default.h"
-//#include "config/press.h"
-#include "config/furnace.h"
+#include "config/press.h"
+//#include "config/furnace.h"
 
 // ------------------------------
 // Feature Enable/Disable

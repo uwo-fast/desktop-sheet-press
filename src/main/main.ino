@@ -21,122 +21,156 @@
 SdFat32 sd;
 typedef File32 file_t;
 file_t file;
-#endif  // SDCARD
+#endif // SDCARD
 
 #define SECOND 1000
 #define MINUTE 60000
 
-template<typename T>
-void setArrayValue(T *array, int index, T value, T minVal, T maxVal, bool &isInvalid, bool clampToLimits) {
-  if (index >= 0 && index < NUM_CTRL) {
-    if (value < minVal) {
+template <typename T>
+void setArrayValue(T *array, int index, T value, T minVal, T maxVal, bool &isInvalid, bool clampToLimits)
+{
+  if (index >= 0 && index < NUM_CTRL)
+  {
+    if (value < minVal)
+    {
       isInvalid = true;
-      array[index] = clampToLimits ? minVal : array[index];  // Clamp to lower limit or reject
-    } else if (value > maxVal) {
+      array[index] = clampToLimits ? minVal : array[index]; // Clamp to lower limit or reject
+    }
+    else if (value > maxVal)
+    {
       isInvalid = true;
-      array[index] = clampToLimits ? maxVal : array[index];  // Clamp to upper limit or reject
-    } else {
+      array[index] = clampToLimits ? maxVal : array[index]; // Clamp to upper limit or reject
+    }
+    else
+    {
       array[index] = value;
     }
-  } else {
-    isInvalid = true;  // Index out of range
+  }
+  else
+  {
+    isInvalid = true; // Index out of range
   }
 }
 
-struct ProgramData {
-  double temp[NUM_CTRL];        // Temp is the current temperature read by the TCs
-  uint8_t tempError[NUM_CTRL];  // TempError is the error flag for the TCs
-  double output[NUM_CTRL];      // Output is the control signal for the PID controllers
+struct ProgramData
+{
+  double temp[NUM_CTRL];       // Temp is the current temperature read by the TCs
+  uint8_t tempError[NUM_CTRL]; // TempError is the error flag for the TCs
+  double output[NUM_CTRL];     // Output is the control signal for the PID controllers
 
-  unsigned long setDuration;              // Set duration in milliseconds for active state
-  unsigned long remainingDurationMillis;  // Remaining duration in milliseconds for active state
-  float setDurationMinutes;               // Set duration in minutes for active state
-  float remainingDurationMinutes;         // Remaining duration in minutes for active state
-  double setpoint[NUM_CTRL];              // Setpoint is the target temperature for the PID controllers
-  double Kp[NUM_CTRL];                    // Kp is the proportional gain the PID controllers
-  double Ki[NUM_CTRL];                    // Ki is the integral gain the PID controllers
-  double Kd[NUM_CTRL];                    // Kd is the derivative gain the PID controllers
-  int16_t fileCount;                      // Number of log files created, used for naming
-  bool sdActive;                          // Indicates that the SD card is active
-  int8_t traStatus;                       // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
-  bool isInvalid = false;                 // Indicates that the last operation was invalid
-  int16_t incr;                           // Increment value for encoder, used for setting values in GUI
-                                          // for setpoint, Kp, Ki, Kd and other parameters dependent on NUM_CTRL this leads
-                                          // to them being set to the same value for all control loops in the current implementation
+  unsigned long setDuration;             // Set duration in milliseconds for active state
+  unsigned long remainingDurationMillis; // Remaining duration in milliseconds for active state
+  float setDurationMinutes;              // Set duration in minutes for active state
+  float remainingDurationMinutes;        // Remaining duration in minutes for active state
+  double setpoint[NUM_CTRL];             // Setpoint is the target temperature for the PID controllers
+  double Kp[NUM_CTRL];                   // Kp is the proportional gain the PID controllers
+  double Ki[NUM_CTRL];                   // Ki is the integral gain the PID controllers
+  double Kd[NUM_CTRL];                   // Kd is the derivative gain the PID controllers
+  int16_t fileCount;                     // Number of log files created, used for naming
+  bool sdActive;                         // Indicates that the SD card is active
+  int8_t traStatus;                      // Thermal Runaway status, 0 for normal, -1 for impending, -2 for runaway
+  bool isInvalid = false;                // Indicates that the last operation was invalid
+  int16_t incr;                          // Increment value for encoder, used for setting values in GUI
+                                         // for setpoint, Kp, Ki, Kd and other parameters dependent on NUM_CTRL this leads
+                                         // to them being set to the same value for all control loops in the current implementation
   // Getters
-  unsigned long getSetDuration() const {
+  unsigned long getSetDuration() const
+  {
     return setDuration;
   }
-  unsigned long getRemainingDuration() const {
+  unsigned long getRemainingDuration() const
+  {
     return remainingDurationMillis;
   }
-  float getSetDurationMinutes() const {
+  float getSetDurationMinutes() const
+  {
     return setDuration / MINUTE;
   }
-  double getSetpoint(int index) const {
+  double getSetpoint(int index) const
+  {
     return setpoint[index];
   }
-  double getKp(int index) const {
+  double getKp(int index) const
+  {
     return Kp[index];
   }
-  double getKi(int index) const {
+  double getKi(int index) const
+  {
     return Ki[index];
   }
-  double getKd(int index) const {
+  double getKd(int index) const
+  {
     return Kd[index];
   }
-  int16_t getFileCount() const {
+  int16_t getFileCount() const
+  {
     return fileCount;
   }
-  bool isSdActive() const {
+  bool isSdActive() const
+  {
     return sdActive;
   }
-  int8_t getTraStatus() const {
+  int8_t getTraStatus() const
+  {
     return traStatus;
   }
-  bool getIsInvalid() const {
+  bool getIsInvalid() const
+  {
     return isInvalid;
   }
 
   // Setters for array elements using the template with clamping option
-  void setSetpoint(int index, double value, bool clampToLimits = false) {
+  void setSetpoint(int index, double value, bool clampToLimits = false)
+  {
     setArrayValue(setpoint, index, value, static_cast<double>(MIN_TEMP), static_cast<double>(MAX_TEMP), isInvalid, clampToLimits);
   }
 
-  void setKp(int index, double value, bool clampToLimits = false) {
+  void setKp(int index, double value, bool clampToLimits = false)
+  {
     setArrayValue(Kp, index, value, static_cast<double>(MIN_KP), static_cast<double>(MAX_KP), isInvalid, clampToLimits);
   }
 
-  void setKi(int index, double value, bool clampToLimits = false) {
+  void setKi(int index, double value, bool clampToLimits = false)
+  {
     setArrayValue(Ki, index, value, static_cast<double>(MIN_KI), static_cast<double>(MAX_KI), isInvalid, clampToLimits);
   }
 
-  void setKd(int index, double value, bool clampToLimits = false) {
+  void setKd(int index, double value, bool clampToLimits = false)
+  {
     setArrayValue(Kd, index, value, static_cast<double>(MIN_KD), static_cast<double>(MAX_KD), isInvalid, clampToLimits);
   }
 
-  void setSetDuration(unsigned long value, bool clampToLimits = false) {
-    if (value < MIN_SET_DURATION) {
+  void setSetDuration(unsigned long value, bool clampToLimits = false)
+  {
+    if (value < MIN_SET_DURATION)
+    {
       isInvalid = true;
-      setDuration = clampToLimits ? MIN_SET_DURATION : setDuration;  // Clamp to lower limit or reject
-    } else if (value > MAX_SET_DURATION) {
+      setDuration = clampToLimits ? MIN_SET_DURATION : setDuration; // Clamp to lower limit or reject
+    }
+    else if (value > MAX_SET_DURATION)
+    {
       isInvalid = true;
-      setDuration = clampToLimits ? MAX_SET_DURATION : setDuration;  // Clamp to upper limit or reject
-    } else {
-      setDuration = value;  // Valid value within range
+      setDuration = clampToLimits ? MAX_SET_DURATION : setDuration; // Clamp to upper limit or reject
+    }
+    else
+    {
+      setDuration = value; // Valid value within range
     }
     setDurationMinutes = setDuration / MINUTE;
   }
 
-  void setFileCount(int16_t value) {
+  void setFileCount(int16_t value)
+  {
     fileCount = value;
   }
 
-  void setSdActive(bool value) {
+  void setSdActive(bool value)
+  {
     sdActive = value;
   }
 
-  void setTraStatus(int8_t value) {
+  void setTraStatus(int8_t value)
+  {
     traStatus = value;
   }
 };
@@ -144,41 +178,44 @@ struct ProgramData {
 ProgramData pData;
 // Initialize the thermocouples
 Adafruit_MAX31855 thermocouples[NUM_CTRL] = {
-  Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO),
-  Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO)
-};
+    Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS1, PIN_TC_DO),
+    Adafruit_MAX31855(PIN_TC_CLK, PIN_TC_CS2, PIN_TC_DO)};
 
 // PID
-PID pidControllers[NUM_CTRL] = { PID(&pData.temp[0], &pData.output[0], &pData.setpoint[0], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT),
-                                 PID(&pData.temp[1], &pData.output[1], &pData.setpoint[1], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT) };
+PID pidControllers[NUM_CTRL] = {PID(&pData.temp[0], &pData.output[0], &pData.setpoint[0], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT),
+                                PID(&pData.temp[1], &pData.output[1], &pData.setpoint[1], DEF_KP, DEF_KI, DEF_KD, P_ON_M, DIRECT)};
 
 // Relay pins
-const int relayPins[NUM_CTRL] = { PIN_SSR1, PIN_SSR2 };
+const int relayPins[NUM_CTRL] = {PIN_SSR1, PIN_SSR2};
 
-struct CountTimers {
+struct CountTimers
+{
   unsigned long elapsed;
   unsigned long durationRemaining;
 };
 
-struct PointInTime {
+struct PointInTime
+{
   unsigned long preStart;
   unsigned long heatStart;
 };
 
-struct LastUpdateTime {
+struct LastUpdateTime
+{
   unsigned long master;
   unsigned long control;
   unsigned long gui;
   unsigned long log;
 };
 
-struct Timing {
-  CountTimers ct;      // Counters
-  PointInTime pit;     // Point in time
-  LastUpdateTime lut;  // Last update time
+struct Timing
+{
+  CountTimers ct;     // Counters
+  PointInTime pit;    // Point in time
+  LastUpdateTime lut; // Last update time
 };
 
-Timing timing = { 0 };
+Timing timing = {0};
 
 const char standbyStr[] PROGMEM = "standby";
 const char preparingStr[] PROGMEM = "preparing";
@@ -188,80 +225,99 @@ const char errorStr[] PROGMEM = "error";
 const char sudoStr[] PROGMEM = "sudo";
 
 const char *const MachineStateNames[MACHINE_STATE_COUNT] PROGMEM = {
-  standbyStr,
-  preparingStr,
-  activeStr,
-  terminatingStr,
-  errorStr,
-  sudoStr
-};
+    standbyStr,
+    preparingStr,
+    activeStr,
+    terminatingStr,
+    errorStr,
+    sudoStr};
 
-const char *getMachineStateName(MachineState state) {
-  static char buffer[16];  // Adjust size as needed
-  if (state >= 0 && state < MACHINE_STATE_COUNT) {
+const char *getMachineStateName(MachineState state)
+{
+  static char buffer[16]; // Adjust size as needed
+  if (state >= 0 && state < MACHINE_STATE_COUNT)
+  {
     strcpy_P(buffer, (char *)pgm_read_word(&(MachineStateNames[state])));
     return buffer;
-  } else {
+  }
+  else
+  {
     return "unknown";
   }
 }
 
 MachineState currMState = STANDBY;
-MachineState prevMState = MACHINE_STATE_COUNT;  // Initialize to an invalid state
+MachineState prevMState = MACHINE_STATE_COUNT; // Initialize to an invalid state
 
 ThermalRunawayMonitor monitor;
 
 #ifdef GUI
 // Functions to wrap the state transitions for GUI
-void startProcess() {
-  if (currMState == STANDBY) {
+void startProcess()
+{
+  if (currMState == STANDBY)
+  {
     SET_PREPARING();
   }
 }
 
-void skipProcessPhase() {
-  if (currMState == PREPARING) {
+void skipProcessPhase()
+{
+  if (currMState == PREPARING)
+  {
     SET_ACTIVE();
-  } else if (currMState == ACTIVE) {
+  }
+  else if (currMState == ACTIVE)
+  {
     SET_TERMINATING();
   }
 }
 
-void returnToStandby() {
+void returnToStandby()
+{
   SET_STANDBY();
 }
 
 // Increment functions with intermediate variable using setters for encoder
-void incrementSetpoint() {
-  for (int i = 0; i < NUM_CTRL; i++) {
+void incrementSetpoint()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     double newValue = pData.getSetpoint(i) + pData.incr;
     pData.setSetpoint(i, newValue);
   }
 }
 
-void incrementDuration() {
+void incrementDuration()
+{
   unsigned long newValue = pData.getSetDuration() + (pData.incr * MINUTE);
   pData.setSetDuration(newValue);
 }
 
-void incrementKp() {
-  for (int i = 0; i < NUM_CTRL; i++) {
+void incrementKp()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     double newValue = pData.getKp(i) + pData.incr;
     pData.setKp(i, newValue);
     pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
   }
 }
 
-void incrementKi() {
-  for (int i = 0; i < NUM_CTRL; i++) {
+void incrementKi()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     double newValue = pData.getKi(i) + pData.incr;
     pData.setKi(i, newValue);
     pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
   }
 }
 
-void incrementKd() {
-  for (int i = 0; i < NUM_CTRL; i++) {
+void incrementKd()
+{
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     double newValue = pData.getKd(i) + pData.incr;
     pData.setKd(i, newValue);
     pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), pData.getKd(i));
@@ -291,26 +347,31 @@ LiquidLine error2(0, 1, "Reset Device...");
 LiquidScreen screenError(error1, error2);
 #endif
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
 
   loadEeprom();
 
 #ifdef SDCARD
-  if (!sd.begin(SD_CS)) {
+  if (!sd.begin(SD_CS))
+  {
     Serial.println(F("SD initialization failed!"));
     Serial.println(F("Card inserted correctly?"));
     Serial.println(F("Card formatted as FAT16/FAT32?"));
     Serial.println(F("CS pin correct?"));
     Serial.println(F("Wiring correct?"));
     pData.sdActive = false;
-  } else {
+  }
+  else
+  {
     Serial.println(F("Card successfully initialized."));
     pData.sdActive = true;
   }
-#endif  // SDCARD
+#endif // SDCARD
 
-  for (int i = 0; i < NUM_CTRL; i++) {
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     // Initialize thermocouples
     thermocouples[i].begin();
 
@@ -389,7 +450,8 @@ void setup() {
   Serial.println(F("System initialized"));
 }
 
-void updateTiming() {
+void updateTiming()
+{
   // Save the previous master time for elapsed time calculation
   unsigned long lutMasterPrev = timing.lut.master;
 
@@ -403,7 +465,8 @@ void updateTiming() {
   timing.ct.elapsed = timing.lut.master - timing.pit.preStart;
 
   // Only update the remaining duration if the process has reached the active state
-  if (timing.lut.master > 0 && currMState == ACTIVE) {
+  if (timing.lut.master > 0 && currMState == ACTIVE)
+  {
     timing.ct.durationRemaining = (timing.ct.durationRemaining > elapsedSinceLastUpdate) ? (timing.ct.durationRemaining - elapsedSinceLastUpdate) : 0;
   }
 
@@ -415,18 +478,22 @@ void updateTiming() {
 // -------------------------------
 // ------ Main program loop ------
 // -------------------------------
-void loop() {
+void loop()
+{
 
   // If the state has changed, execute "on entry" actions for the new state
-  if (currMState != prevMState) {
+  if (currMState != prevMState)
+  {
     stateEntrySwitch(currMState);
     prevMState = currMState;
   }
 
-  for (int i = 0; i < NUM_CTRL; i++) {
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     // This is to stop nan from propogating in event of a TC error
     // See 'Safeguard against NaN' in docs for more info
-    if (isnan(pData.output[i])) {
+    if (isnan(pData.output[i]))
+    {
       pidControllers[i].SetMode(MANUAL);
       pData.output[i] = 0;
       pidControllers[i].SetMode(AUTOMATIC);
@@ -441,7 +508,8 @@ void loop() {
   updateEeprom();
 
   // Update the timing if the machine is preparing or active
-  if (currMState == PREPARING || currMState == ACTIVE) {
+  if (currMState == PREPARING || currMState == ACTIVE)
+  {
     updateTiming();
   }
 
@@ -451,18 +519,24 @@ void loop() {
 #endif
 
   // Update control every CONTROL_INTERVAL milliseconds
-  if (millis() - timing.lut.control >= CONTROL_INTERVAL) {
+  if (millis() - timing.lut.control >= CONTROL_INTERVAL)
+  {
     // Update the control timing
     timing.lut.control = millis();
     readTemps();
     pData.traStatus = monitor.updateThermalRunaway(pData.setpoint, pData.temp);
-    if (currMState == PREPARING || currMState == ACTIVE || currMState == SUDO) {
-      for (int i = 0; i < NUM_CTRL; i++) {
+    if (currMState == PREPARING || currMState == ACTIVE || currMState == SUDO)
+    {
+      for (int i = 0; i < NUM_CTRL; i++)
+      {
         pidControllers[i].SetMode(AUTOMATIC);
       }
       writeRelays(pData.output, relayPins);
-    } else {
-      for (int i = 0; i < NUM_CTRL; i++) {
+    }
+    else
+    {
+      for (int i = 0; i < NUM_CTRL; i++)
+      {
         pidControllers[i].SetMode(MANUAL);
         pData.output[i] = 0;
       }
@@ -472,10 +546,11 @@ void loop() {
 
 #ifdef GUI
   // Update GUI every GUI_INTERVAL milliseconds
-  if (millis() - timing.lut.gui >= GUI_INTERVAL) {
+  if (millis() - timing.lut.gui >= GUI_INTERVAL)
+  {
     timing.lut.gui = millis();
     strncpy(currStateName, getMachineStateName(currMState), sizeof(currStateName) - 1);
-    currStateName[sizeof(currStateName) - 1] = '\0';  // null-termination
+    currStateName[sizeof(currStateName) - 1] = '\0'; // null-termination
 
     pData.incr = processEncoderEvents();
     updateLcdGui();
@@ -483,12 +558,14 @@ void loop() {
 #endif
 
   // Log data every LOG_INTERVAL milliseconds
-  if (millis() - timing.lut.log >= LOG_INTERVAL) {
+  if (millis() - timing.lut.log >= LOG_INTERVAL)
+  {
     timing.lut.log = millis();
 #ifdef SERIALCMD
     printData();
-#endif  // SERIALCMD
-    if (pData.sdActive && (currMState == PREPARING || currMState == ACTIVE)) {
+#endif // SERIALCMD
+    if (pData.sdActive && (currMState == PREPARING || currMState == ACTIVE))
+    {
 #ifdef SDCARD
       logData();
 #endif
@@ -496,117 +573,140 @@ void loop() {
   }
 }
 
-void stateEntrySwitch(MachineState newState) {
-  switch (newState) {
-    case STANDBY:
-      enterStandbyState();
-      break;
+void stateEntrySwitch(MachineState newState)
+{
+  switch (newState)
+  {
+  case STANDBY:
+    enterStandbyState();
+    break;
 
-    case PREPARING:
-      enterPreparingState();
-      break;
+  case PREPARING:
+    enterPreparingState();
+    break;
 
-    case ACTIVE:
-      enterActiveState();
-      break;
+  case ACTIVE:
+    enterActiveState();
+    break;
 
-    case TERMINATING:
-      enterTerminatingState();
-      break;
+  case TERMINATING:
+    enterTerminatingState();
+    break;
 
-    case ERROR_STATE:
-      enterErrorState();
-      break;
+  case ERROR_STATE:
+    enterErrorState();
+    break;
 
-    case SUDO:
-      enterSudoState();
-      break;
+  case SUDO:
+    enterSudoState();
+    break;
 
-    default:
-      Serial.println(F("Unknown state encountered!"));
-      break;
+  default:
+    Serial.println(F("Unknown state encountered!"));
+    break;
   }
 }
 
 // State entry functions
-void enterStandbyState() {
+void enterStandbyState()
+{
   SET_STANDBY();
-  for (int i = 0; i < NUM_CTRL; i++) pidControllers[i].SetMode(MANUAL);
-  timing = { 0 };
+  for (int i = 0; i < NUM_CTRL; i++)
+    pidControllers[i].SetMode(MANUAL);
+  timing = {0};
   pData.remainingDurationMillis = pData.remainingDurationMinutes = 0;
   Serial.println(F("Entering standby state..."));
 }
 
-void enterPreparingState() {
+void enterPreparingState()
+{
   SET_PREPARING();
 #ifdef SDCARD
   Serial.println(F("Process beginning, machine preparing..."));
-  if (pData.sdActive) {
+  if (pData.sdActive)
+  {
     Serial.println(F("Creating log file..."));
     pData.fileCount++;
-    if (!openFile()) {
+    if (!openFile())
+    {
       Serial.println(F("Failed to create new log file!"));
     }
   }
 #endif
-  for (int i = 0; i < NUM_CTRL; i++) pidControllers[i].SetMode(AUTOMATIC);
+  for (int i = 0; i < NUM_CTRL; i++)
+    pidControllers[i].SetMode(AUTOMATIC);
   timing.pit.preStart = millis();
   timing.ct.durationRemaining = pData.setDuration;
   Serial.println(F("Timing set."));
 }
 
-void enterActiveState() {
+void enterActiveState()
+{
   SET_ACTIVE();
   Serial.println(F("Entering active process phase..."));
   timing.pit.heatStart = millis();
   Serial.println(F("Timing set, duration begun."));
 }
 
-void enterTerminatingState() {
+void enterTerminatingState()
+{
   SET_TERMINATING();
   Serial.println(F("Terminating..."));
 }
 
-void enterErrorState() {
+void enterErrorState()
+{
   SET_ERROR();
-  for (int i = 0; i < NUM_CTRL; i++) pidControllers[i].SetMode(MANUAL);
+  for (int i = 0; i < NUM_CTRL; i++)
+    pidControllers[i].SetMode(MANUAL);
   Serial.println(F("Error state reached."));
 }
 
-void enterSudoState() {
+void enterSudoState()
+{
   SET_SUDO();
-  for (int i = 0; i < NUM_CTRL; i++) pidControllers[i].SetMode(MANUAL);
+  for (int i = 0; i < NUM_CTRL; i++)
+    pidControllers[i].SetMode(MANUAL);
   Serial.println(F("Sudo state reached."));
 }
 
-double lastValidTemp[NUM_CTRL] = { 0 };
-uint8_t consecutiveErrors[NUM_CTRL] = { 0 };
+double lastValidTemp[NUM_CTRL] = {0};
+uint8_t consecutiveErrors[NUM_CTRL] = {0};
 uint8_t consecutiveErrorLimit = 10;
 
 // Temperature functions
-void readTemps() {
-  double newTemp[NUM_CTRL] = { 0 };
+void readTemps()
+{
+  double newTemp[NUM_CTRL] = {0};
   // Read temperatures from the thermocouples
-  for (int i = 0; i < NUM_CTRL; i++) {
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     newTemp[i] = thermocouples[i].readCelsius();
     pData.tempError[i] = thermocouples[i].readError();
   }
   // Process the temperature data
-  for (int i = 0; i < NUM_CTRL; i++) {
-    if (newTemp[i] == 0 || pData.tempError[i]) {
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
+    if (newTemp[i] == 0 || pData.tempError[i])
+    {
       consecutiveErrors[i]++;
-      if (consecutiveErrors[i] >= consecutiveErrorLimit) {
+      if (consecutiveErrors[i] >= consecutiveErrorLimit)
+      {
         // Set temperature to 0 if error limit is reached
         pData.temp[i] = 0;
-      } else {
+      }
+      else
+      {
         // Replace with last valid temperature if current reading is zero or an error
         pData.temp[i] = lastValidTemp[i];
       }
-    } else {
+    }
+    else
+    {
       // Update last valid temperature
       lastValidTemp[i] = newTemp[i];
       pData.temp[i] = newTemp[i];
-      consecutiveErrors[i] = 0;  // Reset error count on valid reading
+      consecutiveErrors[i] = 0; // Reset error count on valid reading
     }
   }
 }
@@ -621,15 +721,19 @@ void readTemps() {
  *
  * @return true if the file was successfully opened, false otherwise.
  */
-bool openFile() {
+bool openFile()
+{
   char fileName[20];
   sprintf(fileName, "log%d.txt", pData.fileCount);
 
   bool open = file.open(fileName, O_CREAT | O_TRUNC | O_RDWR);
   // Open or create file - truncate existing file.
-  if (!open) {
+  if (!open)
+  {
     return false;
-  } else {
+  }
+  else
+  {
     // Info header
     file.print("Log interval: ");
     file.print(LOG_INTERVAL);
@@ -661,12 +765,14 @@ bool openFile() {
  * If the file cannot be opened, an error is printed to the Serial monitor.
  *
  */
-void logData() {
+void logData()
+{
   char fileName[20];
   sprintf(fileName, "log%d.txt", pData.fileCount);
   bool open = file.open(fileName, FILE_WRITE);
 
-  if (open) {
+  if (open)
+  {
     file.print(pData.temp[0], 0);
     file.print(",");
     file.print(pData.temp[1], 0);
@@ -683,41 +789,54 @@ void logData() {
     file.print(",");
     file.print(pData.getKd(0), 2);
     file.print(",");
-    file.print(timing.ct.elapsed / MINUTE);  // Print elapsed time in seconds
+    file.print(timing.ct.elapsed / MINUTE); // Print elapsed time in seconds
     file.print(",");
-    file.print(timing.ct.durationRemaining / MINUTE);  // Print remaining active time in seconds
+    file.print(timing.ct.durationRemaining / MINUTE); // Print remaining active time in seconds
     file.println();
     file.close();
-  } else {
+  }
+  else
+  {
     Serial.print(F("* "));
   }
 }
-#endif  // SDCARD
+#endif // SDCARD
 
-void setDurationSetter(unsigned long newSetDuration) {
+void setDurationSetter(unsigned long newSetDuration)
+{
   unsigned long oldSetDuration = pData.setDuration;
-  newSetDuration *= MINUTE;  // convert from minutes input to internal milliseconds
-  if (newSetDuration > MAX_DURATION) {
+  newSetDuration *= MINUTE; // convert from minutes input to internal milliseconds
+  if (newSetDuration > MAX_DURATION)
+  {
     newSetDuration = MAX_DURATION;
   }
-  if (currMState == PREPARING || currMState == ACTIVE) {
+  if (currMState == PREPARING || currMState == ACTIVE)
+  {
     unsigned long deltaDuration = newSetDuration - oldSetDuration;
-    if (timing.ct.durationRemaining + deltaDuration >= 0) {
+    if (timing.ct.durationRemaining + deltaDuration >= 0)
+    {
       timing.ct.durationRemaining += deltaDuration;
-    } else {
+    }
+    else
+    {
       timing.ct.durationRemaining = 0;
     }
   }
   pData.setDuration = newSetDuration;
 }
 
-void remainingDurationSetter(unsigned long newRemainingDuration) {
+void remainingDurationSetter(unsigned long newRemainingDuration)
+{
   unsigned long oldRemainingDuration = timing.ct.durationRemaining;
-  newRemainingDuration *= MINUTE;  // convert from minutes input to internal milliseconds
-  if (currMState == ACTIVE) {
-    if (newRemainingDuration >= 0) {
+  newRemainingDuration *= MINUTE; // convert from minutes input to internal milliseconds
+  if (currMState == ACTIVE)
+  {
+    if (newRemainingDuration >= 0)
+    {
       timing.ct.durationRemaining = newRemainingDuration;
-    } else {
+    }
+    else
+    {
       timing.ct.durationRemaining = 0;
     }
     unsigned long deltaDuration = newRemainingDuration - oldRemainingDuration;
@@ -734,75 +853,117 @@ void remainingDurationSetter(unsigned long newRemainingDuration) {
  * commands include setting a new setpoint, adjusting the duration, changing the
  * machine state, and resetting EEPROM data.
  */
-void handleSerialCommands() {
+void handleSerialCommands()
+{
   static char received[32] = "";
   static byte idx = 0;
 
-  while (Serial.available() > 0) {
+  while (Serial.available() > 0)
+  {
     char inChar = (char)Serial.read();
     // when a complete command is received or buffer is full
-    if (inChar == '\n' || idx >= sizeof(received) - 1) {
-      received[idx] = '\0';  // null-terminate the string
+    if (inChar == '\n' || idx >= sizeof(received) - 1)
+    {
+      received[idx] = '\0'; // null-terminate the string
 
-      if (strncmp(received, "st=", 3) == 0) {
+      if (strncmp(received, "st=", 3) == 0)
+      {
         double newSetpoint = atof(received + 3);
-        for (int i = 0; i < NUM_CTRL; i++) {
+        for (int i = 0; i < NUM_CTRL; i++)
+        {
           pData.setSetpoint(i, newSetpoint);
         }
-      } else if (strncmp(received, "dt=", 3) == 0) {
+      }
+      else if (strncmp(received, "dt=", 3) == 0)
+      {
         unsigned long newSetDuration = atof(received + 3);
         setDurationSetter(newSetDuration);
-      } else if (strncmp(received, "dt+", 3) == 0) {
+      }
+      else if (strncmp(received, "dt+", 3) == 0)
+      {
         unsigned long durationDelta = atof(received + 3);
         setDurationSetter(pData.getSetDuration() / MINUTE + durationDelta);
-      } else if (strncmp(received, "dt-", 3) == 0) {
+      }
+      else if (strncmp(received, "dt-", 3) == 0)
+      {
         unsigned long durationDelta = atof(received + 3);
         setDurationSetter(pData.getSetDuration() / MINUTE - durationDelta);
-      } else if (strncmp(received, "rt=", 3) == 0) {
+      }
+      else if (strncmp(received, "rt=", 3) == 0)
+      {
         unsigned long newRemainingDuration = atof(received + 3);
         remainingDurationSetter(newRemainingDuration);
-      } else if (strncmp(received, "kp=", 3) == 0) {
+      }
+      else if (strncmp(received, "kp=", 3) == 0)
+      {
         double newKp = atof(received + 3);
-        for (int i = 0; i < NUM_CTRL; i++) {
+        for (int i = 0; i < NUM_CTRL; i++)
+        {
           pData.setKp(i, newKp);
           pidControllers[i].SetTunings(newKp, pData.getKi(i), pData.getKd(i));
         }
-      } else if (strncmp(received, "ki=", 3) == 0) {
+      }
+      else if (strncmp(received, "ki=", 3) == 0)
+      {
         double newKi = atof(received + 3);
-        for (int i = 0; i < NUM_CTRL; i++) {
+        for (int i = 0; i < NUM_CTRL; i++)
+        {
           pData.setKi(i, newKi);
           pidControllers[i].SetTunings(pData.getKp(i), newKi, pData.getKd(i));
         }
-      } else if (strncmp(received, "kd=", 3) == 0) {
+      }
+      else if (strncmp(received, "kd=", 3) == 0)
+      {
         double newKd = atof(received + 3);
-        for (int i = 0; i < NUM_CTRL; i++) {
+        for (int i = 0; i < NUM_CTRL; i++)
+        {
           pData.setKd(i, newKd);
           pidControllers[i].SetTunings(pData.getKp(i), pData.getKi(i), newKd);
         }
-      } else if ((strncmp(received, "o1=", 3) == 0) && (currMState == SUDO)) {
+      }
+      else if ((strncmp(received, "o1=", 3) == 0) && (currMState == SUDO))
+      {
         double newOutput = atof(received + 3);
         pData.output[0] = newOutput;
-      } else if ((strncmp(received, "o2=", 3) == 0) && (currMState == SUDO)) {
+      }
+      else if ((strncmp(received, "o2=", 3) == 0) && (currMState == SUDO))
+      {
         double newOutput = atof(received + 3);
         pData.output[1] = newOutput;
-      } else if (strcmp(received, "prep") == 0) {
+      }
+      else if (strcmp(received, "prep") == 0)
+      {
         SET_PREPARING();
-      } else if (strcmp(received, "active") == 0) {
+      }
+      else if (strcmp(received, "active") == 0)
+      {
         SET_ACTIVE();
-      } else if (strcmp(received, "term") == 0) {
+      }
+      else if (strcmp(received, "term") == 0)
+      {
         SET_TERMINATING();
-      } else if (strcmp(received, "standby") == 0) {
+      }
+      else if (strcmp(received, "standby") == 0)
+      {
         SET_STANDBY();
-      } else if (strcmp(received, "sudo") == 0) {
+      }
+      else if (strcmp(received, "sudo") == 0)
+      {
         SET_SUDO();
-      } else if (strcmp(received, "eeprom=reset") == 0) {
+      }
+      else if (strcmp(received, "eeprom=reset") == 0)
+      {
         resetEeprom(EE_PARTIAL_RESET);
-      } else if (strcmp(received, "eeprom=fullreset") == 0) {
+      }
+      else if (strcmp(received, "eeprom=fullreset") == 0)
+      {
         resetEeprom(EE_FULL_RESET);
       }
 
-      idx = 0;  // clear index
-    } else {
+      idx = 0; // clear index
+    }
+    else
+    {
       received[idx++] = inChar;
     }
   }
@@ -815,7 +976,9 @@ void handleSerialCommands() {
  * elapsed time, remaining time, and PID parameters to the serial monitor.
  *
  */
-void printData() {
+void printData()
+{
+  Serial.print(F("State: "));
   Serial.print(getMachineStateName(currMState));
   Serial.print(F(", T1:"));
   Serial.print(pData.temp[0], 2);
@@ -823,9 +986,12 @@ void printData() {
   Serial.print(pData.temp[1], 2);
   Serial.print(F(", ST:"));
   Serial.print(pData.getSetpoint(0), 0);
-  if (pData.getTraStatus() == -1) {
+  if (pData.getTraStatus() == -1)
+  {
     Serial.print(F("*"));
-  } else if (pData.traStatus == -2) {
+  }
+  else if (pData.traStatus == -2)
+  {
     Serial.print(F("**"));
   }
   Serial.print(F(", O1:"));
@@ -847,7 +1013,7 @@ void printData() {
   Serial.print(pData.getKd(0), 3);
   Serial.println(".");
 }
-#endif  // SERIALCMD
+#endif // SERIALCMD
 
 /**
  * The functions below are vitally important
@@ -871,12 +1037,14 @@ void printData() {
  * @param full A boolean value indicating whether the initialization should be full or partial.
  */
 
-void initializeDefaultProgramData(boolean full) {
+void initializeDefaultProgramData(boolean full)
+{
   // Set default values for all non full data related to the program
   pData.setDuration = DEF_HEATING_DURATION;
   pData.fileCount = 0;
 
-  for (int i = 0; i < NUM_CTRL; i++) {
+  for (int i = 0; i < NUM_CTRL; i++)
+  {
     pData.setSetpoint(i, DEF_SETPOINT, true);
     pData.setKp(i, DEF_KP, true);
     pData.setKi(i, DEF_KI, true);
@@ -888,7 +1056,8 @@ void initializeDefaultProgramData(boolean full) {
   // If full reset, reset all values including the historical ones
   // that will be added below such as the machine usage stats
   // Set default values for ALL data related to the program
-  if (full) {
+  if (full)
+  {
     // Reset all historical values too
   }
 }
@@ -909,7 +1078,8 @@ void initializeDefaultProgramData(boolean full) {
  *
  * @note The unique identifier is defined in the config.h file as EE_UNIQUEID.
  */
-void resetEeprom(boolean full) {
+void resetEeprom(boolean full)
+{
   initializeDefaultProgramData(full);
 
   EEPROM.put(EEA_PDATA, pData);
@@ -947,14 +1117,18 @@ void resetEeprom(boolean full) {
  *       of the program. Subsequent uploads not adhering to the EEPROM writing convention
  *       may inadvertently preserve the unique ID, leading to incorrect data validation.
  */
-void loadEeprom() {
+void loadEeprom()
+{
   uint32_t uniqueID;
 
   EEPROM.get(EEA_ID, uniqueID);
 
-  if (uniqueID != EE_UNIQUEID) {
+  if (uniqueID != EE_UNIQUEID)
+  {
     resetEeprom(EE_FULL_RESET);
-  } else {
+  }
+  else
+  {
     EEPROM.get(EEA_PDATA, pData);
   }
 }
@@ -971,10 +1145,12 @@ void loadEeprom() {
  *
  * @note The EEPROM update interval is defined in the config.h file as EEPROM_UPDATE_T.
  */
-void updateEeprom() {
+void updateEeprom()
+{
   static unsigned long lastEEUpdatetime = 0;
 
-  if (millis() - lastEEUpdatetime > EEPROM_UPDATE_T) {
+  if (millis() - lastEEUpdatetime > EEPROM_UPDATE_T)
+  {
     lastEEUpdatetime = millis();
     EEPROM.put(EEA_PDATA, pData);
   }

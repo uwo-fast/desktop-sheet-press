@@ -3,7 +3,7 @@
 
 #include "press/hardware_def.h" // This file contains hardware-specific configurations such as pin assignments
 #include "press/operating_limits.h"   // This file contains the limits for the various parameters used in the program
-#include "default/timing_intervals.h"   // This file contains the timing intervals for the control loop and other processes
+#include "press/timing_intervals.h"   // This file contains the timing intervals for the control loop and other processes
 #include "default/eeprom_settings.h"   // This file contains the EEPROM settings for the program
 
 // ------------------------------
