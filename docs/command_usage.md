@@ -2,12 +2,12 @@
 
 Set the serial monitor to 115200 baud, with lines ending in a newline only (LF, not CR+LF).
 
-Setpoints are in °C and durations in minutes. The setpoint and PID gains apply to
+Setpoints are in degrees C and durations in minutes. The setpoint and PID gains apply to
 both control loops.
 
 | Command            | Description                                                  | Example            |
 | ------------------ | ------------------------------------------------------------ | ------------------ |
-| `st=<value>`       | Sets the setpoint, °C.                                       | `st=25.5`          |
+| `st=<value>`       | Sets the setpoint, degrees C.                                | `st=25.5`          |
 | `dt=<value>`       | Sets the process duration, minutes.                          | `dt=60`            |
 | `dt+<value>`       | Increases the duration by that many minutes.                 | `dt+15`            |
 | `dt-<value>`       | Decreases the duration by that many minutes.                 | `dt-10`            |

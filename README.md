@@ -10,7 +10,7 @@ firmware and enclosure.
 
 - [`src/main/`](src/main/): the firmware, a two-channel PID temperature
   controller. It reads two thermocouples through MAX31855
-  amplifiers, switches two solid-state relays, shows a 16×2 LCD menu driven by a
+  amplifiers, switches two solid-state relays, shows a 16x2 LCD menu driven by a
   rotary encoder, and logs to an SD card.
 - [`electrical/press_electrical_v1/`](electrical/press_electrical_v1/): the KiCad
   schematic, with [PDF](electrical/press_electrical_v1/press_electrical_v1.pdf) and

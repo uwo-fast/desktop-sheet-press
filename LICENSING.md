@@ -57,7 +57,7 @@ those terms.
 
 ## Warranty and liability
 
-The warranty and liability terms are those of the licences: GPL-3.0 sections 15–17
+The warranty and liability terms are those of the licences: GPL-3.0 sections 15-17
 and CERN-OHL-S-2.0 section 6. Both disclaim warranty and limit liability.
 
 The press heats plates to pressing temperatures from mains power. Building or
