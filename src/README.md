@@ -18,6 +18,7 @@ Safeguard against NaN (Not a Number) outputs from PID controllers, which can occ
 
 This prevents the NaN value from persisting and propagating through subsequent control cycles.
 
-### Generic Software Work
+### Status
 
-Currently the software from this project is no longer under development and future development efforts are being continued at [uwo-fast/OpenTempControl](https://github.com/uwo-fast/OpenTempControl)
+This firmware is no longer developed.
+
