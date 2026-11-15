@@ -1,42 +1,63 @@
-# Open Source Scientific Sheet Press: General Overview
+# Open Source Scientific Sheet Press
 
-This repository contains the design assets for the publication [Open-source cold and hot scientific sheet press for investigating polymer-based material properties](https://doi.org/10.1016/j.ohx.2024.e00566), which details the development of an adaptable, open-source platform for polymer sheet pressing.".
+The controller for a heated sheet press that turns plastic into flat sheets and
+test specimens, from the paper
+[Open-source cold and hot scientific sheet press for investigating polymer-based material properties](https://doi.org/10.1016/j.ohx.2024.e00566).
+The paper covers the press itself. This repository holds its control electronics,
+firmware and enclosure.
 
-## Description
+## Contents
 
-The Open Source Scientific Sheet Press is a mechanical device engineered for converting plastic waste into flat sheets of recycled plastic. Drawing inspiration from existing models like Precious Plastics, this platform is designed with adaptability, flexibility, and sustainability as core principles. This repository contains the main resources for the design of the physical press and it's manufacturing.
+- [`src/main/`](src/main/): the firmware, a two-channel PID temperature
+  controller. It reads two thermocouples through MAX31855
+  amplifiers, switches two solid-state relays, shows a 16x2 LCD menu driven by a
+  rotary encoder, and logs to an SD card.
+- [`electrical/press_electrical_v1/`](electrical/press_electrical_v1/): the KiCad
+  schematic, with [PDF](electrical/press_electrical_v1/press_electrical_v1.pdf) and
+  SVG exports.
+- [`docs/Press_Elec_BOM.ods`](docs/Press_Elec_BOM.ods): the electrical bill of
+  materials.
+- [Enclosure](docs/enclosure_design.md): renders of the electrical enclosure, and a
+  link to its Onshape CAD.
 
-## Key Features
+## Build the firmware
 
-1. **Adaptability**: Engineered to work with a diverse range of plastic materials.
-2. **Scalability**: Modular design allows for easy scaling to meet various production needs.
-3. **Flexibility**: Utilizes open-source and off-the-shelf components, with comprehensive documentation and multiple system topologies for customization.
+The firmware targets the Arduino Nano Every (ATmega4809), using the Arduino megaAVR
+boards package. Open `src/main/main.ino` in the Arduino IDE. It needs these
+libraries:
 
-## General Applications
+- From the Library Manager: Adafruit MAX31855, PID (`PID_v1`), SdFat (version 2),
+  LiquidMenu, and LiquidCrystal_I2C. For the last, use the one LiquidMenu's config
+  points to, [johnrickman/LiquidCrystal_I2C](https://github.com/johnrickman/LiquidCrystal_I2C).
+- ClickEncoder, from [0xPIT/encoder](https://github.com/0xPIT/encoder). It is not
+  in the Library Manager.
 
-1. **Material Recycling**: Transforms plastic waste into reusable sheets.
-2. **Product Manufacturing**: Ideal for the production of flat plastic components across various applications.
-3. **Research and Development**: Serves as a testbed for material properties and novel production methods.
+LiquidMenu drives a parallel LCD by default. In its `LiquidMenu_config.h`, switch
+it to the I2C display. Comment out both defines in the parallel `LiquidCrystal`
+block (`LIQUIDMENU_LIBRARY` and `DisplayClass`), and uncomment both in the I2C
+block. Pins are set in `src/main/config/hardware_def.h`.
 
-## Future Directions
+The firmware is no longer developed.
 
-1. **5x5' Canadian Standardized Sheet Press**: This version will meet industrial standards within the province of Ontario.
-2. **Expanding System Topologies**: Work is ongoing to offer more system variations based on desired specifications and features.
-3. **Vacuum Forming Integration**: Plans to incorporate vacuum forming capabilities, expanding the range of products that can be manufactured from the recycled plastic sheets.
-4. **Automation and Industry 4.0**: Future iterations will focus on integrating smart technologies for autonomous operation, real-time data analytics, and IoT capabilities.
-5. **Comprehensive Sourcing**: Plans to provide sourcing information tailored to various locales, considering regional regulations, standards, and availability.
-6. **Reengineering High-Cost Components**: Long-term goal to redesign non-open-source and expensive components to meet required standards and certifications.
+## Use it
 
-## Repository Structure
+- [GUI](docs/gui_usage.md): the LCD menu and encoder.
+- [Serial commands](docs/command_usage.md): setpoint, duration, PID gains and state,
+  over USB serial.
 
-This repository will include multiple iterations and variations of the sheet press, acting as a living document for continuous development and enhancements.
+## Licence
 
-For detailed documentation, consult the respective folders and files within this repository.
+Hardware is under CERN-OHL-S-2.0. Firmware and documentation are under
+GPL-3.0-only. These are the licences declared for the project's
+[OSHWA certification CA000055](https://certification.oshwa.org/ca000055.html).
+Some vendored files keep their own terms. [`LICENSING.md`](LICENSING.md) says which
+licence covers which file.
 
-## About the FAST Research Group
+## Citation
 
-The Free Appropriate Sustainable Technology (FAST) research group, led by Professor Joshua Pearce, is based at Western University and focuses on driving sustainability innovations. The group works on a myriad of projects ranging from solar photovoltaic technology to alternative food to open-source hardware to distributed recycling and additive manufacturing (DRAM).
+Woods, M. C., Brooks, C. K., & Pearce, J. M. (2024). Open-source cold and hot
+scientific sheet press for investigating polymer-based material properties.
+*HardwareX*, 19, e00566. https://doi.org/10.1016/j.ohx.2024.e00566
 
-This Open Source Sheet Press project is an initiative led by the FAST group, aligning with our broader goals of sustainable development and open-source technology. We are focused on developing solutions that not only contribute to recycling and sustainable manufacturing but also push the boundaries of what's possible through continuous research and innovation.
-
-For more information on the FAST group, please visit [FAST on Appropedia](https://www.appropedia.org/FAST).
+The press was developed by the
+[FAST Research Group](https://www.appropedia.org/FAST) at Western University.
