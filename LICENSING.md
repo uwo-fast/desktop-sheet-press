@@ -25,7 +25,8 @@ picture lives.
 | `electrical/press_electrical_v1/`: the KiCad project, schematic and symbols, and the PDF and SVG exported from them | `CERN-OHL-S-2.0` |
 | `docs/Press_Elec_BOM.ods`, the electrical bill of materials | `CERN-OHL-S-2.0` |
 | `docs/*.PNG`, renders of the electrical enclosure | `CERN-OHL-S-2.0` |
-| `README.md`, `docs/*.md`, `src/README.md`, `electrical/README.md` | `GPL-3.0-only` |
+| `README.md`, `docs/*.md`, `electrical/README.md` | `GPL-3.0-only` |
+| `.gitattributes`, `.gitignore`, `LICENSING.md` | `GPL-3.0-only` |
 
 The enclosure CAD itself is kept in Onshape (linked from
 [`docs/enclosure_design.md`](docs/enclosure_design.md)), not in this repository.
@@ -54,19 +55,10 @@ of the licences above covers the files they touch, with no additional terms. By
 submitting a contribution you represent that you have the right to license it on
 those terms.
 
-## Disclaimer of warranty and liability
+## Warranty and liability
 
-A summary of terms in the licences themselves: GPL-3.0 sections 15–17 and
-CERN-OHL-S-2.0 section 6.
-
-THIS PROJECT, INCLUDING ALL SOFTWARE AND HARDWARE DESIGNS, IS PROVIDED "AS IS"
-WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-NON-INFRINGEMENT.
-
-TO THE EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE AUTHORS,
-CONTRIBUTORS, OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
-LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THIS PROJECT.
+The warranty and liability terms are those of the licences: GPL-3.0 sections 15–17
+and CERN-OHL-S-2.0 section 6. Both disclaim warranty and limit liability.
 
 The press heats plates to pressing temperatures from mains power. Building or
 running it is at your own risk.

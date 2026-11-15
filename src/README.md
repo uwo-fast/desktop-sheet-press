@@ -4,7 +4,7 @@ The main current functional software can be found in 'main' folder, see 'command
 
 ## Overview
 
-Dual channel PID temperature controller. Can be operated as two independent loops or cascaded.
+Dual channel PID temperature controller.
 
 ## Important Notes
 
