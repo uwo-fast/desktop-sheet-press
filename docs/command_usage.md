@@ -33,8 +33,9 @@ both control loops.
 **Warning:** in the manual state nothing regulates temperature. The duty you set
 drives the heaters directly.
 
-- Entering `sudo` does not zero the outputs. Both heaters keep the last PID output
-  until you send `o1=` or `o2=`.
-- The firmware caps the outputs at 191 of 255. If either one is set above that,
-  both are set to 191, so `o1=255` also turns relay 2 up to 191.
+- Entering `sudo` does not zero the outputs. Each heater keeps its last PID output
+  until you set it with `o1=` or `o2=`.
+- The firmware caps the outputs at 191.25 of 255. If either one is set above that,
+  both are set to 191.25. So `o1=255` also turns relay 2 up to 191.25, and relay 2
+  stays there until you send `o2=` or `standby`.
 - `standby` leaves the manual state and sets both outputs to 0.

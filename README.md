@@ -26,16 +26,16 @@ The firmware targets the Arduino Nano Every (ATmega4809), using the Arduino mega
 boards package. Open `src/main/main.ino` in the Arduino IDE. It needs these
 libraries:
 
-- From the Library Manager: Adafruit MAX31855, PID (`PID_v1`), SdFat (version 2)
-  and LiquidMenu.
-- LiquidCrystal_I2C: the one LiquidMenu's config points to,
-  [johnrickman/LiquidCrystal_I2C](https://github.com/johnrickman/LiquidCrystal_I2C).
+- From the Library Manager: Adafruit MAX31855, PID (`PID_v1`), SdFat (version 2),
+  LiquidMenu, and LiquidCrystal_I2C. For the last, use the one LiquidMenu's config
+  points to, [johnrickman/LiquidCrystal_I2C](https://github.com/johnrickman/LiquidCrystal_I2C).
 - ClickEncoder, from [0xPIT/encoder](https://github.com/0xPIT/encoder). It is not
   in the Library Manager.
 
 LiquidMenu drives a parallel LCD by default. In its `LiquidMenu_config.h`, switch
-it to the I2C display: comment out the default `DisplayClass` block and uncomment
-the I2C one. Pins are set in `src/main/config/hardware_def.h`.
+it to the I2C display. Comment out both defines in the parallel `LiquidCrystal`
+block (`LIQUIDMENU_LIBRARY` and `DisplayClass`), and uncomment both in the I2C
+block. Pins are set in `src/main/config/hardware_def.h`.
 
 The firmware is no longer developed.
 
